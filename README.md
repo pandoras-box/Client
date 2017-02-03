@@ -11,8 +11,7 @@ Pandoras Box Client Repo
 
 
 # To use
-* ``` git clone [branch]
-      npm install 
-  ```
+* ``` git clone [branch]```
+* ``` npm install```
 
 
