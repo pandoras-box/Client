@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('pandoras-box', ['ionic', 'pandoras-box.controllers', 'ngCordova'])
+angular.module('pandoras-box', ['ionic', 'pandoras-box.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

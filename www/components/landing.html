@@ -1,4 +1,4 @@
-<ion-view view-title="REAL Landing">
+<ion-view view-title="REAL Landing" ng-controller="LandingCtrl as $ctrl">
   <ion-content>
             <div class="list">
               <label class="item item-input">
@@ -11,7 +11,7 @@
               </label>
             </div>
             <div class="padding">
-              <button class="button button-block button-positive" ng-click="$ctrl.signInGoogle()">
+              <button class="button button-block button-positive" ng-click="$ctrl.signInFacebook()">
                 Sign-In With Google
               </button>
               <p class="text-center">

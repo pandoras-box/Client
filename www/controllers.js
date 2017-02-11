@@ -27,15 +27,17 @@ angular.module('pandoras-box.controllers', [])
 })
 
 
-.controller('LandingCtrl', function($scope, Chats) {
+.controller('LandingCtrl', function() {
     const vm = this;
 
-    vm.$onInit = function(){
-      console.log("Initiated!")
+    vm.$onInit = function() {
+        console.log("Initiated!")
     }
 
-    vm.signInGoogle = function(){
-      console.log("Signing in!")
+    vm.signInFacebook = function() {
+        console.log("Signing in to Facebook!")
+
+
     }
 
 
