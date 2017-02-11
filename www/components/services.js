@@ -2,14 +2,14 @@
     'use strict';
 
     angular.module('pandoras-box.controllers')
-        .service('Chats', chats)
+        .service('Tasks', tasks)
 
 
-    function chats() {
+    function tasks() {
         // Might use a resource here that returns a JSON array
 
         // Some fake testing data
-        var chats = [{
+        var tasks = [{
             id: 0,
             name: 'Ben Sparrow',
             lastText: 'You on your way?',
@@ -37,17 +37,17 @@
         }];
 
         this.all = function() {
-            return chats;
+            return tasks;
         }
 
-        this.remove = function(chat) {
-            chats.splice(chats.indexOf(chat), 1);
+        this.remove = function(task) {
+            tasks.splice(tasks.indexOf(task), 1);
         }
 
-        this.get = function(chatId) {
-            for (var i = 0; i < chats.length; i++) {
-                if (chats[i].id === parseInt(chatId)) {
-                    return chats[i];
+        this.get = function(taskId) {
+            for (var i = 0; i < tasks.length; i++) {
+                if (tasks[i].id === parseInt(taskId)) {
+                    return tasks[i];
                 }
             }
             return null;

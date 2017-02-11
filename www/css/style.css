@@ -1,21 +1,21 @@
-/* Empty. Add your own CSS if you like */
  .ion-view {
   background-image:
     linear-gradient(
-      to right,
       #263c4e, #00af9d);
 }
 
-/*.tab-nav .tabs {
-  color: #4e5e5d !important;
-}*/
+.tabs a.tab-item  {
+  color: #00af9d;
+}
+
+.second-background {
+  linear-gradient(
+    #263c4e, #00af9d);
+}
+
 
 /*4e5e52
 
 8290ad
 
 00af9d*/
-
-/*.item .item-content {
-  background-color: transparent !important;
-}*/
