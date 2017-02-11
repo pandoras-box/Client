@@ -8,11 +8,15 @@
   color: #00af9d;
 }
 
-.second-background {
-  linear-gradient(
-    #263c4e, #00af9d);
+.scroll-content.ionic-scroll.has-header.has-tabs {
+  background-image:
+    linear-gradient(
+      #d70087, #00b6b5);
 }
 
+/*.item a.item-content {
+  background-color: transparent !important;
+}*/
 
 /*4e5e52
 
