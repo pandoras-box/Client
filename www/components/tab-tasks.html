@@ -1,14 +1,18 @@
 
-<ion-view view-title="Tasks">
+<ion-view view-title="Tasks" ng-controller="TasksCtrl as $ctrl">
+  <ion-nav-bar class="bar-dark background">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+  </ion-nav-bar>
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in $ctrl.tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
         <img ng-src="{{task.face}}">
         <h2>{{task.name}}</h2>
         <p>{{task.lastText}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(task)">
+        <ion-option-button class="button-assertive" ng-click="$ctrl.remove(task)">
           Delete
         </ion-option-button>
       </ion-item>
