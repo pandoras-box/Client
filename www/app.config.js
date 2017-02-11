@@ -30,25 +30,26 @@
             }
         })
 
-        .state('tab.chats', {
-                url: '/chats',
-                // component: 'tab-chats2',
-                views: {
-                    'tab-chats': {
-                        templateUrl: './components/tab-chats.html',
-                        controller: 'ChatsCtrl'
-                    }
-                }
-            })
-            .state('tab.chat-detail', {
-                url: '/chats/:chatId',
-                views: {
-                    'tab-chats': {
-                        templateUrl: 'components/chat-detail.html',
-                        controller: 'ChatDetailCtrl'
-                    }
-                }
-            })
+
+    .state('tab.tasks', {
+        url: '/tasks',
+        // component: 'tab-tasks2',
+        views: {
+          'tab-tasks': {
+            templateUrl: './components/tab-tasks.html',
+            controller: 'TasksCtrl'
+          }
+        }
+      })
+      .state('tab.task-detail', {
+        url: '/tasks/:taskId',
+        views: {
+          'tab-tasks': {
+            templateUrl: 'components/task-detail.html',
+            controller: 'TaskDetailCtrl'
+          }
+        }
+      })
 
         .state('tab.account', {
             url: '/account',

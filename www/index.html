@@ -4,10 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Padoras Box</title>
+    <title>Pandoras Box</title>
 
     <link rel="manifest" href="manifest.json">
-
     <!-- un-comment this code to enable service worker
     <script>
       if ('serviceWorker' in navigator) {
@@ -16,7 +15,7 @@
           .catch(err => console.log('Error', err));
       }
     </script>-->
-    <!-- <base href="/tab/chats" /> -->
+    <!-- <base href="/tab/tasks" /> -->
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -24,14 +23,13 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-
 </head>
 
 <body ng-app="pandoras-box">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-dark background">
         <ion-nav-back-button>
         </ion-nav-back-button>
     </ion-nav-bar>
@@ -55,19 +53,16 @@
 
     <script src="cordova.js"></script>
 
-
-
     <script src="app.module.js" charset="utf-8"></script>
     <script src="app.config.js" charset="utf-8"></script>
     <script src="controllers.js"></script>
     <script src="./components/services.js"></script>
     <script src="./components/tabs.component.js" charset="utf-8"></script>
     <script src="./components/tab.dash.component.js" charset="utf-8"></script>
-    <script src="./components/tab.chats.component.js" charset="utf-8"></script>
+    <script src="./components/tab.tasks.component.js" charset="utf-8"></script>
     <script src="./components/tab.account.component.js" charset="utf-8"></script>
-    <script src="./components/chat.detail.component.js" charset="utf-8"></script>
+    <script src="./components/task.detail.component.js" charset="utf-8"></script>
     <script src="./components/landing.component.js" charset="utf-8"></script>
-
 </body>
 
 </html>

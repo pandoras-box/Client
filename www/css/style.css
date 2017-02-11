@@ -1,1 +1,25 @@
-/* Empty. Add your own CSS if you like */
+ .ion-view {
+  background-image:
+    linear-gradient(
+      #263c4e, #00af9d);
+}
+
+.tabs a.tab-item  {
+  color: #00af9d;
+}
+
+.scroll-content.ionic-scroll.has-header.has-tabs {
+  background-image:
+    linear-gradient(
+      #d70087, #00b6b5);
+}
+
+/*.item a.item-content {
+  background-color: transparent !important;
+}*/
+
+/*4e5e52
+
+8290ad
+
+00af9d*/
