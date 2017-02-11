@@ -1,3 +1,4 @@
+
 (function() {
   'use strict';
   angular.module('pandoras-box')
@@ -18,8 +19,5 @@
     }
 
   }
-
-
-
 
 }());

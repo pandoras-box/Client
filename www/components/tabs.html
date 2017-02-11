@@ -10,13 +10,15 @@ navigation history that also transitions its views in and out.
       <ion-nav-view name="tab-dash"></ion-nav-view>
     </ion-tab>
 
+
     <!-- Tasks Tab -->
     <ion-tab class="tab-color" title="Tasks" icon-off="ion-ios-compose-outline" icon-on="ion-ios-compose" href="#/tab/tasks">
       <ion-nav-view name="tab-tasks"></ion-nav-view>
     </ion-tab>
 
   <!-- Account Tab -->
-  <ion-tab title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account">
+  <ion-tab title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account" ng-show="$ctrl.loggedIn == true">
     <ion-nav-view name="tab-account"></ion-nav-view>
   </ion-tab>
+
 </ion-tabs>

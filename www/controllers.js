@@ -2,6 +2,7 @@ angular.module('pandoras-box.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
+
 .controller('TasksCtrl', function($scope, Tasks) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -18,10 +19,24 @@ angular.module('pandoras-box.controllers', [])
 
 .controller('TaskDetailCtrl', function($scope, $stateParams, Tasks) {
   $scope.task = Tasks.get($stateParams.taskId);
+
 })
 
 .controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});
+    $scope.settings = {
+        enableFriends: true
+    }
+})
+
+
+.controller('LandingCtrl', function() {
+    const vm = this;
+
+    vm.$onInit = function() {
+        console.log("Initiated!")
+    }
+
+    vm.signInFacebook = function() {
+        console.log("Signing in to Facebook!")
+    }
+})
