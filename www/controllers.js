@@ -1,6 +1,15 @@
 angular.module('pandoras-box.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('LandingCtrl', function($state) {
+  const vm = this;
+  vm.parentContinue = function() {
+    $state.go('oauth')
+  }
+
+  vm.childContinue = function() {
+    $state.go('oauth')
+  }
+})
 
 
 .controller('TasksCtrl', function($scope, Tasks) {
@@ -29,7 +38,7 @@ angular.module('pandoras-box.controllers', [])
 })
 
 
-.controller('LandingCtrl', function() {
+.controller('OauthCtrl', function($state) {
     const vm = this;
 
     vm.$onInit = function() {
@@ -37,6 +46,7 @@ angular.module('pandoras-box.controllers', [])
     }
 
     vm.signInFacebook = function() {
+        $state.go('tab.tasks')
         console.log("Signing in to Facebook!")
     }
 })
