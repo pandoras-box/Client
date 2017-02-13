@@ -29,39 +29,48 @@ angular.module('pandoras-box.controllers', [])
     }
 
     vm.signInGitHub = function() {
-        $state.go('tab-tasks')
+        $state.go('tab.dash')
         console.log("Signing in to github!")
     }
 
     vm.signInFacebook = function() {
-        $state.go('tab-tasks')
+        $state.go('tab.dash')
         console.log("Signing in to Facebook!")
     }
     vm.signInInstagram = function() {
-        $state.go('tab-tasks')
+        $state.go('tab.dash')
         console.log("Signing in to Instagram!")
     }
     vm.signInLinkedIn = function() {
-        $state.go('tab-tasks')
+        $state.go('tab.dash')
         console.log("Signing in to LinkedIn!")
     }
 })
 
+// dash tab
 .controller('TaskDashCtrl', function(Tasks) {
   const vm = this;
   vm.$onInit = function() {
-
+    vm.createTaskPrompt = true;
   }
   vm.tasks = Tasks.all();
 
   vm.completeTaskList = function() {
     console.log('tasks completed');
   }
+
+  vm.createTask = function() {
+    // vm.createTaskPrompt = false;
+    console.log(vm.createTaskPrompt);
+  }
+
   vm.addTask = function(Tasks) {
     console.log('add task');
+
   }
 })
 
+// task tab
 .controller('TasksCtrl', function(Tasks) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -88,7 +97,7 @@ angular.module('pandoras-box.controllers', [])
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
   vm.task = Tasks.get($stateParams.taskId);
 })
-
+// account tab
 .controller('AccountCtrl', function() {
     const vm = this;
     vm.$onInit = function() {
