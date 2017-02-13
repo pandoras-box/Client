@@ -62,16 +62,59 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 })
 
 // dash tab
-.controller('TaskDashCtrl', function(Tasks) {
-    const vm = this;
-    vm.$onInit = function() {
-        vm.createTaskPrompt = true;
-    }
-    vm.tasks = Tasks.all();
+
+.controller('TaskDashCtrl', function(Tasks, $state) {
+  const vm = this;
+  vm.$onInit = function() {
+    vm.createTaskPrompt = true;
+  }
+  vm.tasks = Tasks.all();
+
 
     vm.completeTaskList = function() {
         console.log('tasks completed');
     }
+
+
+  vm.createTask = function() {
+    vm.createTaskPrompt = false;
+    // $state.go('tab.dash')
+  }
+
+  vm.addTask = function() {
+    console.log('add task');
+  }
+})
+
+// addtask tab
+.controller('AddTasksCtrl', function(Tasks) {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
+  vm.tasks = Tasks.all();
+  vm.remove = function(task) {
+    Tasks.remove(task);
+  };
+
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
+})
+
+.controller('TaskDetailCtrl', function($stateParams, Tasks) {
+  vm.task = Tasks.get($stateParams.taskId);
+})
+// account tab
+.controller('AccountCtrl', function() {
 
     vm.createTask = function() {
         // vm.createTaskPrompt = false;
@@ -84,29 +127,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-// task tab
-.controller('TasksCtrl', function(Tasks) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-    const vm = this;
-    vm.$onInit = function() {
 
-    }
-    vm.tasks = Tasks.all();
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
-
-    vm.goToList = function() {
-        console.log('clicked');
-        $state.go('tab-tasks')
-    }
-})
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
         vm.task = Tasks.get($stateParams.taskId);
