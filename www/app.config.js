@@ -50,7 +50,7 @@
       })
 
       .state('tab.task-detail', {
-        url: '/tasks/:taskId',
+        url: '/dash/:taskId',
         views: {
           'tab-tasks': {
             templateUrl: 'components/task-detail.html',
@@ -69,6 +69,6 @@
           }
       })
 
-        $urlRouterProvider.otherwise('/landing');
-      }
+      $urlRouterProvider.otherwise('/landing');
+    }
 }());

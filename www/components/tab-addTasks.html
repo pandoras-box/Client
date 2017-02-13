@@ -1,10 +1,36 @@
 
-<ion-view class="gradient-background1" view-title="Tasks" ng-controller="AddTasksCtrl as $ctrl">
+<ion-view class="gradient-background2" view-title="Tasks" ng-controller="AddTasksCtrl as $ctrl">
   <ion-nav-bar class="bar-dark background">
       <ion-nav-back-button>
       </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    
+    <form name="detailsForm" ng-submit="submitEventDetails()">
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">Event Category</div>
+          <select ng-model="$ctrl.eventCategory">
+          <!-- ng-repeat="category in $ctrl.categories" -->
+            <!-- <option value="">{{category}}</option> -->
+            <option value="" selected="true">Bedroom</option>
+            <option value="">Outside</option>
+            <option value="">Bathroom</option>
+            <option value="">kitchen</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Don't forget...</span>
+          <input ng-model="$ctrl.eventDetails" type="text" placeholder="Add Details">
+        </label>
+      </div>
+      <div class="row">
+        <div class="col col-33 col-offset-33">
+          <button type="submit" class="button button-royal">Add Details</button>
+        </div>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

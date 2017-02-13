@@ -43,7 +43,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
         .then((result)=>{
             //Dillon to put POST to server here with this body:
             // result.access_token
-
         })
         .catch((error)=>{
           console.log(error);
@@ -100,6 +99,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
   }
   vm.tasks = Tasks.all();
+  
   vm.remove = function(task) {
     Tasks.remove(task);
   };
@@ -113,6 +113,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
   vm.task = Tasks.get($stateParams.taskId);
 })
+
 // account tab
 .controller('AccountCtrl', function() {
 
