@@ -39,15 +39,17 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     vm.signInFacebook = function() {
         $state.go('tab.dash')
         console.log("Signing in to Facebook!")
-        $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
-        .then((result)=>{
-            //Dillon to put POST to server here with this body:
-            // result.access_token
+        $cordovaOauth.facebook("1792310427755562", ["email", "public_profile"], {
+                redirect_uri: "http://localhost/callback"
+            })
+            .then((result) => {
+                //Dillon to put POST to server here with this body:
+                // result.access_token
 
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
     vm.signInInstagram = function() {
@@ -64,74 +66,80 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 // dash tab
 
 .controller('TaskDashCtrl', function(Tasks, $state) {
-  const vm = this;
-  vm.$onInit = function() {
-    vm.createTaskPrompt = true;
-  }
-  vm.tasks = Tasks.all();
+    const vm = this;
+    vm.$onInit = function() {
+        vm.createTaskPrompt = true;
+    }
+    vm.tasks = Tasks.all();
 
+    vm.seeDetail = function(task) {
+        $state.go('tab.task-detail', {taskId: task.id})
+        console.log(task.id);
+    }
 
     vm.completeTaskList = function() {
         console.log('tasks completed');
     }
 
 
-  vm.createTask = function() {
-    vm.createTaskPrompt = false;
-    // $state.go('tab.dash')
-  }
+    vm.createTask = function() {
+        vm.createTaskPrompt = false;
+        // $state.go('tab.dash')
+    }
 
-  vm.addTask = function() {
-    console.log('add task');
-  }
+    vm.addTask = function() {
+        console.log('add task');
+    }
 })
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  const vm = this;
-  vm.$onInit = function() {
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
+    const vm = this;
+    vm.$onInit = function() {
 
-  }
-  vm.tasks = Tasks.all();
-  vm.remove = function(task) {
-    Tasks.remove(task);
-  };
+    }
+    vm.tasks = Tasks.all();
+    vm.remove = function(task) {
+        Tasks.remove(task);
+    };
 
-  // vm.goToList = function() {
-  //   console.log('clicked');
-  //   $state.go('tab.addTasks')
-  // }
+    // vm.goToList = function() {
+    //   console.log('clicked');
+    //   $state.go('tab.addTasks')
+    // }
 })
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
-  vm.task = Tasks.get($stateParams.taskId);
-})
-// account tab
-.controller('AccountCtrl', function() {
+        const vm = this;
 
-    vm.createTask = function() {
-        // vm.createTaskPrompt = false;
-        console.log(vm.createTaskPrompt);
-    }
+        vm.$onInit = function() {
+            console.log("Made it!");
+        }
 
-    vm.addTask = function(Tasks) {
-        console.log('add task');
-
-    }
-})
-
-
-
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
         vm.task = Tasks.get($stateParams.taskId);
+
     })
+    // account tab
+    .controller('AccountCtrl', function() {
+
+        vm.createTask = function() {
+            // vm.createTaskPrompt = false;
+            console.log(vm.createTaskPrompt);
+        }
+
+        vm.addTask = function(Tasks) {
+            console.log('add task');
+
+        }
+    })
+
     // account tab
     .controller('AccountCtrl', function() {
         const vm = this;

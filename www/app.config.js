@@ -49,8 +49,8 @@
           }
       })
 
-      .state('tab.task-detail', {
-        url: '/tasks/:taskId',
+      .state('tab.taskDetail', {
+        url: '/dash/:taskId',
         views: {
           'tab-tasks': {
             templateUrl: 'components/task-detail.html',
