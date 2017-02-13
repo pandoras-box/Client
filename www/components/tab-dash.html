@@ -1,0 +1,31 @@
+
+<ion-view class="gradient-background1" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
+  <ion-nav-bar class="bar-dark background">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in $ctrl.tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
+        <!-- <img ng-src="{{task.face}}"> -->
+        <h2>{{task.name}}</h2>
+        <!-- <p>{{task.lastText}}</p> -->
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+
+    </ion-list>
+    <div class="row">
+      <div class="col col-30 text-center">
+        <a class="padding button-positive" ng-click="$ctrl.addTask()">
+          <ion-icon id="addTask" class="icon-left ion-plus-circled"></ion-icon>
+        </a>
+      </div>
+      <div class="col col-30">
+        <button class="padding button button-balanced" ng-click="$ctrl.completeTaskList()">
+          Tasks Complete
+        </button>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -4,21 +4,18 @@ Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
   <ion-tabs class="tabs-icon-top tabs-color-active-calm tabs-dark">
-    
     <!-- Dashboard Tab -->
-    <ion-tab title="User" icon-off="ion-person-stalker" icon-on="ion-person-add" href="#/tab/dash">
+    <ion-tab title="Dashboard" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/dash">
       <ion-nav-view name="tab-dash"></ion-nav-view>
     </ion-tab>
-
 
     <!-- Tasks Tab -->
     <ion-tab class="tab-color" title="Tasks" icon-off="ion-ios-compose-outline" icon-on="ion-ios-compose" href="#/tab/tasks">
       <ion-nav-view name="tab-tasks"></ion-nav-view>
     </ion-tab>
 
-  <!-- Account Tab -->
-  <ion-tab title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account" ng-show="$ctrl.loggedIn == true">
-    <ion-nav-view name="tab-account"></ion-nav-view>
-  </ion-tab>
-
+    <!-- Account Tab -->
+    <ion-tab title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account" ng-show="$ctrl.loggedIn == true">
+      <ion-nav-view name="tab-account"></ion-nav-view>
+    </ion-tab>
 </ion-tabs>
