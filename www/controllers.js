@@ -51,9 +51,21 @@ angular.module('pandoras-box.controllers', [])
 .controller('TaskDashCtrl', function(Tasks) {
   const vm = this;
   vm.$onInit = function() {
-    vm.createTaskPrompt = true;
+    Tasks.getActiveTasks()
+    .then((tasks)=>{
+      console.log(tasks.data.length);
+      if (tasks.data.length === 0) {
+        vm.createTaskPrompt = true;
+        console.log('no tasks');
+      } else {
+        vm.createTaskPrompt = false;
+        vm.tasks = tasks.data;
+        console.log('user has tasks', tasks.data);
+      }
+    })
+
   }
-  vm.tasks = Tasks.all();
+
 
   vm.completeTaskList = function() {
     console.log('tasks completed');

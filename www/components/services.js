@@ -1,10 +1,10 @@
 (function() {
     'use strict';
-
+    const SERVER_URL = `http://localhost:3000`;
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
 
-    function tasks() {
+    function tasks($http) {
         // Might use a resource here that returns a JSON array
         // Some fake testing data
         var tasks = [{
@@ -49,6 +49,9 @@
                 }
             }
             return null;
+        }
+        this.getActiveTasks = function(userID){
+          return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
         }
     }
 
