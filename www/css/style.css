@@ -14,6 +14,22 @@
       #d70087, #00b6b5);
 }
 
+#logo {
+  max-width: 40vw;
+}
+
+.big-padding {
+  padding-top: 7em;
+}
+
+.md-padding {
+  padding-top: 4em;
+}
+
+#iconPlus {
+  font-size: 30vh;
+  cursor: pointer;
+}
 /*.item a.item-content {
   background-color: transparent !important;
 }*/

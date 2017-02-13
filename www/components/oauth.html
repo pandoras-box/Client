@@ -1,22 +1,23 @@
-<ion-view view-title="REAL Landing" ng-controller="OauthCtrl as $ctrl">
+<ion-view class="ion-view" view-title="REAL Landing" ng-controller="OauthCtrl as $ctrl">
   <ion-content>
-            <div class="list">
-              <label class="item item-input">
-                <span class="input-label">Username</span>
-                <input type="text" ng-model="user.username">
-              </label>
-              <label class="item item-input">
-                <span class="input-label">Password</span>
-                <input type="password" ng-model="user.password">
-              </label>
-            </div>
-            <div class="padding">
-              <button class="button button-block button-positive" ng-click="$ctrl.signInFacebook()">
-                Sign-In With Google
-              </button>
-              <p class="text-center">
-                <a href="#/forgot-password">Forgot password</a>
-              </p>
-            </div>
-          </ion-content>
+    <div class="big-padding padding">
+      <button class="button button-block button-positive" ng-click="$ctrl.signInFacebook()">
+        <ion-icon class="icon-left ion-social-facebook"></ion-icon>
+        Sign-In With Facebook
+      </button>
+      <button class="button button-block button-positive" ng-click="$ctrl.signInInstagram()">
+        <ion-icon class="icon-left ion-social-instagram"></ion-icon>
+        Sign-In With Instagram
+      </button>
+      <button class="button button-block button-positive" ng-click="$ctrl.signInLinkedIn()">
+        <ion-icon class="icon-left ion-social-linkedin"></ion-icon>
+
+        Sign-In With LinkedIn
+      </button>
+      <button class="button button-block button-positive" ng-click="$ctrl.signInGitHub()">
+        <ion-icon class="icon-left ion-social-github"></ion-icon>
+        Sign-In With github
+      </button>
+    </div>
+  </ion-content>
 </ion-view>

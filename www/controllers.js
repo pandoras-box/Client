@@ -1,7 +1,18 @@
 angular.module('pandoras-box.controllers', [])
+.controller('IndexCtrl', function(Tasks){
 
-.controller('LandingCtrl', function($state) {
   const vm = this;
+  vm.$onInit = function() {
+
+
+  }
+})
+
+.controller('LandingCtrl', function($state,Tasks) {
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
   vm.parentContinue = function() {
     $state.go('oauth')
   }
@@ -12,7 +23,7 @@ angular.module('pandoras-box.controllers', [])
 })
 
 
-.controller('TasksCtrl', function($scope, Tasks) {
+.controller('TasksCtrl', function(Tasks) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -20,10 +31,19 @@ angular.module('pandoras-box.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-  $scope.tasks = Tasks.all();
-  $scope.remove = function(task) {
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
+  vm.tasks = Tasks.all();
+  vm.remove = function(task) {
     Chats.remove(task);
   };
+
+  vm.goToList = function() {
+    console.log('clicked');
+    $state.go('tab-tasks')
+  }
 })
 
 .controller('TaskDetailCtrl', function($scope, $stateParams, Tasks) {
@@ -31,8 +51,12 @@ angular.module('pandoras-box.controllers', [])
 
 })
 
-.controller('AccountCtrl', function($scope) {
-    $scope.settings = {
+.controller('AccountCtrl', function() {
+    const vm = this;
+    vm.$onInit = function() {
+      vm.showNav = true;
+    }
+    vm.settings = {
         enableFriends: true
     }
 })
@@ -45,8 +69,21 @@ angular.module('pandoras-box.controllers', [])
         console.log("Initiated!")
     }
 
+    vm.signInGitHub = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to github!")
+    }
+
     vm.signInFacebook = function() {
-        $state.go('tab.tasks')
+        $state.go('tab-tasks')
         console.log("Signing in to Facebook!")
+    }
+    vm.signInInstagram = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to Instagram!")
+    }
+    vm.signInLinkedIn = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to LinkedIn!")
     }
 })

@@ -1,14 +1,25 @@
 
-<ion-view view-title="Tasks">
+<ion-view view-title="Tasks" ng-controller="TasksCtrl as $ctrl">
+  <ion-nav-bar class="bar-dark background">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+  </ion-nav-bar>
   <ion-content>
+    <div class="big-padding padding text-center">
+      <h2 class="stable">You have no active tasks</h2>
+      <h4 class="stable">Click to create a task list</h4>
+      <a class="padding button-positive" ng-click="$ctrl.goToList()">
+        <ion-icon id="iconPlus" class="icon-left ion-plus-circled"></ion-icon>
+      </a>
+    </div>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in $ctrl.tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
         <img ng-src="{{task.face}}">
         <h2>{{task.name}}</h2>
         <p>{{task.lastText}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(task)">
+        <ion-option-button class="button-assertive" ng-click="$ctrl.remove(task)">
           Delete
         </ion-option-button>
       </ion-item>

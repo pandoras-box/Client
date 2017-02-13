@@ -4,10 +4,8 @@
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
 
-
     function tasks() {
         // Might use a resource here that returns a JSON array
-
         // Some fake testing data
         var tasks = [{
             id: 0,

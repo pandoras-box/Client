@@ -1,7 +1,11 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account" ng-controller="AccountCtrl as $ctrl">
+  <ion-nav-bar class="bar-dark background">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+  </ion-nav-bar>
   <ion-content>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
+    <ion-toggle  ng-model="$ctrl.settings.enableFriends">
         Enable Friends
     </ion-toggle>
     </ion-list>
