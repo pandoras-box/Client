@@ -48,7 +48,7 @@ angular.module('pandoras-box.controllers', [])
 })
 
 // dash tab
-.controller('TaskDashCtrl', function(Tasks) {
+.controller('TaskDashCtrl', function(Tasks, $state) {
   const vm = this;
   vm.$onInit = function() {
     vm.createTaskPrompt = true;
@@ -60,18 +60,17 @@ angular.module('pandoras-box.controllers', [])
   }
 
   vm.createTask = function() {
-    // vm.createTaskPrompt = false;
-    console.log(vm.createTaskPrompt);
+    vm.createTaskPrompt = false;
+    // $state.go('tab.dash')
   }
 
-  vm.addTask = function(Tasks) {
+  vm.addTask = function() {
     console.log('add task');
-
   }
 })
 
-// task tab
-.controller('TasksCtrl', function(Tasks) {
+// addtask tab
+.controller('AddTasksCtrl', function(Tasks) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -88,10 +87,10 @@ angular.module('pandoras-box.controllers', [])
     Tasks.remove(task);
   };
 
-  vm.goToList = function() {
-    console.log('clicked');
-    $state.go('tab-tasks')
-  }
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
 })
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
