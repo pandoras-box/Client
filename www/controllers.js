@@ -1,9 +1,8 @@
 angular.module('pandoras-box.controllers', [])
-.controller('IndexCtrl', function(Tasks){
 
+.controller('IndexCtrl', function(Tasks){
   const vm = this;
   vm.$onInit = function() {
-
 
   }
 })
@@ -21,46 +20,6 @@ angular.module('pandoras-box.controllers', [])
     $state.go('oauth')
   }
 })
-
-
-.controller('TasksCtrl', function(Tasks) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  const vm = this;
-  vm.$onInit = function() {
-
-  }
-  vm.tasks = Tasks.all();
-  vm.remove = function(task) {
-    Chats.remove(task);
-  };
-
-  vm.goToList = function() {
-    console.log('clicked');
-    $state.go('tab-tasks')
-  }
-})
-
-.controller('TaskDetailCtrl', function($scope, $stateParams, Tasks) {
-  $scope.task = Tasks.get($stateParams.taskId);
-
-})
-
-.controller('AccountCtrl', function() {
-    const vm = this;
-    vm.$onInit = function() {
-      vm.showNav = true;
-    }
-    vm.settings = {
-        enableFriends: true
-    }
-})
-
 
 .controller('OauthCtrl', function($state) {
     const vm = this;
@@ -85,5 +44,57 @@ angular.module('pandoras-box.controllers', [])
     vm.signInLinkedIn = function() {
         $state.go('tab-tasks')
         console.log("Signing in to LinkedIn!")
+    }
+})
+
+.controller('TaskDashCtrl', function(Tasks) {
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
+  vm.tasks = Tasks.all();
+
+  vm.completeTaskList = function() {
+    console.log('tasks completed');
+  }
+  vm.addTask = function(Tasks) {
+    console.log('add task');
+  }
+})
+
+.controller('TasksCtrl', function(Tasks) {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
+  vm.tasks = Tasks.all();
+  vm.remove = function(task) {
+    Tasks.remove(task);
+  };
+
+  vm.goToList = function() {
+    console.log('clicked');
+    $state.go('tab-tasks')
+  }
+})
+
+.controller('TaskDetailCtrl', function($stateParams, Tasks) {
+  vm.task = Tasks.get($stateParams.taskId);
+})
+
+.controller('AccountCtrl', function() {
+    const vm = this;
+    vm.$onInit = function() {
+      vm.showNav = true;
+    }
+    vm.settings = {
+        enableFriends: true
     }
 })

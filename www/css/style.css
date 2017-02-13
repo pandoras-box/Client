@@ -1,4 +1,4 @@
- .ion-view {
+ .gradient-background1 {
   background-image:
     linear-gradient(
       #263c4e, #00af9d);
@@ -30,12 +30,8 @@
   font-size: 30vh;
   cursor: pointer;
 }
-/*.item a.item-content {
-  background-color: transparent !important;
-}*/
 
-/*4e5e52
-
-8290ad
-
-00af9d*/
+#addTask {
+  font-size: 10vh;
+  color: #d70087;
+}
