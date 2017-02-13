@@ -1,0 +1,23 @@
+<ion-view class="gradient-background1" view-title="Pandora's Box" ng-controller="LandingCtrl as $ctrl">
+  <ion-content class="padding stable">
+    <div class="big-padding text-center">
+      <h2 class=" calm">Welcome</h2>
+      <img id="logo" src="./img/logo.png" alt="">
+      <p class="md-padding align-center">Please Select User Type</p>
+    </div>
+    <div class="row">
+      <div class="col col-60 col-offset-20">
+        <button ng-click="$ctrl.parentContinue()" class="button button-block button-positive ion-person">
+          Parent
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-60 col-offset-20">
+        <button ng-click="$ctrl.childContinue()" class="button button-block button-positive ion-person">
+          Child
+        </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
