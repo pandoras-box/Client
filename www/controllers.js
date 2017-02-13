@@ -33,12 +33,17 @@ angular.module('pandoras-box.controllers', [])
   //});
   const vm = this;
   vm.$onInit = function() {
-    
+
   }
   vm.tasks = Tasks.all();
   vm.remove = function(task) {
     Chats.remove(task);
   };
+
+  vm.goToList = function() {
+    console.log('clicked');
+    $state.go('tab-tasks')
+  }
 })
 
 .controller('TaskDetailCtrl', function($scope, $stateParams, Tasks) {
@@ -64,8 +69,21 @@ angular.module('pandoras-box.controllers', [])
         console.log("Initiated!")
     }
 
+    vm.signInGitHub = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to github!")
+    }
+
     vm.signInFacebook = function() {
-        $state.go('tab.tasks')
+        $state.go('tab-tasks')
         console.log("Signing in to Facebook!")
+    }
+    vm.signInInstagram = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to Instagram!")
+    }
+    vm.signInLinkedIn = function() {
+        $state.go('tab-tasks')
+        console.log("Signing in to LinkedIn!")
     }
 })

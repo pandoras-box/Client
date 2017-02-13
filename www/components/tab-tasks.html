@@ -5,6 +5,13 @@
       </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
+    <div class="big-padding padding text-center">
+      <h2 class="stable">You have no active tasks</h2>
+      <h4 class="stable">Click to create a task list</h4>
+      <a class="padding button-positive" ng-click="$ctrl.goToList()">
+        <ion-icon id="iconPlus" class="icon-left ion-plus-circled"></ion-icon>
+      </a>
+    </div>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="task in $ctrl.tasks" type="item-text-wrap" href="#/tab/tasks/{{task.id}}">
         <img ng-src="{{task.face}}">

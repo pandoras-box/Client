@@ -46,25 +46,26 @@
         }
       })
 
-        .state('tab.account', {
-            url: '/account',
-            views: {
-                'tab-account': {
-                    templateUrl: 'components/tab-account.html',
-                    controller: 'AccountCtrl'
-                }
-            }
-        })
+      .state('tab.account', {
+          url: '/account',
+          views: {
+              'tab-account': {
+                  templateUrl: 'components/tab-account.html',
+                  controller: 'AccountCtrl'
+              }
+          }
+      })
 
-        .state('oauth', {
-            url: '/oauth',
-            // component: 'oauth',
-            templateUrl: 'components/oauth.html',
-            controller: 'OauthCtrl'
-        });
+      .state('oauth', {
+          url: '/oauth',
+          // component: 'oauth',
+          templateUrl: 'components/oauth.html',
+          controller: 'OauthCtrl'
+      })
 
-        // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/landing');
+
+      // if none of the above states are matched, use this as the fallback
+      $urlRouterProvider.otherwise('/landing');
 
     }
 
