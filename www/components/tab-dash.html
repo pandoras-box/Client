@@ -24,7 +24,9 @@
         class="item-remove-animate item-avatar item-icon-right"
         ng-repeat="task in $ctrl.tasks"
         type="item-text-wrap"
-        href="#/tab/dash/{{task.id}}">
+        ui-sref="tab.task-detail({taskId: task.id})"
+        >
+        <!-- href="#/tab/dash/{{task.id}}" -->
           <img ng-src="{{task.face}}">
           <h2>{{task.name}}</h2>
           <p>{{task.lastText}}</p>
