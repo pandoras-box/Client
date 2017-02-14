@@ -1,4 +1,14 @@
-angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
+angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
+
+.factory('mySocket', function (socketFactory) {
+  var myIoSocket = io.connect('http://localhost:3000');
+
+  mySocket = socketFactory({
+    ioSocket: myIoSocket
+  });
+
+  return mySocket;
+})
 
 .controller('IndexCtrl', function(Tasks) {
     const vm = this;
@@ -7,10 +17,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-.controller('LandingCtrl', function($state, Tasks) {
+.controller('LandingCtrl', function($state, Tasks, mySocket) {
     const vm = this;
     vm.$onInit = function() {
-
+      // mySocket.emit('authorizeLoggedIn', emitObject);
     }
     vm.parentContinue = function() {
         $state.go('oauth')
@@ -21,14 +31,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks) {
+.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage) {
     const vm = this;
 
-    // window.cordovaOauth = $cordovaOauth;
-    // window.http = $http;
-
     vm.$onInit = function() {
-        console.log("Initiated!");
     }
 
     vm.signInGitHub = function() {
@@ -37,22 +43,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 
     vm.signInFacebook = function() {
-        console.log("Signing in to Facebook!")
         $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
         .then((result)=>{
           return Tasks.postAuth(result.access_token);
-            //Dillon to put POST to server here with this body:
-            // result.access_token
-
         })
         .then((result) =>{
-          if(result){
+            const jwt = result.jwt;
+            LocalStorage.setToken(jwt);
             $state.go('tab.dash');
-          }
-          else{
-            $state.go('landing');
-          }
-
         })
         .catch((error)=>{
           console.log(error);
@@ -128,7 +126,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
   }
   vm.tasks = Tasks.all();
-  
+
   vm.remove = function(task) {
     Tasks.remove(task);
   };

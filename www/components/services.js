@@ -4,6 +4,8 @@
     const SERVER_URL = `http://10.6.65.123:5000`;
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
+        .service('LocalStorage', localStorage)
+
 
     function tasks($http) {
         // Might use a resource here that returns a JSON array
@@ -51,12 +53,28 @@
             }
             return null;
         }
-        this.getActiveTasks = function(userID){
-          return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
+        this.getActiveTasks = function(userID) {
+            return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
         }
-        this.postAuth = function(token){
-          return $http.post(`${SERVER_URL}/auth`,{token:token});
+        this.postAuth = function(token) {
+            return $http.post(`${SERVER_URL}/auth`, {
+                token: token
+            });
         }
+    }
+
+    function localStorage(localStorageService) {
+        const token = "token";
+
+        this.setToken = function(jwt) {
+            localStorageService.set(token, jwt);
+        }
+
+        this.getToken = function() {
+            return localStorageService.get(token);
+        }
+
+
     }
 
 
