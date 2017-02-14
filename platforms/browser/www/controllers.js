@@ -21,7 +21,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-.controller('OauthCtrl', function($state, $cordovaOauth, $http) {
+.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks) {
     const vm = this;
 
     // window.cordovaOauth = $cordovaOauth;
@@ -37,16 +37,25 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 
     vm.signInFacebook = function() {
-        $state.go('tab.dash')
         console.log("Signing in to Facebook!")
         $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
         .then((result)=>{
-          console.log(result);
+          return Tasks.postAuth(result.access_token);
+            //Dillon to put POST to server here with this body:
+            // result.access_token
+        })
+        .then((result) =>{
+          if(result){
+            $state.go('tab.dash');
+          }
+          else{
+            $state.go('landing');
+          }
         })
         .catch((error)=>{
           console.log(error);
         })
-        
+
     }
     vm.signInInstagram = function() {
         $state.go('tab.dash')
@@ -60,16 +69,71 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 })
 
 // dash tab
-.controller('TaskDashCtrl', function(Tasks) {
-    const vm = this;
-    vm.$onInit = function() {
+
+.controller('TaskDashCtrl', function(Tasks, $state) {
+  const vm = this;
+  vm.$onInit = function() {
+    Tasks.getActiveTasks()
+    .then((tasks)=>{
+      console.log(tasks.data.length);
+      if (tasks.data.length === 0) {
         vm.createTaskPrompt = true;
-    }
-    vm.tasks = Tasks.all();
+        console.log('no tasks');
+      } else {
+        vm.createTaskPrompt = false;
+        vm.tasks = tasks.data;
+        console.log('user has tasks', tasks.data);
+      }
+    })
+
+  }
+
+
 
     vm.completeTaskList = function() {
         console.log('tasks completed');
     }
+
+
+  vm.createTask = function() {
+    vm.createTaskPrompt = false;
+    // $state.go('tab.dash')
+  }
+
+  vm.addTask = function() {
+    console.log('add task');
+  }
+})
+
+// addtask tab
+.controller('AddTasksCtrl', function(Tasks) {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+  const vm = this;
+  vm.$onInit = function() {
+
+  }
+  vm.tasks = Tasks.all();
+  vm.remove = function(task) {
+    Tasks.remove(task);
+  };
+
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
+})
+
+.controller('TaskDetailCtrl', function($stateParams, Tasks) {
+  vm.task = Tasks.get($stateParams.taskId);
+})
+// account tab
+.controller('AccountCtrl', function() {
 
     vm.createTask = function() {
         // vm.createTaskPrompt = false;
@@ -82,29 +146,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-// task tab
-.controller('TasksCtrl', function(Tasks) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-    const vm = this;
-    vm.$onInit = function() {
 
-    }
-    vm.tasks = Tasks.all();
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
-
-    vm.goToList = function() {
-        console.log('clicked');
-        $state.go('tab-tasks')
-    }
-})
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
         vm.task = Tasks.get($stateParams.taskId);

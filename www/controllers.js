@@ -21,7 +21,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-.controller('OauthCtrl', function($state, $cordovaOauth, $http) {
+.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks) {
     const vm = this;
 
     // window.cordovaOauth = $cordovaOauth;
@@ -37,13 +37,20 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 
     vm.signInFacebook = function() {
-        $state.go('tab.dash')
         console.log("Signing in to Facebook!")
         $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
         .then((result)=>{
+          return Tasks.postAuth(result.access_token);
             //Dillon to put POST to server here with this body:
             // result.access_token
-
+        })
+        .then((result) =>{
+          if(result){
+            $state.go('tab.dash');
+          }
+          else{
+            $state.go('landing');
+          }
         })
         .catch((error)=>{
           console.log(error);
