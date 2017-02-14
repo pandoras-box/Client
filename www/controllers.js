@@ -39,17 +39,15 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     vm.signInFacebook = function() {
         $state.go('tab.dash')
         console.log("Signing in to Facebook!")
-        $cordovaOauth.facebook("1792310427755562", ["email", "public_profile"], {
-                redirect_uri: "http://localhost/callback"
-            })
-            .then((result) => {
-                //Dillon to put POST to server here with this body:
-                // result.access_token
+        $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
+        .then((result)=>{
+            //Dillon to put POST to server here with this body:
+            // result.access_token
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
 
-            })
-            .catch((error) => {
-                console.log(error);
-            })
 
     }
     vm.signInInstagram = function() {
@@ -94,27 +92,34 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-    const vm = this;
-    vm.$onInit = function() {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+  const vm = this;
+  vm.$onInit = function() {
 
-    }
-    vm.tasks = Tasks.all();
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
+  }
+  vm.tasks = Tasks.all();
+  
+  vm.remove = function(task) {
+    Tasks.remove(task);
+  };
 
-    // vm.goToList = function() {
-    //   console.log('clicked');
-    //   $state.go('tab.addTasks')
-    // }
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
 })
+
+.controller('TaskDetailCtrl', function($stateParams, Tasks) {
+  vm.task = Tasks.get($stateParams.taskId);
+})
+
+
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
         const vm = this;
@@ -140,13 +145,13 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
         }
     })
 
-    // account tab
-    .controller('AccountCtrl', function() {
-        const vm = this;
-        vm.$onInit = function() {
-            vm.showNav = true;
-        }
-        vm.settings = {
-            enableFriends: true
-        }
-    })
+//     // account tab
+//     .controller('AccountCtrl', function() {
+//         const vm = this;
+//         vm.$onInit = function() {
+//             vm.showNav = true;
+//         }
+//         vm.settings = {
+//             enableFriends: true
+//         }
+//     })

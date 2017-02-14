@@ -69,6 +69,6 @@
           }
       })
 
-        $urlRouterProvider.otherwise('/landing');
-      }
+      $urlRouterProvider.otherwise('/landing');
+    }
 }());

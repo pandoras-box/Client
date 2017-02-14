@@ -1,5 +1,5 @@
 
-<ion-view class="gradient-background1" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
+<ion-view class="gradient-background2" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
   <ion-nav-bar class="bar-dark background">
       <ion-nav-back-button>
       </ion-nav-back-button>
@@ -26,7 +26,7 @@
         type="item-text-wrap"
         ui-sref="tab.task-detail({taskId: task.id})"
         >
-        <!-- href="#/tab/dash/{{task.id}}" -->
+
           <img ng-src="{{task.face}}">
           <h2>{{task.name}}</h2>
           <p>{{task.lastText}}</p>
