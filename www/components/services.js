@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     // const SERVER_URL = `http://localhost:5000`;
-    const SERVER_URL = `http://10.6.65.123:5000`;
+    const SERVER_URL = `http://10.6.81.140:5000`;
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
 
@@ -51,6 +51,12 @@
             }
             return null;
         }
+
+        // this.getSingleTask = function(batchEventId) {
+        //   console.log(batchEventId);
+        //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
+        // }
+
         this.getActiveTasks = function(userID){
           return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
         }
