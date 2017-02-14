@@ -85,12 +85,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         vm.createTaskPrompt = false;
         vm.tasks = tasks.data;
         console.log('user has tasks', tasks.data);
+        console.log(vm.tasks);
       }
     })
 
   }
-
-
 
     vm.seeDetail = function(task) {
         $state.go('tab.task-detail', {taskId: task.id})
@@ -113,18 +112,13 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 })
 
 // addtask tab
-.controller('AddTasksCtrl', function(Tasks) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+.controller('AddTasksCtrl', function(Tasks, $state) {
   const vm = this;
-  vm.$onInit = function() {
 
+  vm.$onInit = function() {
+    vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
   }
+
   vm.tasks = Tasks.all();
 
   vm.remove = function(task) {
@@ -137,27 +131,27 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   // }
 })
 
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-  vm.task = Tasks.get($stateParams.taskId);
+  vm.submitEventDetails = function() {
+    vm.selected = vm.categories[0];
+    $state.go('tab.dash')
+  }
 })
 
+.controller('TaskDetailCtrl', function() {
+  const vm = this;
 
+  vm.$onInit = function() {
+      console.log("Made it to task detail!");
+  }
+  // vm.task = Tasks.get($stateParams.taskId);
+  // console.log(vm.task);
+})
 
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-        const vm = this;
-
-        vm.$onInit = function() {
-            console.log("Made it!");
-        }
-
-        vm.task = Tasks.get($stateParams.taskId);
-
-    })
     // account tab
     .controller('AccountCtrl', function() {
-
+      const vm = this;
         vm.createTask = function() {
-            // vm.createTaskPrompt = false;
+            vm.createTaskPrompt = false;
             console.log(vm.createTaskPrompt);
         }
 
@@ -166,14 +160,3 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
         }
     })
-
-//     // account tab
-//     .controller('AccountCtrl', function() {
-//         const vm = this;
-//         vm.$onInit = function() {
-//             vm.showNav = true;
-//         }
-//         vm.settings = {
-//             enableFriends: true
-//         }
-//     })
