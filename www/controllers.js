@@ -87,12 +87,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
         vm.createTaskPrompt = false;
         vm.tasks = tasks.data;
         console.log('user has tasks', tasks.data);
+        console.log(vm.tasks);
       }
     })
 
   }
-
-
 
     vm.seeDetail = function(task) {
         $state.go('tab.task-detail', {taskId: task.id})
@@ -128,23 +127,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
   }
 })
 
+.controller('TaskDetailCtrl', function() {
+  const vm = this;
 
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-  vm.task = Tasks.get($stateParams.taskId);
+  vm.$onInit = function() {
+      console.log("Made it to task detail!");
+  }
+  // vm.task = Tasks.get($stateParams.taskId);
+  // console.log(vm.task);
 })
 
-
-
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-        const vm = this;
-
-        vm.$onInit = function() {
-            console.log("Made it!");
-        }
-
-        vm.task = Tasks.get($stateParams.taskId);
-
-    })
     // account tab
     .controller('AccountCtrl', function() {
       const vm = this;
@@ -158,14 +150,3 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
         }
     })
-
-//     // account tab
-//     .controller('AccountCtrl', function() {
-//         const vm = this;
-//         vm.$onInit = function() {
-//             vm.showNav = true;
-//         }
-//         vm.settings = {
-//             enableFriends: true
-//         }
-//     })
