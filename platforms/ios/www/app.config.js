@@ -39,13 +39,12 @@
           }
       })
 
-      .state('tab.tasks', {
-          url: '/tasks',
-          // component: 'tab-tasks2',
+      .state('tab.addTasks', {
+          url: '/addTasks',
           views: {
-            'tab-tasks': {
-              templateUrl: './components/tab-tasks.html',
-              controller: 'TasksCtrl'
+            'tab-addTasks': {
+              templateUrl: 'components/tab-addTasks.html',
+              controller: 'AddTasksCtrl'
             }
           }
       })
