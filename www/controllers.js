@@ -1,14 +1,14 @@
 angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
 
-.factory('mySocket', function (socketFactory) {
-  var myIoSocket = io.connect('http://localhost:3000');
-
-  mySocket = socketFactory({
-    ioSocket: myIoSocket
-  });
-
-  return mySocket;
-})
+// .factory('mySocket', function (socketFactory) {
+//   var myIoSocket = io.connect('http://localhost:3000');
+//
+//   mySocket = socketFactory({
+//     ioSocket: myIoSocket
+//   });
+//
+//   return mySocket;
+// })
 
 .controller('IndexCtrl', function(Tasks) {
     const vm = this;
@@ -16,17 +16,19 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     }
 })
-
-.controller('LandingCtrl', function($state, Tasks, mySocket) {
+//mySocket
+.controller('LandingCtrl', function($state, Tasks) {
     const vm = this;
     vm.$onInit = function() {
       // mySocket.emit('authorizeLoggedIn', emitObject);
     }
     vm.parentContinue = function() {
+        Tasks.parentOrChild = 'parent';
         $state.go('oauth')
     }
 
     vm.childContinue = function() {
+        Tasks.parentOrChild = 'child';
         $state.go('oauth')
     }
 })
@@ -35,6 +37,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
+      console.log(Tasks.parentOrChild);
     }
 
     vm.signInGitHub = function() {
@@ -129,12 +132,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   //   console.log('clicked');
   //   $state.go('tab.addTasks')
   // }
-})
+
 
   vm.submitEventDetails = function() {
     vm.selected = vm.categories[0];
-    $state.go('tab.dash')
-  }
+    $state.go('tab.dash');
+  };
 })
 
 .controller('TaskDetailCtrl', function() {
