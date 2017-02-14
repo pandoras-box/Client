@@ -41,12 +41,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
         console.log("Signing in to Facebook!")
         $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
         .then((result)=>{
-          console.log(result);
+            //Dillon to put POST to server here with this body:
+            // result.access_token
+
         })
         .catch((error)=>{
           console.log(error);
         })
-        
+
     }
     vm.signInInstagram = function() {
         $state.go('tab.dash')
