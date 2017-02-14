@@ -1,13 +1,13 @@
 angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
 
 .factory('mySocket', function (socketFactory) {
-  var myIoSocket = io.connect('http://localhost:3000');
-
-  mySocket = socketFactory({
-    ioSocket: myIoSocket
-  });
-
-  return mySocket;
+  // var myIoSocket = io.connect('http://localhost:3000');
+  //
+  // mySocket = socketFactory({
+  //   ioSocket: myIoSocket
+  // });
+  //
+  // return mySocket;
 })
 
 .controller('IndexCtrl', function(Tasks) {
@@ -17,7 +17,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
-.controller('LandingCtrl', function($state, Tasks, mySocket) {
+.controller('LandingCtrl', function($state, Tasks) {
     const vm = this;
     vm.$onInit = function() {
       // mySocket.emit('authorizeLoggedIn', emitObject);
@@ -129,7 +129,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   //   console.log('clicked');
   //   $state.go('tab.addTasks')
   // }
-})
+
 
   vm.submitEventDetails = function() {
     vm.selected = vm.categories[0];
@@ -148,7 +148,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 })
 
     // account tab
-    .controller('AccountCtrl', function() {
+    .controller('AccountCtrl', function(Tasks) {
       const vm = this;
         vm.createTask = function() {
             vm.createTaskPrompt = false;

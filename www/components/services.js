@@ -63,6 +63,7 @@
             });
 
 
+
         // this.getSingleTask = function(batchEventId) {
         //   console.log(batchEventId);
         //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)

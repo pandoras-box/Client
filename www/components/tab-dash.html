@@ -20,18 +20,36 @@
     </div>
 
     <ion-list ng-if="$ctrl.createTaskPrompt === false">
+
       <ion-item
-        class="item-remove-animate item-avatar item-icon-right"
+        class="customPadding item-remove-animate item-avatar item-icon-right"
         ng-repeat="task in $ctrl.tasks"
         type="item-text-wrap"
         ui-sref="tab.task-detail({taskId: task.id})"
         >
-          <!-- <img ng-src="{{task.icon}}"> -->
-          <h2>{{task.description}}</h2>
-          <!-- <p>{{task.details}}</p> -->
-          <i class="padding-right icon ion-checkmark" ng-if="task.approved === true"></i>
-          <i class="padding-right icon ion-alert" ng-if="task.approved === false"></i>
-          <i class="icon ion-chevron-right icon-accessory"></i>
+          <div class="row" ng-switch="task.description">
+            <div class="col col-20 item item-icon-left categoryIcon">
+              <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
+              <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
+              <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i></div>
+              <div ng-switch-default><i class="icon ion-ios-home"></i></div>
+            </div>
+
+            <div class="col col-70">
+              <h2>{{task.description}}</h2>
+              <!-- <p>{{task.details}}</p> -->
+              <p>We are in the midst of a powerful deepening of growth that will give us access to the totality itself. Humankind has nothing to lose. Reality has always been bursting with spiritual brothers and sisters whose essences are enveloped in freedom.</p>
+            </div>
+
+            <div class="col col-5">
+              <i class="padding-right icon ion-checkmark check-icon" ng-if="task.approved === true"></i>
+              <i class="padding-right icon ion-alert pending-icon" ng-if="task.approved === false"></i>
+            </div>
+
+            <div class="col col-5">
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </div>
+          </div>
       </ion-item>
     </ion-list>
 
