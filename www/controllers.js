@@ -48,6 +48,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
           console.log(error);
         })
 
+
     }
     vm.signInInstagram = function() {
         $state.go('tab.dash')
@@ -63,26 +64,30 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 // dash tab
 
 .controller('TaskDashCtrl', function(Tasks, $state) {
-  const vm = this;
-  vm.$onInit = function() {
-    vm.createTaskPrompt = true;
-  }
-  vm.tasks = Tasks.all();
+    const vm = this;
+    vm.$onInit = function() {
+        vm.createTaskPrompt = true;
+    }
+    vm.tasks = Tasks.all();
 
+    vm.seeDetail = function(task) {
+        $state.go('tab.task-detail', {taskId: task.id})
+        console.log(task.id);
+    }
 
     vm.completeTaskList = function() {
         console.log('tasks completed');
     }
 
 
-  vm.createTask = function() {
-    vm.createTaskPrompt = false;
-    // $state.go('tab.dash')
-  }
+    vm.createTask = function() {
+        vm.createTaskPrompt = false;
+        // $state.go('tab.dash')
+    }
 
-  vm.addTask = function() {
-    console.log('add task');
-  }
+    vm.addTask = function() {
+        console.log('add task');
+    }
 })
 
 // addtask tab
@@ -114,32 +119,39 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
   vm.task = Tasks.get($stateParams.taskId);
 })
 
-// account tab
-.controller('AccountCtrl', function() {
-
-    vm.createTask = function() {
-        // vm.createTaskPrompt = false;
-        console.log(vm.createTaskPrompt);
-    }
-
-    vm.addTask = function(Tasks) {
-        console.log('add task');
-
-    }
-})
-
 
 
 .controller('TaskDetailCtrl', function($stateParams, Tasks) {
+        const vm = this;
+
+        vm.$onInit = function() {
+            console.log("Made it!");
+        }
+
         vm.task = Tasks.get($stateParams.taskId);
+
     })
     // account tab
     .controller('AccountCtrl', function() {
-        const vm = this;
-        vm.$onInit = function() {
-            vm.showNav = true;
+
+        vm.createTask = function() {
+            // vm.createTaskPrompt = false;
+            console.log(vm.createTaskPrompt);
         }
-        vm.settings = {
-            enableFriends: true
+
+        vm.addTask = function(Tasks) {
+            console.log('add task');
+
         }
     })
+
+//     // account tab
+//     .controller('AccountCtrl', function() {
+//         const vm = this;
+//         vm.$onInit = function() {
+//             vm.showNav = true;
+//         }
+//         vm.settings = {
+//             enableFriends: true
+//         }
+//     })
