@@ -50,11 +50,11 @@
       })
 
       .state('tab.task-detail', {
-        url: '/tasks/:taskId',
+        url: '/dash/:taskId',
         views: {
-          'tab-tasks': {
+          'tab-dash': {
             templateUrl: 'components/task-detail.html',
-            controller: 'TaskDetailCtrl'
+            controller: 'TaskDetailCtrl as $ctrl'
           }
         }
       })
@@ -69,6 +69,6 @@
           }
       })
 
-        $urlRouterProvider.otherwise('/landing');
-      }
+      $urlRouterProvider.otherwise('/landing');
+    }
 }());

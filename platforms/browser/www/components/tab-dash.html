@@ -1,5 +1,5 @@
 
-<ion-view class="gradient-background1" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
+<ion-view class="gradient-background2" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
   <ion-nav-bar class="bar-dark background">
       <ion-nav-back-button>
       </ion-nav-back-button>
@@ -24,7 +24,9 @@
         class="item-remove-animate item-avatar item-icon-right"
         ng-repeat="task in $ctrl.tasks"
         type="item-text-wrap"
-        href="#/tab/tasks/{{task.id}}">
+        ui-sref="tab.task-detail({taskId: task.id})"
+        >
+
           <img ng-src="{{task.face}}">
           <h2>{{task.name}}</h2>
           <p>{{task.lastText}}</p>

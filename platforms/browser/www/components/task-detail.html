@@ -5,15 +5,15 @@
   The Friends service returns an array of friend data
 -->
 
-<ion-view view-title="{{task.name}}">
+<ion-view view-title="{{$ctrl.task.name}}" >
   <ion-nav-bar class="bar-dark background">
       <ion-nav-back-button>
       </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content class="padding">
-    <img ng-src="{{task.face}}" style="width: 64px; height: 64px">
+    <img ng-src="{{$ctrl.task.face}}" style="width: 64px; height: 64px">
     <p>
-      {{task.lastText}}
+      {{$ctrl.task.lastText}}
     </p>
   </ion-content>
 </ion-view>
