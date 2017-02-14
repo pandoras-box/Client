@@ -10,6 +10,8 @@
     function tasks($http) {
         // Might use a resource here that returns a JSON array
         // Some fake testing data
+        var parentOrChild;
+
         var tasks = [{
             id: 0,
             name: 'Ben Sparrow',
