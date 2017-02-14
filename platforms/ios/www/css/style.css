@@ -8,7 +8,8 @@
   color: #00af9d;
 }
 
-.scroll-content.ionic-scroll.has-header.has-tabs {
+/*.scroll-content.ionic-scroll.has-header.has-tabs*/
+.gradient-background2 {
   background-image:
     linear-gradient(
       #d70087, #00b6b5);
@@ -34,4 +35,8 @@
 #addTask {
   font-size: 10vh;
   color: #d70087;
+}
+
+.list {
+  color: #f8f8f8;
 }

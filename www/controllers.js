@@ -41,9 +41,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
         $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
         .then((result)=>{
           return Tasks.postAuth(result.access_token);
-            //Dillon to put POST to server here with this body:
-            // result.access_token
-
         })
         .then((result) =>{
           if(result){
@@ -128,7 +125,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
   }
   vm.tasks = Tasks.all();
-  
+
   vm.remove = function(task) {
     Tasks.remove(task);
   };
