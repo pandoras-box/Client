@@ -1,12 +1,11 @@
 <ion-view class="gradient-background2" view-title="Account" ng-controller="AccountCtrl as $ctrl">
   <ion-nav-bar class="bar-dark background">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
+      <ion-nav-back-button></ion-nav-back-button>
+      <button class="button button-clear button-positive">Edit</button>
   </ion-nav-bar>
 
   <ion-content>
     <!-- TODO: update parentView with token  -->
-
     <div class="list">
       <a class="item item-icon-left"><!-- TODO: update  -->
         <i class="icon ion-email positive"></i>
@@ -39,9 +38,13 @@
             <button type="submit" class="button button-calm text-center">Update Email</button>
           </div>
       </form>
+      <div class="padding">
+        <button ng-click="$ctrl.logOut()" class="logOut button button-block button-dark">Log Out</button>
+      </div>
+
     </div>
 
-    <a ng-click="$ctrl.logOut()" class="button button-calm text-center">Log Out</a>
+
 
   </ion-content>
 </ion-view>
