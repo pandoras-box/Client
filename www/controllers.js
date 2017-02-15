@@ -135,21 +135,26 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     Tasks.getActiveTasks()
       .then(function(tasks){
         vm.tasks = tasks.data;
-        console.log(tasks);
+        vm.selected = vm.tasks[0];
       })
   }
 
-  vm.remove = function(task) {
-      Tasks.remove(task);
-  };
+  // vm.remove = function(task) {
+  //     Tasks.remove(task);
+  // };
 
   // vm.goToList = function() {
   //   console.log('clicked');
   //   $state.go('tab.addTasks')
   // }
+  vm.getCategory = function () {
+    return vm.selected;
+  }
+
   vm.submitEventDetails = function() {
-      vm.selected = vm.tasks[0];
-      $state.go('tab.dash')
+    $state.go('tab.dash')
+    console.log(vm.selected);
+    return vm.selected;
   }
 })
 

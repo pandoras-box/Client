@@ -10,7 +10,7 @@
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">Event Category</div>
-          <select ng-options="task as task.category for task in $ctrl.tasks" ng-model="$ctrl.selected">
+          <select ng-options="task as task.category for task in $ctrl.tasks" ng-model="$ctrl.selected" ng-change="$ctrl.getCategory()">
           </select>
         </label>
       </div>
