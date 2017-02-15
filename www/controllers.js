@@ -37,7 +37,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-      console.log(Tasks.parentOrChild);
     }
 
     vm.signInGitHub = function() {
