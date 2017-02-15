@@ -1,7 +1,7 @@
 (function() {
     'use strict';
+    // const SERVER_URL = `http://localhost:5000`;
     const SERVER_URL = `http://10.6.65.77:5000`;
-
 
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
@@ -11,8 +11,8 @@
     function tasks($http) {
         // Might use a resource here that returns a JSON array
         // Some fake testing data
-        var parentOrChild;
 
+        var parentOrChild;
 
         var tasks = [{
             id: 0,
@@ -70,11 +70,10 @@
             });
 
 
-        // this.getSingleTask = function(batchEventId) {
-        //   console.log(batchEventId);
-        //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
-        // }
-
+            // this.getSingleTask = function(batchEventId) {
+            //   console.log(batchEventId);
+            //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
+            // }
 
         }
     }
