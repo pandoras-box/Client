@@ -103,6 +103,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                     // console.log(vm.tasks);
                 }
             })
+
     }
 
     vm.seeDetail = function(task) {
@@ -122,36 +123,43 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // $state.go('tab.dash')
     }
 
-    vm.addTask = function() {
-        console.log('add task');
-    }
+    // vm.addTask = function() {
+    //     console.log('add task');
+    // }
 })
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks, $state) {
-    const vm = this;
-
-    vm.$onInit = function() {
-        // TODO: query db for task.description / categories
-        vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
-    }
+  const vm = this;
+  vm.tasks = Tasks.all();
 
 
-    vm.tasks = Tasks.all();
+  vm.$onInit = function() {
+    Tasks.getActiveTasks()
+      .then(function(tasks){
+        vm.tasks = tasks.data;
+        vm.selected = vm.tasks[0];
+      })
+  }
 
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
+  // vm.remove = function(task) {
+  //     Tasks.remove(task);
+  // };
 
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
+  vm.getCategory = function () {
+    return vm.selected;
+  }
 
-    // vm.goToList = function() {
-    //   console.log('clicked');
-    //   $state.go('tab.addTasks')
-    // }
-    vm.submitEventDetails = function() {
-        vm.selected = vm.categories[0];
-        $state.go('tab.dash')
-    }
+  vm.submitEventDetails = function() {
+    // TODO: use service to post batch_event description and task category
+    $state.go('tab.dash')
+    console.log(vm.selected);
+    return vm.selected;
+  }
 })
 
 
@@ -180,25 +188,35 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 })
 
-// account tab
-.controller('AccountCtrl', function(Tasks, LocalStorage, $state) {
+
+
+  // account tab
+  .controller('AccountCtrl', function(Tasks) {
     const vm = this;
-    vm.showUpdateEmail = false;
+    vm.$onInit = function() {
+      vm.showUpdateEmail = false;
 
-    // TODO: update variables with token
-    // vm.parentView = true;
-    vm.childView = true;
+      // TODO: update variables with token
+      vm.parentView = true;
+      // vm.parentView = false;
+      // vm.childView = true;
+      // vm.childEmail = true;
+      vm.childEmail = false;
+    }
 
-    vm.logOut = function() {
+      vm.updateEmail = function () {
+        vm.childEmail = true;
+        vm.showUpdateEmail = false;
+        console.log('submit update email ');
+
+      }
+      
+      vm.logOut = function() {
       LocalStorage.removeToken();
       $state.go('landing');
     }
 
-    vm.updateEmail = function() {
-        console.log('submit update email ');
-    }
-
-    vm.toggleUpdateEmail = function() {
+      vm.toggleUpdateEmail = function() {
         vm.showUpdateEmail = !vm.showUpdateEmail;
-    }
-})
+      }
+  })
