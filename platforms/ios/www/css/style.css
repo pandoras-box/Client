@@ -36,3 +36,43 @@
   font-size: 10vh;
   color: #d70087;
 }
+
+.iconSelector {
+  margin-right: 2em;
+}
+
+ion-item a.item-content {
+  margin-left: 0vw;
+  padding-left: 0vw;
+}
+
+.pending-icon {
+  color: #d70087;
+  margin-right: 2vw;
+}
+
+.check-icon {
+  color: $balanced;
+  margin-right: 2vw;
+}
+
+.categoryIcon {
+  margin-left: -10vw;
+}
+
+#accept {
+  font-size: 15vh;
+}
+
+#reject {
+  color: #d70087;
+  font-size: 15vh;
+}
+
+#mark-done {
+  font-size: 15vh;
+}
+
+.emailLogo {
+  color: $positive;
+}

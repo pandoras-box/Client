@@ -30,8 +30,8 @@
         <!-- TODO:  -->
         <!-- change ng-if to match token  -->
         <div class="text-center" ng-if="$ctrl.parentView === true">
-          <a ui-sref="tab.dash" id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
-          <a ui-sref="tab.dash" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
+          <a ng-click="$ctrl.taskAccepted(true)"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
+          <a ng-click="$ctrl.taskAccepted(false)" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
         </div>
         <!-- TODO:  --><!-- change ng-if to match token  -->
         <div class="row text-center" ng-if="$ctrl.childView === true">

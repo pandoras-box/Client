@@ -1,15 +1,16 @@
 angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
 
-// .factory('mySocket', function(socketFactory) {
-//     var myIoSocket = io.connect('http://localhost:3000');
-//
-//     mySocket = socketFactory({
-//         ioSocket: myIoSocket
-//     });
-//
-//     return mySocket;
 
-// })
+.factory('mySocket', function(socketFactory) {
+    const location = null;
+    var myIoSocket = io.connect('http://10.6.65.77:5000');
+
+    mySocket = socketFactory({
+        ioSocket: myIoSocket
+    });
+
+    return mySocket;
+})
 
 .controller('IndexCtrl', function(Tasks) {
     const vm = this;
@@ -18,15 +19,19 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
-//mySocket
-.controller('LandingCtrl', function($state, Tasks) {
+
+.controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
     vm.$onInit = function() {
-        // mySocket.emit('authorizeLoggedIn', emitObject);
+    const myToken =  LocalStorage.getToken();
+    console.log("My token", myToken);
+    mySocket.emit('testConnection', {hello: "I'm connected!"});
+
     }
     vm.parentContinue = function() {
         Tasks.parentOrChild = 'parent';
         $state.go('oauth')
+
     }
 
     vm.childContinue = function() {
@@ -54,7 +59,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 return Tasks.postAuth(result.access_token);
             })
             .then((result) => {
-                const jwt = result.token;
+                const jwt = result.data.token;
                 LocalStorage.setToken(jwt);
                 $state.go('tab.dash');
             })
@@ -80,21 +85,24 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDashCtrl', function(Tasks, $state) {
 
     const vm = this;
+
     vm.$onInit = function() {
+        //TODO:  --> use token
+        vm.parentView = true;
+        // <--
         Tasks.getActiveTasks()
             .then((tasks) => {
-                console.log(tasks.data.length);
+                // console.log(tasks.data.length);
                 if (tasks.data.length === 0) {
                     vm.createTaskPrompt = true;
-                    console.log('no tasks');
+                    // console.log('no tasks');
                 } else {
                     vm.createTaskPrompt = false;
                     vm.tasks = tasks.data;
-                    console.log('user has tasks', tasks.data);
-                    console.log(vm.tasks);
+                    // console.log('user has tasks', tasks.data);
+                    // console.log(vm.tasks);
                 }
             })
-
     }
 
     vm.seeDetail = function(task) {
@@ -124,14 +132,17 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
+        // TODO: query db for task.description / categories
         vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
     }
+
 
     vm.tasks = Tasks.all();
 
     vm.remove = function(task) {
         Tasks.remove(task);
     };
+
 
     // vm.goToList = function() {
     //   console.log('clicked');
@@ -145,26 +156,49 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 
 
-.controller('TaskDetailCtrl', function() {
+.controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
     const vm = this;
 
     vm.$onInit = function() {
-            console.log("Made it to task detail!");
+            //TODO:  --> use token
+            vm.parentView = true;
+            // vm.childView = false;
+            //TODO: query db for this task in a service
         }
         // vm.task = Tasks.get($stateParams.taskId);
         // console.log(vm.task);
+
+    vm.taskAccepted = function(answer){
+      const myToken = LocalStorage.getToken();
+      const updateObject = {
+        token: myToken,
+        task: (vm.task || "Placeholder"),
+        accepted: answer
+      }
+      mySocket.emit('updateTaskApproval', updateObject);
+    }
+
 })
 
 // account tab
-.controller('AccountCtrl', function() {
+.controller('AccountCtrl', function(Tasks, LocalStorage, $state) {
     const vm = this;
-    vm.createTask = function() {
-        vm.createTaskPrompt = false;
-        console.log(vm.createTaskPrompt);
+    vm.showUpdateEmail = false;
+
+    // TODO: update variables with token
+    // vm.parentView = true;
+    vm.childView = true;
+
+    vm.logOut = function() {
+      LocalStorage.removeToken();
+      $state.go('landing');
     }
 
-    vm.addTask = function(Tasks) {
-        console.log('add task');
+    vm.updateEmail = function() {
+        console.log('submit update email ');
+    }
 
+    vm.toggleUpdateEmail = function() {
+        vm.showUpdateEmail = !vm.showUpdateEmail;
     }
 })

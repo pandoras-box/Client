@@ -70,10 +70,12 @@
             });
 
 
-            // this.getSingleTask = function(batchEventId) {
-            //   console.log(batchEventId);
-            //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
-            // }
+
+        // this.getSingleTask = function(batchEventId) {
+        //   console.log(batchEventId);
+        //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
+        // }
+
 
         }
     }
@@ -87,6 +89,10 @@
 
         this.getToken = function() {
             return localStorageService.get(token);
+        }
+
+        this.removeToken = function(){
+          localStorageService.remove(token);
         }
 
 
