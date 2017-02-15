@@ -87,6 +87,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   vm.$onInit = function() {
     //TODO:  --> use token
     vm.parentView = true;
+    // vm.childView = true;
     // <--
     Tasks.getActiveTasks()
     .then((tasks)=>{
@@ -176,17 +177,18 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
       vm.showUpdateEmail = false;
 
       // TODO: update variables with token
-      // vm.parentView = true;
-      vm.childView = true;
-  
+      vm.parentView = true;
+      // vm.childView = true;
+      vm.childEmail = false;
 
 
         vm.updateEmail = function () {
+          vm.childEmail = true;
           console.log('submit update email ');
+
         }
 
         vm.toggleUpdateEmail = function() {
           vm.showUpdateEmail = !vm.showUpdateEmail;
         }
     })
-
