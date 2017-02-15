@@ -42,14 +42,15 @@
             </div>
 
             <div class="col col-5">
-              <i class="padding-right icon ion-checkmark check-icon" ng-if="task.approved === true"></i>
-              <i class="padding-right icon ion-alert pending-icon" ng-if="task.approved === false"></i>
+              <i class="padding-right icon ion-checkmark check-icon" ng-if="task.approved === 'complete'"></i>
+              <i class="padding-right icon ion-alert pending-icon" ng-if="task.approved === 'unstarted'"></i>
             </div>
 
             <div class="col col-5">
               <i class="icon ion-chevron-right icon-accessory"></i>
             </div>
           </div>
+
       </ion-item>
     </ion-list>
                                           <!-- TODO: update parentView with user token info -->

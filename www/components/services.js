@@ -2,6 +2,7 @@
     'use strict';
     // const SERVER_URL = `http://localhost:5000`;
     const SERVER_URL = `http://192.168.0.5:5000`;
+
     angular.module('pandoras-box.controllers')
         .service('Tasks', tasks)
         .service('LocalStorage', localStorage)
@@ -10,6 +11,9 @@
     function tasks($http) {
         // Might use a resource here that returns a JSON array
         // Some fake testing data
+
+        var parentOrChild;
+
         var tasks = [{
             id: 0,
             name: 'Ben Sparrow',
@@ -37,6 +41,8 @@
             face: 'img/mike.png'
         }];
 
+
+
         this.all = function() {
             return tasks;
         }
@@ -59,7 +65,8 @@
         }
         this.postAuth = function(token) {
             return $http.post(`${SERVER_URL}/auth`, {
-                token: token
+                token: token,
+                parentOrChild: this.parentOrChild
             });
 
 
@@ -68,6 +75,7 @@
         //   console.log(batchEventId);
         //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
         // }
+
 
         }
     }

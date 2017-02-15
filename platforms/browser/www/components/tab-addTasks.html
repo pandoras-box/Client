@@ -5,30 +5,24 @@
       </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <form name="detailsForm" ng-submit="submitEventDetails()">
+    <form name="detailsForm" ng-submit="$ctrl.submitEventDetails()">
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">Event Category</div>
-          <select ng-model="$ctrl.eventCategory">
-          <!-- ng-repeat="category in $ctrl.categories" -->
-            <!-- <option value="">{{category}}</option> -->
-            <option value="" selected="true">Bedroom</option>
-            <option value="">Outside</option>
-            <option value="">Bathroom</option>
-            <option value="">kitchen</option>
+          <select ng-options="category as category for category in $ctrl.categories" ng-model="$ctrl.selected">
           </select>
         </label>
       </div>
 
       <div class="list">
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Don't forget...</span>
+        <label class="item item-input item-floating-label ">
+          <span class="input-label calm">Don't forget...</span>
           <input ng-model="$ctrl.eventDetails" type="text" placeholder="Add Details">
         </label>
       </div>
       <div class="row">
         <div class="col col-33 col-offset-33">
-          <button type="submit" class="button button-royal">Add Details</button>
+          <button type="submit" class="button button-positive">Add Details</button>
         </div>
       </div>
     </form>
