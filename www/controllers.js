@@ -40,7 +40,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 
     vm.$onInit = function() {
-      console.log(Tasks.parentOrChild);
     }
 
     vm.signInGitHub = function() {

@@ -11,7 +11,7 @@
     function tasks($http) {
         // Might use a resource here that returns a JSON array
         // Some fake testing data
-
+        var parentOrChild;
 
 
         var tasks = [{
@@ -65,14 +65,16 @@
         }
         this.postAuth = function(token) {
             return $http.post(`${SERVER_URL}/auth`, {
-                token: token
+                token: token,
+                parentOrChild: this.parentOrChild
             });
 
 
-            // this.getSingleTask = function(batchEventId) {
-            //   console.log(batchEventId);
-            //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
-            // }
+        // this.getSingleTask = function(batchEventId) {
+        //   console.log(batchEventId);
+        //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
+        // }
+
 
         }
     }
