@@ -1,13 +1,14 @@
 angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
 
-// .factory('mySocket', function (socketFactory) {
-//   var myIoSocket = io.connect('http://localhost:3000');
+
+// .factory('mySocket', function(socketFactory) {
+//     var myIoSocket = io.connect('http://localhost:3000');
 //
-//   mySocket = socketFactory({
-//     ioSocket: myIoSocket
-//   });
+//     mySocket = socketFactory({
+//         ioSocket: myIoSocket
+//     });
 //
-//   return mySocket;
+//     return mySocket;
 // })
 
 .controller('IndexCtrl', function(Tasks) {
@@ -21,6 +22,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     vm.$onInit = function() {
       // mySocket.emit('authorizeLoggedIn', emitObject);
+
     }
     vm.parentContinue = function() {
         Tasks.parentOrChild = 'parent';
@@ -38,6 +40,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     vm.$onInit = function() {
     }
+
 
     vm.signInGitHub = function() {
         $state.go('tab.dash')
@@ -59,6 +62,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         })
 
 
+
     }
     vm.signInInstagram = function() {
         $state.go('tab.dash')
@@ -75,26 +79,29 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .controller('TaskDashCtrl', function(Tasks, $state) {
 
-  const vm = this;
-  vm.$onInit = function() {
-    Tasks.getActiveTasks()
-    .then((tasks)=>{
-      console.log(tasks.data.length);
-      if (tasks.data.length === 0) {
-        vm.createTaskPrompt = true;
-        console.log('no tasks');
-      } else {
-        vm.createTaskPrompt = false;
-        vm.tasks = tasks.data;
-        console.log('user has tasks', tasks.data);
-        console.log(vm.tasks);
-      }
-    })
 
-  }
+    const vm = this;
+    vm.$onInit = function() {
+        Tasks.getActiveTasks()
+            .then((tasks) => {
+                console.log(tasks.data.length);
+                if (tasks.data.length === 0) {
+                    vm.createTaskPrompt = true;
+                    console.log('no tasks');
+                } else {
+                    vm.createTaskPrompt = false;
+                    vm.tasks = tasks.data;
+                    console.log('user has tasks', tasks.data);
+                    console.log(vm.tasks);
+                }
+            })
+
+    }
 
     vm.seeDetail = function(task) {
-        $state.go('tab.task-detail', {taskId: task.id})
+        $state.go('tab.task-detail', {
+            taskId: task.id
+        })
         console.log(task.id);
     }
 
@@ -132,7 +139,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   //   $state.go('tab.addTasks')
   // }
 
-
   vm.submitEventDetails = function() {
     vm.selected = vm.categories[0];
     $state.go('tab.dash');
@@ -149,16 +155,18 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   // console.log(vm.task);
 })
 
-    // account tab
-    .controller('AccountCtrl', function() {
-      const vm = this;
-        vm.createTask = function() {
-            vm.createTaskPrompt = false;
-            console.log(vm.createTaskPrompt);
-        }
 
-        vm.addTask = function(Tasks) {
-            console.log('add task');
 
-        }
-    })
+// account tab
+.controller('AccountCtrl', function() {
+    const vm = this;
+    vm.createTask = function() {
+        vm.createTaskPrompt = false;
+        console.log(vm.createTaskPrompt);
+    }
+
+    vm.addTask = function(Tasks) {
+        console.log('add task');
+
+    }
+})
