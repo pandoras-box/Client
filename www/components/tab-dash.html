@@ -29,8 +29,8 @@
           <!-- <img ng-src="{{task.icon}}"> -->
           <h2>{{task.description}}</h2>
           <!-- <p>{{task.details}}</p> -->
-          <i class="padding-right icon ion-checkmark" ng-if="task.approved === true"></i>
-          <i class="padding-right icon ion-alert" ng-if="task.approved === false"></i>
+          <i class="padding-right icon ion-checkmark" ng-if="task.status === 'complete'"></i>
+          <i class="padding-right icon ion-alert" ng-if="task.status === 'unstarted'"></i>
           <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>

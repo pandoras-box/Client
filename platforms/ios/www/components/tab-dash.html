@@ -26,10 +26,11 @@
         type="item-text-wrap"
         ui-sref="tab.task-detail({taskId: task.id})"
         >
-
-          <img ng-src="{{task.face}}">
-          <h2>{{task.name}}</h2>
-          <p>{{task.lastText}}</p>
+          <!-- <img ng-src="{{task.icon}}"> -->
+          <h2>{{task.description}}</h2>
+          <!-- <p>{{task.details}}</p> -->
+          <i class="padding-right icon ion-checkmark" ng-if="task.status === 'complete'"></i>
+          <i class="padding-right icon ion-alert" ng-if="task.status === 'unstarted'"></i>
           <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>

@@ -1,4 +1,14 @@
-angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
+angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
+
+// .factory('mySocket', function(socketFactory) {
+//     var myIoSocket = io.connect('http://localhost:3000');
+//
+//     mySocket = socketFactory({
+//         ioSocket: myIoSocket
+//     });
+//
+//     return mySocket;
+// })
 
 .controller('IndexCtrl', function(Tasks) {
     const vm = this;
@@ -7,10 +17,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
+// mySocket
 .controller('LandingCtrl', function($state, Tasks) {
     const vm = this;
     vm.$onInit = function() {
-
+        // mySocket.emit('authorizeLoggedIn', emitObject);
     }
     vm.parentContinue = function() {
         $state.go('oauth')
@@ -21,15 +32,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 })
 
-.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks) {
+.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage) {
     const vm = this;
 
-    // window.cordovaOauth = $cordovaOauth;
-    // window.http = $http;
-
-    vm.$onInit = function() {
-        console.log("Initiated!");
-    }
+    vm.$onInit = function() {}
 
     vm.signInGitHub = function() {
         $state.go('tab.dash')
@@ -37,23 +43,20 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
     }
 
     vm.signInFacebook = function() {
-        console.log("Signing in to Facebook!")
-        $cordovaOauth.facebook("1792310427755562", ["email","public_profile"], {redirect_uri: "http://localhost/callback"})
-        .then((result)=>{
-          return Tasks.postAuth(result.access_token);
-        })
-        .then((result) =>{
-          if(result){
-            $state.go('tab.dash');
-          }
-          else{
-            $state.go('landing');
-          }
-
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
+        $cordovaOauth.facebook("1792310427755562", ["email", "public_profile"], {
+                redirect_uri: "http://localhost/callback"
+            })
+            .then((result) => {
+                return Tasks.postAuth(result.access_token);
+            })
+            .then((result) => {
+                const jwt = result.jwt;
+                LocalStorage.setToken(jwt);
+                $state.go('tab.dash');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
 
     }
@@ -72,27 +75,28 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 
 .controller('TaskDashCtrl', function(Tasks, $state) {
 
-  const vm = this;
-  vm.$onInit = function() {
-    Tasks.getActiveTasks()
-    .then((tasks)=>{
-      console.log(tasks.data.length);
-      if (tasks.data.length === 0) {
-        vm.createTaskPrompt = true;
-        console.log('no tasks');
-      } else {
-        vm.createTaskPrompt = false;
-        vm.tasks = tasks.data;
-        console.log('user has tasks', tasks.data);
-      }
-    })
+    const vm = this;
+    vm.$onInit = function() {
+        Tasks.getActiveTasks()
+            .then((tasks) => {
+                console.log(tasks.data.length);
+                if (tasks.data.length === 0) {
+                    vm.createTaskPrompt = true;
+                    console.log('no tasks');
+                } else {
+                    vm.createTaskPrompt = false;
+                    vm.tasks = tasks.data;
+                    console.log('user has tasks', tasks.data);
+                    console.log(vm.tasks);
+                }
+            })
 
-  }
-
-
+    }
 
     vm.seeDetail = function(task) {
-        $state.go('tab.task-detail', {taskId: task.id})
+        $state.go('tab.task-detail', {
+            taskId: task.id
+        })
         console.log(task.id);
     }
 
@@ -112,67 +116,50 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth'])
 })
 
 // addtask tab
-.controller('AddTasksCtrl', function(Tasks) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  const vm = this;
-  vm.$onInit = function() {
+.controller('AddTasksCtrl', function(Tasks, $state) {
+    const vm = this;
 
-  }
-  vm.tasks = Tasks.all();
+    vm.$onInit = function() {
+        vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
+    }
 
-  vm.remove = function(task) {
-    Tasks.remove(task);
-  };
+    vm.tasks = Tasks.all();
 
-  // vm.goToList = function() {
-  //   console.log('clicked');
-  //   $state.go('tab.addTasks')
-  // }
-})
+    vm.remove = function(task) {
+        Tasks.remove(task);
+    };
 
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-  vm.task = Tasks.get($stateParams.taskId);
+    // vm.goToList = function() {
+    //   console.log('clicked');
+    //   $state.go('tab.addTasks')
+    // }
+    vm.submitEventDetails = function() {
+        vm.selected = vm.categories[0];
+        $state.go('tab.dash')
+    }
 })
 
 
+.controller('TaskDetailCtrl', function() {
+    const vm = this;
 
-.controller('TaskDetailCtrl', function($stateParams, Tasks) {
-        const vm = this;
-
-        vm.$onInit = function() {
-            console.log("Made it!");
+    vm.$onInit = function() {
+            console.log("Made it to task detail!");
         }
+        // vm.task = Tasks.get($stateParams.taskId);
+        // console.log(vm.task);
+})
 
-        vm.task = Tasks.get($stateParams.taskId);
+// account tab
+.controller('AccountCtrl', function() {
+    const vm = this;
+    vm.createTask = function() {
+        vm.createTaskPrompt = false;
+        console.log(vm.createTaskPrompt);
+    }
 
-    })
-    // account tab
-    .controller('AccountCtrl', function() {
+    vm.addTask = function(Tasks) {
+        console.log('add task');
 
-        vm.createTask = function() {
-            // vm.createTaskPrompt = false;
-            console.log(vm.createTaskPrompt);
-        }
-
-        vm.addTask = function(Tasks) {
-            console.log('add task');
-
-        }
-    })
-
-//     // account tab
-//     .controller('AccountCtrl', function() {
-//         const vm = this;
-//         vm.$onInit = function() {
-//             vm.showNav = true;
-//         }
-//         vm.settings = {
-//             enableFriends: true
-//         }
-//     })
+    }
+})
