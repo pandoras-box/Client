@@ -24,6 +24,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
     vm.parentContinue = function() {
         $state.go('oauth')
+
     }
 
     vm.childContinue = function() {
@@ -137,10 +138,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   }
 })
 
-.controller('TaskDetailCtrl', function() {
+.controller('TaskDetailCtrl', function(Tasks) {
   const vm = this;
 
   vm.$onInit = function() {
+//TODO:  --> use token
+      vm.parentView = false;
+      vm.childView = true;
+//TODO: query db for this task in a service
       console.log("Made it to task detail!");
   }
   // vm.task = Tasks.get($stateParams.taskId);

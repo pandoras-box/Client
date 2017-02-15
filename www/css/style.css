@@ -59,3 +59,16 @@ ion-item a.item-content {
 .categoryIcon {
   margin-left: -10vw;
 }
+
+#accept {
+  font-size: 15vh;
+}
+
+#reject {
+  color: #d70087;
+  font-size: 15vh;
+}
+
+#mark-done {
+  font-size: 15vh;
+}
