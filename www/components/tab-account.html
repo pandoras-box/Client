@@ -14,7 +14,7 @@
       </a>
       <a ng-if="$ctrl.childEmail === true" class="item item-icon-left" ><!-- TODO: update  -->
         <i class="icon ion-email positive" ></i>
-        <span class="positive">Child Email:</span> $ctrl.child.email
+        <span class="positive">Child Email:</span> {{$ctrl.child.email}}
       </a>
     </div>
     <div ng-if="$ctrl.parentView === true">
@@ -33,7 +33,7 @@
         class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label light">Email</span>
-            <input type="text" placeholder="Email">
+            <input type="text" ng-model="$ctrl.child.email" placeholder="Email">
           </label>
           <div class="padding text-center">
             <button type="submit" class="button button-calm text-center">Update Email</button>
