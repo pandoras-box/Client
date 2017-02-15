@@ -72,3 +72,7 @@ ion-item a.item-content {
 #mark-done {
   font-size: 15vh;
 }
+
+.emailLogo {
+  color: $positive;
+}

@@ -149,7 +149,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   vm.$onInit = function() {
 //TODO:  --> use token
       vm.parentView = true;
-      vm.childView = false;
+      // vm.childView = false;
 //TODO: query db for this task in a service
       console.log("Made it to task detail!");
   }
@@ -161,6 +161,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     .controller('AccountCtrl', function(Tasks) {
       const vm = this;
       vm.showUpdateEmail = false;
+
+      // TODO: update variables with token
+      // vm.parentView = true;
+      vm.childView = true;
 
         vm.createTask = function() {
             vm.createTaskPrompt = false;
