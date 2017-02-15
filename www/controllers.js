@@ -8,6 +8,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 //     });
 //
 //     return mySocket;
+
 // })
 
 .controller('IndexCtrl', function(Tasks) {
@@ -17,17 +18,19 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
-// mySocket
+//mySocket
 .controller('LandingCtrl', function($state, Tasks) {
     const vm = this;
     vm.$onInit = function() {
         // mySocket.emit('authorizeLoggedIn', emitObject);
     }
     vm.parentContinue = function() {
+        Tasks.parentOrChild = 'parent';
         $state.go('oauth')
     }
 
     vm.childContinue = function() {
+        Tasks.parentOrChild = 'child';
         $state.go('oauth')
     }
 })
@@ -35,7 +38,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage) {
     const vm = this;
 
-    vm.$onInit = function() {}
+
+    vm.$onInit = function() {
+      console.log(Tasks.parentOrChild);
+    }
 
     vm.signInGitHub = function() {
         $state.go('tab.dash')
@@ -138,6 +144,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         $state.go('tab.dash')
     }
 })
+
 
 
 .controller('TaskDetailCtrl', function() {
