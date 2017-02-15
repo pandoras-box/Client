@@ -6,50 +6,39 @@
 
   <ion-content>
     <!-- TODO: update parentView with token  -->
-    <div ng-if="$ctrl.parentView === true">
-      <div class="list">
-        <a class="item item-icon-left"><!-- TODO: update  -->
-         <i class="icon ion-email positive"></i>
+
+    <div class="list">
+      <a class="item item-icon-left"><!-- TODO: update  -->
+        <i class="icon ion-email positive"></i>
         <span class="positive">Parent Email:</span> $ctrl.parent.email
-       </a>
-       <a class="item item-icon-left" ng-if="$ctrl.childEmail === true"><!-- TODO: update  -->
+      </a>
+      <a ng-if="$ctrl.childEmail === true" class="item item-icon-left" ><!-- TODO: update  -->
         <i class="icon ion-email positive" ></i>
-        <span class="positive">Your Email:</span> $ctrl.child.email
-       </a>
-     </div>
-      <ion-list>
-        <ion-toggle id="toggleUpdateEmail" ng-model="$ctrl.showUpdateEmail">
-            Activate Email
+        <span class="positive">Child Email:</span> $ctrl.child.email
+      </a>
+    </div>
+    <div ng-if="$ctrl.parentView === true">
+      <ion-list ng-if="$ctrl.childEmail === false">
+        <ion-toggle
+          id="toggleUpdateEmail"
+
+          ng-model="$ctrl.showUpdateEmail">
+            Activate Child Email
         </ion-toggle>
       </ion-list>
 
-
-
       <form
+        ng-if="$ctrl.showUpdateEmail === true"
         ng-submit="$ctrl.updateEmail()"
-        class="list"
-        ng-if="$ctrl.showUpdateEmail === true ">
-        <label class="item item-input item-floating-label">
-          <span class="input-label light">Email</span>
-          <input type="text" placeholder="Email">
-        </label>
-        <div class="padding text-center">
-          <button type="submit" class="button button-calm text-center">Update Email</button>
-        </div>
+        class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label light">Email</span>
+            <input type="text" placeholder="Email">
+          </label>
+          <div class="padding text-center">
+            <button type="submit" class="button button-calm text-center">Update Email</button>
+          </div>
       </form>
-
-    </div>
-    <div ng-if="$ctrl.childView === true">
-      <div class="list">
-        <a class="item item-icon-left"><!-- TODO: update  -->
-         <i class="icon ion-email positive"></i>
-        <span class="positive">Parent Email:</span> $ctrl.parent.email
-       </a>
-       <a class="item item-icon-left"><!-- TODO: update  -->
-        <i class="icon ion-email positive"></i>
-        <span class="positive">Your Email:</span> $ctrl.child.email
-       </a>
-     </div>
     </div>
 
   </ion-content>

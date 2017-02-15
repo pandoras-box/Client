@@ -152,6 +152,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   }
 
   vm.submitEventDetails = function() {
+    // TODO: use service to post batch_event description and task category
     $state.go('tab.dash')
     console.log(vm.selected);
     return vm.selected;
@@ -175,16 +176,20 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   // account tab
   .controller('AccountCtrl', function(Tasks) {
     const vm = this;
-    vm.showUpdateEmail = false;
+    vm.$onInit = function() {
+      vm.showUpdateEmail = false;
 
-    // TODO: update variables with token
-    vm.parentView = true;
-    // vm.childView = true;
-    vm.childEmail = false;
-
+      // TODO: update variables with token
+      vm.parentView = true;
+      // vm.parentView = false;
+      // vm.childView = true;
+      // vm.childEmail = true;
+      vm.childEmail = false;
+    }
 
       vm.updateEmail = function () {
         vm.childEmail = true;
+        vm.showUpdateEmail = false;
         console.log('submit update email ');
 
       }

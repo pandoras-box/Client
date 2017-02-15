@@ -42,9 +42,9 @@
             return tasks;
         }
 
-        // this.remove = function(task) {
-            // tasks.splice(tasks.indexOf(task), 1);
-        // }
+        this.remove = function(task) {
+            tasks.splice(tasks.indexOf(task), 1);
+        }
 
         this.get = function(taskId) {
             for (var i = 0; i < tasks.length; i++) {
@@ -58,6 +58,7 @@
         this.getActiveTasks = function(userID) {
             return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
         }
+
         this.postAuth = function(token) {
             return $http.post(`${SERVER_URL}/auth`, {
                 token: token,
