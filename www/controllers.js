@@ -160,6 +160,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     // account tab
     .controller('AccountCtrl', function(Tasks) {
       const vm = this;
+      vm.showUpdateEmail = false;
+
         vm.createTask = function() {
             vm.createTaskPrompt = false;
             console.log(vm.createTaskPrompt);
@@ -168,5 +170,13 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         vm.addTask = function(Tasks) {
             console.log('add task');
 
+        }
+
+        vm.updateEmail = function () {
+          console.log('submit update email ');
+        }
+
+        vm.toggleUpdateEmail = function() {
+          vm.showUpdateEmail = !vm.showUpdateEmail;
         }
     })
