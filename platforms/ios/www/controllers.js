@@ -23,9 +23,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
     vm.$onInit = function() {
-    const myToken =  LocalStorage.getToken();
-    console.log("My token", myToken);
-    mySocket.emit('testConnection', {hello: "I'm connected!"});
+        const myToken = LocalStorage.getToken();
+        console.log("My token", myToken);
+        mySocket.emit('testConnection', {
+            hello: "I'm connected!"
+        });
 
     }
     vm.parentContinue = function() {
@@ -40,7 +42,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
-.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage) {
+.controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage, mySocket) {
     const vm = this;
 
 
@@ -82,27 +84,43 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 // dash tab
 
-.controller('TaskDashCtrl', function(Tasks, $state) {
+.controller('TaskDashCtrl', function(Tasks, $state, LocalStorage) {
 
     const vm = this;
 
     vm.$onInit = function() {
+
+        const myToken = LocalStorage.getToken();
+
         //TODO:  --> use token
         vm.parentView = true;
         // <--
-        Tasks.getActiveTasks()
-            .then((tasks) => {
-                // console.log(tasks.data.length);
-                if (tasks.data.length === 0) {
-                    vm.createTaskPrompt = true;
-                    // console.log('no tasks');
+        Tasks.getActiveTasks(myToken)
+            .then((result) => {
+                const authorized = result.data.authorized;
+                console.log(authorized);
+                if (authorized) {
+                  const user = result.data.user;
+                  console.log(user);
+                  console.log(user.tasks);
+                  const tasks = user.tasks;
+                    if (tasks.length === 0) {
+                        vm.createTaskPrompt = true;
+
+                        // console.log('no tasks');
+                    } else {
+                      console.log(tasks);
+                        vm.createTaskPrompt = false;
+                        vm.tasks = tasks;
+                        // console.log('user has tasks', tasks.data);
+                        // console.log(vm.tasks);
+                    }
                 } else {
-                    vm.createTaskPrompt = false;
-                    vm.tasks = tasks.data;
-                    // console.log('user has tasks', tasks.data);
-                    // console.log(vm.tasks);
+                  $state.go('landing');
                 }
+
             })
+
     }
 
     vm.seeDetail = function(task) {
@@ -122,35 +140,42 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // $state.go('tab.dash')
     }
 
-    vm.addTask = function() {
-        console.log('add task');
-    }
+    // vm.addTask = function() {
+    //     console.log('add task');
+    // }
 })
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks, $state) {
     const vm = this;
-
-    vm.$onInit = function() {
-        // TODO: query db for task.description / categories
-        vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
-    }
-
-
     vm.tasks = Tasks.all();
 
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
 
+    vm.$onInit = function() {
+        Tasks.getActiveTasks()
+            .then(function(tasks) {
+                vm.tasks = tasks.data;
+                vm.selected = vm.tasks[0];
+            })
+    }
+
+    // vm.remove = function(task) {
+    //     Tasks.remove(task);
+    // };
 
     // vm.goToList = function() {
     //   console.log('clicked');
     //   $state.go('tab.addTasks')
     // }
+    vm.getCategory = function() {
+        return vm.selected;
+    }
+
     vm.submitEventDetails = function() {
-        vm.selected = vm.categories[0];
+        // TODO: use service to post batch_event description and task category
         $state.go('tab.dash')
+        console.log(vm.selected);
+        return vm.selected;
     }
 })
 
@@ -168,34 +193,48 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // vm.task = Tasks.get($stateParams.taskId);
         // console.log(vm.task);
 
-    vm.taskAccepted = function(answer){
-      const myToken = LocalStorage.getToken();
-      const updateObject = {
-        token: myToken,
-        task: (vm.task || "Placeholder"),
-        accepted: answer
-      }
-      mySocket.emit('updateTaskApproval', updateObject);
+    vm.taskAccepted = function(answer) {
+        const myToken = LocalStorage.getToken();
+        const updateObject = {
+            token: myToken,
+            task: (vm.task || "Placeholder"),
+            accepted: answer
+        }
+        mySocket.emit('updateTaskApproval', updateObject);
     }
 
 })
 
+
+
 // account tab
-.controller('AccountCtrl', function(Tasks, LocalStorage, $state) {
+.controller('AccountCtrl', function(Tasks, mySocket) {
     const vm = this;
-    vm.showUpdateEmail = false;
+    vm.$onInit = function() {
+        vm.showUpdateEmail = false;
 
-    // TODO: update variables with token
-    // vm.parentView = true;
-    vm.childView = true;
-
-    vm.logOut = function() {
-      LocalStorage.removeToken();
-      $state.go('landing');
+        // TODO: update variables with token
+        vm.parentView = true;
+        // vm.parentView = false;
+        // vm.childView = true;
+        // vm.childEmail = true;
+        vm.childEmail = false;
     }
 
     vm.updateEmail = function() {
+        vm.childEmail = true;
+        vm.showUpdateEmail = false;
         console.log('submit update email ');
+        // send child email to server
+        // .then() => get back parent_child id
+        // this id will be used to create the socket room for the parent and child
+        const returnedID = 1;
+        mySocket.emit('create', returnedID);
+    }
+
+    vm.logOut = function() {
+        LocalStorage.removeToken();
+        $state.go('landing');
     }
 
     vm.toggleUpdateEmail = function() {
