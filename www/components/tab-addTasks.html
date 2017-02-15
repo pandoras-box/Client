@@ -4,12 +4,13 @@
       <ion-nav-back-button>
       </ion-nav-back-button>
   </ion-nav-bar>
+
   <ion-content>
     <form name="detailsForm" ng-submit="$ctrl.submitEventDetails()">
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">Event Category</div>
-          <select ng-options="category as category for category in $ctrl.categories" ng-model="$ctrl.selected">
+          <select ng-options="task as task.category for task in $ctrl.tasks" ng-model="$ctrl.selected">
           </select>
         </label>
       </div>
@@ -17,7 +18,7 @@
       <div class="list">
         <label class="item item-input item-floating-label ">
           <span class="input-label calm">Don't forget...</span>
-          <input ng-model="$ctrl.eventDetails" type="text" placeholder="Add Details">
+          <input ng-model="$ctrl.eventDetails" type="text" placeholder="Additional Details">
         </label>
       </div>
       <div class="row">

@@ -90,20 +90,18 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     // vm.childView = true;
     // <--
     Tasks.getActiveTasks()
-    .then((tasks)=>{
-      console.log(tasks.data.length);
-      if (tasks.data.length === 0) {
-        vm.createTaskPrompt = true;
-        console.log('no tasks');
-      } else {
-        vm.createTaskPrompt = false;
-        vm.tasks = tasks.data;
-        console.log('user has tasks', tasks.data);
-        console.log(vm.tasks);
-      }
-    })
-
-
+      .then((tasks)=>{
+        console.log(tasks.data.length);
+        if (tasks.data.length === 0) {
+          vm.createTaskPrompt = true;
+          console.log('no tasks');
+        } else {
+          vm.createTaskPrompt = false;
+          vm.tasks = tasks.data;
+          console.log('user has tasks', tasks.data);
+          console.log(vm.tasks);
+        }
+      })
     }
 
     vm.seeDetail = function(task) {
@@ -123,72 +121,70 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // $state.go('tab.dash')
     }
 
-    vm.addTask = function() {
-        console.log('add task');
-    }
+    // vm.addTask = function() {
+    //     console.log('add task');
+    // }
 })
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks, $state) {
-    const vm = this;
+  const vm = this;
+  vm.tasks = Tasks.all();
 
   vm.$onInit = function() {
-// TODO: query db for task.description / categories
-    vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
+    Tasks.getActiveTasks()
+      .then(function(tasks){
+        vm.tasks = tasks.data;
+        console.log(tasks);
+      })
   }
 
+  vm.remove = function(task) {
+      Tasks.remove(task);
+  };
 
-    vm.tasks = Tasks.all();
-
-    vm.remove = function(task) {
-        Tasks.remove(task);
-    };
-
-
-    // vm.goToList = function() {
-    //   console.log('clicked');
-    //   $state.go('tab.addTasks')
-    // }
-    vm.submitEventDetails = function() {
-        vm.selected = vm.categories[0];
-        $state.go('tab.dash')
-    }
+  // vm.goToList = function() {
+  //   console.log('clicked');
+  //   $state.go('tab.addTasks')
+  // }
+  vm.submitEventDetails = function() {
+      vm.selected = vm.tasks[0];
+      $state.go('tab.dash')
+  }
 })
-
-
 
 .controller('TaskDetailCtrl', function(Tasks) {
   const vm = this;
 
   vm.$onInit = function() {
-//TODO:  --> use token
-      vm.parentView = true;
+    //TODO:  --> use token
+    vm.parentView = true;
       // vm.childView = false;
-//TODO: query db for this task in a service
+      //TODO: query db for this task in a service
       console.log("Made it to task detail!");
   }
   // vm.task = Tasks.get($stateParams.taskId);
   // console.log(vm.task);
 })
 
-    // account tab
-    .controller('AccountCtrl', function(Tasks) {
-      const vm = this;
-      vm.showUpdateEmail = false;
+  // account tab
+  .controller('AccountCtrl', function(Tasks) {
+    const vm = this;
+    vm.showUpdateEmail = false;
 
-      // TODO: update variables with token
-      vm.parentView = true;
-      // vm.childView = true;
-      vm.childEmail = false;
+    // TODO: update variables with token
+    vm.parentView = true;
+    // vm.childView = true;
+    vm.childEmail = false;
 
 
-        vm.updateEmail = function () {
-          vm.childEmail = true;
-          console.log('submit update email ');
+      vm.updateEmail = function () {
+        vm.childEmail = true;
+        console.log('submit update email ');
 
-        }
+      }
 
-        vm.toggleUpdateEmail = function() {
-          vm.showUpdateEmail = !vm.showUpdateEmail;
-        }
-    })
+      vm.toggleUpdateEmail = function() {
+        vm.showUpdateEmail = !vm.showUpdateEmail;
+      }
+  })
