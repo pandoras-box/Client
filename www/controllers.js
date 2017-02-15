@@ -39,8 +39,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
 
-    vm.$onInit = function() {
-    }
+    vm.$onInit = function() {}
 
     vm.signInGitHub = function() {
         $state.go('tab.dash')
@@ -55,7 +54,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 return Tasks.postAuth(result.access_token);
             })
             .then((result) => {
-                const jwt = result.jwt;
+                const jwt = result.token;
                 LocalStorage.setToken(jwt);
                 $state.go('tab.dash');
             })
