@@ -75,7 +75,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDashCtrl', function(Tasks, $state) {
 
   const vm = this;
+
   vm.$onInit = function() {
+    //TODO:  --> use token
+    vm.parentView = true;
+    // <--
     Tasks.getActiveTasks()
     .then((tasks)=>{
       console.log(tasks.data.length);
@@ -117,6 +121,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
   const vm = this;
 
   vm.$onInit = function() {
+// TODO: query db for task.description / categories
     vm.categories = ['Bathroom', 'Bedroom', 'Kitchen', 'Outdoors'];
   }
 
@@ -143,8 +148,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
   vm.$onInit = function() {
 //TODO:  --> use token
-      vm.parentView = false;
-      vm.childView = true;
+      vm.parentView = true;
+      vm.childView = false;
 //TODO: query db for this task in a service
       console.log("Made it to task detail!");
   }
