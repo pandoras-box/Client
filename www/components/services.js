@@ -4,7 +4,7 @@
 
     const SERVER_URL = `http://10.6.65.77:5000`;
 
-//     const SERVER_URL = `http://10.6.66.4:5000`;
+    //     const SERVER_URL = `http://10.6.66.4:5000`;
 
 
     angular.module('pandoras-box.controllers')
@@ -59,8 +59,8 @@
             return null;
         }
 
-        this.getActiveTasks = function(userID) {
-            return $http.get(`${SERVER_URL}/active-batch/1`); //need to change hard coded 1
+        this.getActiveTasks = function(userToken) {
+            return $http.post(`${SERVER_URL}/active-batch/1`, {userToken}); //need to change hard coded 1
         }
 
         this.postAuth = function(token) {
@@ -88,8 +88,8 @@
             return localStorageService.get(token);
         }
 
-        this.removeToken = function(){
-          localStorageService.remove(token);
+        this.removeToken = function() {
+            localStorageService.remove(token);
         }
 
     }
