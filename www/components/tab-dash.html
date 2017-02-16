@@ -56,19 +56,22 @@
 
       </ion-item>
     </ion-list>
-                        <!-- TODO: update parentView with user token info -->
+
     <div class="row"
          ng-style="height: 100%, width:100%"
-         ng-if="$ctrl.createTaskPrompt === false && parentView === true">
+         ng-if="$ctrl.createTaskPrompt === false && $ctrl.parentView === true"
+         >
       <div class="col col-20 text-center" >
         <a class="padding button-positive"
            ng-click="$ctrl.addTask()"
+
            href="#/tab/addTasks">
           <ion-icon id="addTask" class="icon-left ion-plus-circled"></ion-icon>
         </a>
       </div>
       <div class="col col-20">
-        <button class="padding button button-balanced" ng-click="$ctrl.completeTaskList()">
+        <button class="padding button button-balanced"
+                ng-click="$ctrl.completeTaskList()">
           Tasks Complete
         </button>
       </div>

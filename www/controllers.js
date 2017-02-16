@@ -2,7 +2,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
-    var myIoSocket = io.connect('http://192.168.0.5:5000');
+    var myIoSocket = io.connect('http://10.6.66.4:5000');
 
     mySocket = socketFactory({
         ioSocket: myIoSocket
@@ -99,27 +99,28 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-        // TODO: fix task prompt
         vm.createTaskPrompt = true;
         const myToken = LocalStorage.getToken();
 
-        //TODO:  --> use token
-        vm.parentView = true;
-        // <--
         Tasks.getActiveTasks(myToken)
             .then((result) => {
                 const user = result.data;
+                console.log(user);
                 const authorized = user.authorized;
+
                 if (authorized) {
                     const tasks = user.tasks;
                     if (tasks.length === 0) {
                         vm.createTaskPrompt = true;
-
-                        // console.log('no tasks');
+                        console.log('no tasks');
+                        if(user.type = "parent"){
+                          vm.parentView = true;
+                        }
                     } else {
                         vm.createTaskPrompt = false;
+                        console.log(vm.createTaskPrompt);
                         vm.tasks = tasks;
-                        // console.log('user has tasks', tasks.data);
+                        console.log('user has tasks', tasks.data);
                         console.log(vm.tasks);
                     }
                 } else {
