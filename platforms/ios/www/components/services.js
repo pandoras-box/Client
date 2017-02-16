@@ -3,15 +3,11 @@
     // const SERVER_URL = `http://localhost:5000`;
 
 
-    // const SERVER_URL = `http://10.6.65.123:5000`;
 
+    // const SERVER_URL = `http://10.6.65.123:5000`;
         const SERVER_URL = `http://10.6.66.4:5000`;
     // const SERVER_URL = `http://192.168.0.5:5000`;
-
-
-    //     const SERVER_URL = `http://10.6.66.4:5000`;
-    // const SERVER_URL = `http://192.168.0.5:5000`;
-    const SERVER_URL = `http://10.6.65.77:5000`;
+    // const SERVER_URL = `http://10.6.65.77:5000`;
 
 
 
@@ -25,32 +21,8 @@
         // Might use a resource here that returns a JSON array
         // Some fake testing data
         var parentOrChild;
-        // var tasks = [{
-        //     id: 0,
-        //     name: 'Ben Sparrow',
-        //     lastText: 'You on your way?',
-        //     face: 'img/ben.png'
-        // }, {
-        //     id: 1,
-        //     name: 'Max Lynx',
-        //     lastText: 'Hey, it\'s me',
-        //     face: 'img/max.png'
-        // }, {
-        //     id: 2,
-        //     name: 'Adam Bradleyson',
-        //     lastText: 'I should buy a boat',
-        //     face: 'img/adam.jpg'
-        // }, {
-        //     id: 3,
-        //     name: 'Perry Governor',
-        //     lastText: 'Look at my mukluks!',
-        //     face: 'img/perry.png'
-        // }, {
-        //     id: 4,
-        //     name: 'Mike Harrington',
-        //     lastText: 'This is wicked good ice cream.',
-        //     face: 'img/mike.png'
-        // }];
+        this.specificTask = {};
+
 
         this.all = function() {
             return tasks;
@@ -76,9 +48,8 @@
         }
 
         this.getActiveTasks = function(userToken) {
-            return $http.post(`${SERVER_URL}/secure/active-batch/1`, {
-                userToken
-            });
+            return $http.post(`${SERVER_URL}/secure/active-batch`, {userToken});
+
         }
 
         this.postAuth = function(token) {
@@ -88,17 +59,21 @@
             });
         }
 
-
-        this.getEvents = function(userToken){
-          return $http.post(`${SERVER_URL}/secure/event`, {userToken});
+        this.getEvents = function(userToken) {
+            return $http.post(`${SERVER_URL}/secure/event`, {
+                userToken
+            });
         }
 
-        this.getAccountPageInfo = function(userToken){
-          return $http.post(`${SERVER_URL}/secure/account-page-info`, {userToken});
+        this.getAccountPageInfo = function(userToken) {
+            return $http.post(`${SERVER_URL}/secure/account-page-info`, {
+                userToken
+            });
         }
 
         this.getChildInfo = function(userToken){
           return $http.post(`${SERVER_URL}/secure/get-child-info`, {userToken});
+
         }
 
         this.pairParentChild = function(userToken, childEmail) {
@@ -115,14 +90,20 @@
         }
 
         this.postBatch = function(userToken, tempTasks) {
-
-          return $http.post(`${SERVER_URL}/secure/batch`, {userToken, tempTasks});
+            return $http.post(`${SERVER_URL}/secure/batch`, {
+                userToken,
+                tempTasks
+            });
         }
 
-       
-        this.getParentChildID = function(userToken){
-          return $http.post(`${SERVER_URL}/secure/get-parent-child-id`, {userToken});
-
+        // this.getSingleTask = function(batchEventId) {
+        //   console.log(batchEventId);
+        //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
+        // }
+        this.getParentChildID = function(userToken) {
+            return $http.post(`${SERVER_URL}/secure/get-parent-child-id`, {
+                userToken
+            });
         }
 
 

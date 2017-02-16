@@ -15,32 +15,43 @@
     <div class="list card">
       <div class="item item-avatar item-icon-left" ng-switch="$ctrl.task.description">
         <!-- TODO: add to h2 tag {{$ctrl.task.description}}  -->
-        <div class="padding"><i class="icon ion-ios-trash"></i><h2>Some Task description</h2></div>
-        <!-- <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2>Some Task description</h2></div> -->
-        <!-- <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
-        <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i></div>
-        <div ng-switch-default><i class="icon ion-ios-home"></i></div> -->
+        <div class="padding"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
+        <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
+        <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
+        <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2>{{$ctrl.task.category}}</h2></div>
+        <div ng-switch-default><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
       </div>
       <div class="item item-body">
-        <p>We are in the midst of a powerful deepening of growth that will give us
+        <!-- <p>We are in the midst of a powerful deepening of growth that will give us
           access to the totality itself. Humankind has nothing to lose. Reality has
           always been bursting with spiritual brothers and sisters whose essences
-          are enveloped in freedom.
-        </p>
-        <!-- TODO:  -->
-        <!-- change ng-if to match token  -->
+          are enveloped in freedom. -->
+        <!-- </p> -->
+        <p>{{$ctrl.task.description}}</p>
+
+
         <div class="text-center" ng-if="$ctrl.parentView === true">
           <a ng-click="$ctrl.taskAccepted(true)"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
           <a ng-click="$ctrl.taskAccepted(false)" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
         </div>
-        <!-- TODO:  --><!-- change ng-if to match token  -->
+
         <div class="row text-center" ng-if="$ctrl.childView === true">
           <div class="col col-40 col-offset-10">
             <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a>
           </div>
-          <div class="col col-40">
-            <i class="padding-right icon ion-checkmark check-icon" ng-if="task.approved === true"></i>
-            <i class="padding-right icon ion-alert pending-icon" ng-if="task.approved === false"></i>
+          <div class="padding col col-40">
+              <i class="padding icon ion-alert unstarted-icon"
+                 ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
+              <i class="padding icon ion-loop pending-icon calm"
+                 ng-if="$ctrl.task.status === 'pending'&& $ctrl.childView === true"></i>
+              <i class="padding icon ion-checkmark check-icon balanced"
+                 ng-if="$ctrl.task.status === 'complete'"></i>
+              <button class="padding button button-balanced"
+                      ng-if="$ctrl.childView === true"
+                      ng-click="$ctrl.completeTask()">
+                Mark Task Complete
+              </button>
+
           </div>
         </div>
       </div>

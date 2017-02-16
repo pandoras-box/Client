@@ -3,11 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
     // var myIoSocket = io.connect('http://10.6.65.123:5000');
-
-//     var myIoSocket = io.connect('http://10.6.66.4:5000');
-
-    //     var myIoSocket = io.connect('http://10.6.66.4:5000');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('http://10.6.66.4:5000');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -124,6 +121,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDashCtrl', function(Tasks, $state, LocalStorage) {
 
     const vm = this;
+    let user;
 
     vm.$onInit = function() {
         vm.createTaskPrompt = true;
@@ -131,7 +129,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
         Tasks.getActiveTasks(myToken)
             .then((result) => {
-                const user = result.data;
+                user = result.data;
                 console.log(user);
                 const authorized = user.authorized;
 
@@ -147,7 +145,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                         vm.createTaskPrompt = false;
                         console.log(vm.createTaskPrompt);
                         vm.tasks = tasks;
-                        console.log('user has tasks', tasks.data);
+                        console.log('user has tasks', tasks.data);//undefined
                         console.log(vm.tasks);
                     }
                 } else {
@@ -156,6 +154,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
             })
 
+    }
+
+    vm.goToDetail = function(task){
+      Tasks.specificTask.task = task;
+      Tasks.specificTask.user = user;
+      $state.go('tab.task-detail');
     }
 
     vm.seeDetail = function(task) {
@@ -195,9 +199,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.selected = vm.tasks[0];
             })
         Tasks.getEvents(myToken)
-
             .then((result) => {
-
                 console.log(result);
                 vm.events = result.data.events;
             })
@@ -218,25 +220,21 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitEventDetails = function() {
         let eventName = vm.events[vm.selected - 1].category;
         vm.tempTasks.push({
-
-          eventID: vm.selected,
-          description: vm.eventDetails,
-          eventName: eventName
-
+            eventID: vm.selected,
+            description: vm.eventDetails,
+            eventName: eventName
         });
         vm.selected = '';
         vm.eventDetails = '';
         vm.submitButton = true;
     }
 
-
-    vm.submitBatch = function(){
+    vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
-          .then((result)=>{
-            console.log(result);
-            $state.go('tab.dash')
-          })
-
+            .then((result) => {
+                console.log(result);
+                $state.go('tab.dash')
+            })
     }
 })
 
@@ -246,11 +244,19 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-            //TODO:  --> use token
+        console.log(Tasks.specificTask.user.type);
+        if(Tasks.specificTask.user.type === 'parent') {
             vm.parentView = true;
-            // vm.childView = false;
-            //TODO: query db for this task in a service
+            console.log('parent');
+        //     vm.childView = false;
+        } else {
+          console.log('child');
+        //     vm.parentView = false;
+        //     vm.childView = true;
         }
+        //TODO:  --> use token
+        //TODO: query db for this task in a service
+    }
         // vm.task = Tasks.get($stateParams.taskId);
         // console.log(vm.task);
 
