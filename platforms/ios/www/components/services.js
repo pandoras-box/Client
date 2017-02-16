@@ -60,6 +60,10 @@
             return null;
         }
 
+        this.validate = function(userToken) {
+          return $http.post(`${SERVER_URL}/secure/validate`, {userToken});
+        }
+
         this.getActiveTasks = function(userToken) {
             return $http.post(`${SERVER_URL}/secure/active-batch/1`, {userToken});
         }
@@ -77,6 +81,10 @@
 
         this.pairParentChild = function(userToken, childEmail){
           return $http.post(`${SERVER_URL}/secure/pair-parent-child`, {userToken, childEmail});
+        }
+
+        this.getUser = function(userToken) {
+          return $http.post(`${SERVER_URL}/secure/get-user`, {userToken});
         }
 
         // this.getSingleTask = function(batchEventId) {
