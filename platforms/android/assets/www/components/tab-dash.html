@@ -27,7 +27,7 @@
         class="customPadding item-remove-animate item-avatar item-icon-right"
         ng-repeat="task in $ctrl.tasks"
         type="item-text-wrap"
-        ui-sref="tab.task-detail({taskId: task.id})"
+        ng-click="$ctrl.goToDetail(task)"
         >
           <div class="row" ng-switch="task.category">
             <div class="col col-20 item item-icon-left categoryIcon">
