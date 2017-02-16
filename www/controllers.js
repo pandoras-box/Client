@@ -25,6 +25,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
+
+    mySocket.on('testMessage', function(data) {
+        console.log('Incoming message:', data);
+    });
+
+
     vm.$onInit = function() {
         const myToken = LocalStorage.getToken();
         Tasks.validate(myToken)
@@ -245,9 +251,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // console.log(vm.task);
 
     vm.taskAccepted = function(answer) {
-        const myToken = LocalStorage.getToken();
         const updateObject = {
-            token: myToken,
             task: (vm.task || "Placeholder"),
             accepted: answer
         }
