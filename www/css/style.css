@@ -97,3 +97,7 @@ ion-item a.item-content {
 #faceBookLogin {
   margin-top: 15vh;
 }
+
+.ion-content {
+  height: 100%;
+}
