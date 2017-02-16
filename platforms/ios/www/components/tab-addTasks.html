@@ -10,7 +10,9 @@
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">Event Category</div>
-          <select ng-options="task as task.category for task in $ctrl.tasks" ng-model="$ctrl.selected" ng-change="$ctrl.getCategory()">
+
+          <select ng-model="$ctrl.selected" ng-change="$ctrl.getCategory()">
+            <option ng-repeat="event in $ctrl.events" value="{{event.id}}">{{event.category}}</option>
           </select>
         </label>
       </div>
@@ -27,5 +29,20 @@
         </div>
       </div>
     </form>
+
+    <ion-card ng-repeat="tempTask in $ctrl.tempTasks">
+
+      <ion-card-header>
+        {{tempTask.eventName}}
+      </ion-card-header>
+      <!-- center header and make a divider between the two -->
+      <ion-card-content>
+        {{tempTask.description}}
+      </ion-card-content>
+
+    </ion-card>
+    <div ng-if="$ctrl.submitButton">
+      <button ng-click="$ctrl.submitBatch()" type="button" name="button">Submit</button>
+    </div>
   </ion-content>
 </ion-view>
