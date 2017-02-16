@@ -4,20 +4,23 @@
       <ion-nav-back-button>
       </ion-nav-back-button>
   </ion-nav-bar>
+
   <ion-content>
     <form name="detailsForm" ng-submit="$ctrl.submitEventDetails()">
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">Event Category</div>
-          <select ng-options="category as category for category in $ctrl.categories" ng-model="$ctrl.selected">
+
+          <select ng-model="$ctrl.selected" ng-change="$ctrl.getCategory()">
+            <option ng-repeat="event in $ctrl.events" value="{{event.id}}">{{event.category}}</option>
           </select>
         </label>
       </div>
 
       <div class="list">
         <label class="item item-input item-floating-label ">
-          <span class="input-label light">Don't forget...</span>
-          <input ng-model="$ctrl.eventDetails" type="text" placeholder="Add Details">
+          <span class="input-label calm">Don't forget...</span>
+          <input ng-model="$ctrl.eventDetails" type="text" placeholder="Additional Details">
         </label>
       </div>
       <div class="row">
@@ -26,5 +29,20 @@
         </div>
       </div>
     </form>
+
+    <ion-card ng-repeat="tempTask in $ctrl.tempTasks">
+
+      <ion-card-header>
+        {{tempTask.eventName}}
+      </ion-card-header>
+      <!-- center header and make a divider between the two -->
+      <ion-card-content>
+        {{tempTask.description}}
+      </ion-card-content>
+
+    </ion-card>
+    <div ng-if="$ctrl.submitButton">
+      <button ng-click="$ctrl.submitBatch()" type="button" name="button">Submit</button>
+    </div>
   </ion-content>
 </ion-view>
