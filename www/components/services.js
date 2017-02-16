@@ -68,7 +68,7 @@
         }
 
         this.getActiveTasks = function(userToken) {
-            return $http.post(`${SERVER_URL}/secure/active-batch/1`, {userToken});
+            return $http.post(`${SERVER_URL}/secure/active-batch`, {userToken});
         }
 
         this.postAuth = function(token) {
@@ -85,7 +85,7 @@
         this.getAccountPageInfo = function(userToken){
           return $http.post(`${SERVER_URL}/secure/account-page-info`, {userToken});
         }
-        
+
         this.getChildInfo = function(userToken){
           return $http.post(`${SERVER_URL}/secure/get-child-info`, {userToken});
         }
