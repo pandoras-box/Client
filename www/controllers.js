@@ -3,7 +3,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
     // var myIoSocket = io.connect('http://10.6.65.123:5000');
-    var myIoSocket = io.connect('http://10.6.66.4:5000');
+    // var myIoSocket = io.connect('http://10.6.66.4:5000');
+    var myIoSocket = io.connect('http://10.6.65.77:5000');
+
+
+
 
     mySocket = socketFactory({
         ioSocket: myIoSocket
@@ -133,8 +137,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                     if (tasks.length === 0) {
                         vm.createTaskPrompt = true;
                         console.log('no tasks');
-                        if(user.type = "parent"){
-                          vm.parentView = true;
+                        if (user.type = "parent") {
+                            vm.parentView = true;
                         }
                     } else {
                         vm.createTaskPrompt = false;
@@ -188,7 +192,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.selected = vm.tasks[0];
             })
         Tasks.getEvents(myToken)
-            .then((result)=>{
+            .then((result) => {
                 console.log(result);
                 vm.events = result.data.events;
             })
@@ -209,21 +213,21 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitEventDetails = function() {
         let eventName = vm.events[vm.selected - 1].category;
         vm.tempTasks.push({
-          eventID: vm.selected,
-          description: vm.eventDetails,
-          eventName: eventName
+            eventID: vm.selected,
+            description: vm.eventDetails,
+            eventName: eventName
         });
         vm.selected = '';
         vm.eventDetails = '';
         vm.submitButton = true;
     }
 
-    vm.submitBatch = function(){
+    vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
-          .then((result)=>{
-            console.log(result);
-            $state.go('tab.dash')
-          })
+            .then((result) => {
+                console.log(result);
+                $state.go('tab.dash')
+            })
     }
 })
 

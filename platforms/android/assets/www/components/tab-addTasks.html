@@ -13,7 +13,6 @@
 
           <select ng-model="$ctrl.selected" ng-change="$ctrl.getCategory()">
             <option ng-repeat="event in $ctrl.events" value="{{event.id}}">{{event.category}}</option>
-
           </select>
         </label>
       </div>
