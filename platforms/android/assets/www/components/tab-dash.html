@@ -27,7 +27,7 @@
         type="item-text-wrap"
         ui-sref="tab.task-detail({taskId: task.id})"
         >
-          <div class="row" ng-switch="task.description">
+          <div class="row" ng-switch="task.category">
             <div class="col col-20 item item-icon-left categoryIcon">
               <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
               <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
@@ -36,14 +36,15 @@
             </div>
 
             <div class="col col-70">
-              <h2>{{task.description}}</h2>
+              <h2>{{task.category}}</h2>
               <!-- <p>{{task.details}}</p> -->
               <p>We are in the midst of a powerful deepening of growth that will give us access to the totality itself. Humankind has nothing to lose. Reality has always been bursting with spiritual brothers and sisters whose essences are enveloped in freedom.</p>
             </div>
 
             <div class="col col-5">
-              <i class="padding-right icon ion-checkmark check-icon" ng-if="task.approved === 'complete'"></i>
-              <i class="padding-right icon ion-alert pending-icon" ng-if="task.approved === 'unstarted'"></i>
+              <i class="padding-right icon ion-alert unstarted-icon" ng-if="task.status === 'unstarted'"></i>
+              <i class="padding-right icon ion-loop pending-icon calm" ng-if="task.status === 'pending'"></i>
+              <i class="padding-right icon ion-checkmark check-icon balanced" ng-if="task.status === 'complete'"></i>
             </div>
 
             <div class="col col-5">
@@ -53,7 +54,7 @@
 
       </ion-item>
     </ion-list>
-                                          <!-- TODO: update parentView with user token info -->
+                        <!-- TODO: update parentView with user token info -->
     <div class="row" ng-if="$ctrl.createTaskPrompt === false && parentView === true">
       <div class="col col-30 text-center">
         <a class="padding button-positive"
