@@ -79,3 +79,11 @@ ion-item a.item-content {
 .emailLogo {
   color: $positive;
 }
+
+.logOut {
+  margin-top: 100%;
+}
+
+.error {
+    color: red !important;
+}

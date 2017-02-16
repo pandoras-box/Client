@@ -2,9 +2,10 @@
     'use strict';
     // const SERVER_URL = `http://localhost:5000`;
 
-    const SERVER_URL = `http://10.6.65.77:5000`;
 
+    const SERVER_URL = `http://10.6.65.77:5000`;
     //     const SERVER_URL = `http://10.6.66.4:5000`;
+
 
 
     angular.module('pandoras-box.controllers')
@@ -60,7 +61,7 @@
         }
 
         this.getActiveTasks = function(userToken) {
-            return $http.post(`${SERVER_URL}/active-batch/1`, {userToken}); //need to change hard coded 1
+            return $http.post(`${SERVER_URL}/secure/active-batch/1`, {userToken});
         }
 
         this.postAuth = function(token) {
@@ -68,6 +69,14 @@
                 token: token,
                 parentOrChild: this.parentOrChild
             });
+        }
+
+        this.getAccountPageInfo = function(userToken){
+          return $http.post(`${SERVER_URL}/secure/account-page-info`, {userToken});
+        }
+
+        this.pairParentChild = function(userToken, childEmail){
+          return $http.post(`${SERVER_URL}/secure/pair-parent-child`, {userToken, childEmail});
         }
 
         // this.getSingleTask = function(batchEventId) {

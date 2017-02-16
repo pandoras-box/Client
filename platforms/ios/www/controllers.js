@@ -63,7 +63,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             .then((result) => {
                 const jwt = result.data.token;
                 LocalStorage.setToken(jwt);
-                $state.go('tab.dash');
+                $state.go('tab.account');
             })
             .catch((error) => {
                 console.log(error);
@@ -97,26 +97,22 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // <--
         Tasks.getActiveTasks(myToken)
             .then((result) => {
-                const authorized = result.data.authorized;
-                console.log(authorized);
+                const user = result.data;
+                const authorized = user.authorized;
                 if (authorized) {
-                  const user = result.data.user;
-                  console.log(user);
-                  console.log(user.tasks);
-                  const tasks = user.tasks;
+                    const tasks = user.tasks;
                     if (tasks.length === 0) {
                         vm.createTaskPrompt = true;
 
                         // console.log('no tasks');
                     } else {
-                      console.log(tasks);
                         vm.createTaskPrompt = false;
                         vm.tasks = tasks;
                         // console.log('user has tasks', tasks.data);
                         // console.log(vm.tasks);
                     }
                 } else {
-                  $state.go('landing');
+                    $state.go('landing');
                 }
 
             })
@@ -208,33 +204,55 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 
 // account tab
-.controller('AccountCtrl', function(Tasks, mySocket) {
+.controller('AccountCtrl', function(Tasks, mySocket, LocalStorage, $state) {
     const vm = this;
+    const myToken = LocalStorage.getToken();
     vm.$onInit = function() {
-        vm.showUpdateEmail = false;
+        vm.child = {};
+        Tasks.getAccountPageInfo(myToken)
+            .then((result) => {
+                const user = result.data;
+                if (user.authorized) {
+                    if (user.is_paired) {
 
-        // TODO: update variables with token
-        vm.parentView = true;
-        // vm.parentView = false;
-        // vm.childView = true;
-        // vm.childEmail = true;
-        vm.childEmail = false;
+                    } else {
+                        if (user.type === "parent") {
+                            vm.parent = user;
+                            vm.parentView = true;
+                            vm.childEmail = false;
+                            vm.showUpdateEmail = false;
+                        } else if (user.type === "child") {
+                            vm.parentView = false;
+                            vm.childEmail = true;
+                        }
+                    }
+                } else {
+                    $state.go('landing');
+                }
+
+            })
+
     }
 
     vm.updateEmail = function() {
         vm.childEmail = true;
         vm.showUpdateEmail = false;
-        console.log('submit update email ');
-        // send child email to server
-        // .then() => get back parent_child id
-        // this id will be used to create the socket room for the parent and child
-        const returnedID = 1;
-        mySocket.emit('create', returnedID);
+        const childEmail = vm.child.email;
+
+        Tasks.pairParentChild(myToken, childEmail)
+            .then((parentWithAllInfo) => {
+              const parentChildID = parentWithAllInfo.parentChildID;
+              mySocket.emit('create', parentChildID);
+
+              $state.go('tab.dash');
+            })
     }
+
 
     vm.logOut = function() {
         LocalStorage.removeToken();
         $state.go('landing');
+
     }
 
     vm.toggleUpdateEmail = function() {
