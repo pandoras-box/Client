@@ -46,13 +46,16 @@ ion-item a.item-content {
   padding-left: 0vw;
 }
 
-.pending-icon {
+.unstarted-icon {
   color: #d70087;
   margin-right: 2vw;
 }
 
+.pending-icon {
+  margin-right: 2vw;
+}
+
 .check-icon {
-  color: $balanced;
   margin-right: 2vw;
 }
 
@@ -75,4 +78,12 @@ ion-item a.item-content {
 
 .emailLogo {
   color: $positive;
+}
+
+.logOut {
+  margin-top: 100%;
+}
+
+.error {
+    color: red !important;
 }

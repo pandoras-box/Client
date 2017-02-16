@@ -2,7 +2,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('http://192.168.0.5:5000');
 
     mySocket = socketFactory({
         ioSocket: myIoSocket
@@ -61,13 +61,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('OauthCtrl', function($state, $cordovaOauth, $http, Tasks, LocalStorage, mySocket) {
     const vm = this;
 
-
     vm.$onInit = function() {}
 
-    vm.signInGitHub = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to github!")
-    }
 
     vm.signInFacebook = function() {
         $cordovaOauth.facebook("1792310427755562", ["email", "public_profile"], {
@@ -95,15 +90,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 
     }
-    vm.signInInstagram = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to Instagram!")
-    }
-
-    vm.signInLinkedIn = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to LinkedIn!")
-    }
 })
 
 // dash tab
@@ -113,7 +99,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-
+        // TODO: fix task prompt
+        vm.createTaskPrompt = true;
         const myToken = LocalStorage.getToken();
 
         //TODO:  --> use token
@@ -133,7 +120,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                         vm.createTaskPrompt = false;
                         vm.tasks = tasks;
                         // console.log('user has tasks', tasks.data);
-                        // console.log(vm.tasks);
+                        console.log(vm.tasks);
                     }
                 } else {
                     $state.go('landing');
@@ -160,16 +147,15 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // $state.go('tab.dash')
     }
 
-    // vm.addTask = function() {
-    //     console.log('add task');
-    // }
+    vm.addTask = function() {
+        console.log('add task');
+    }
 })
 
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks, $state) {
     const vm = this;
     vm.tasks = Tasks.all();
-
 
     vm.$onInit = function() {
         Tasks.getActiveTasks()

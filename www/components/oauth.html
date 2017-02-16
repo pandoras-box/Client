@@ -1,23 +1,14 @@
 <ion-view class="gradient-background1" view-title="REAL Landing" ng-controller="OauthCtrl as $ctrl">
   <ion-content>
     <div class="big-padding padding">
-      <button class="button button-block button-positive" ng-click="$ctrl.signInFacebook()">
-        <ion-icon class="icon-left ion-social-facebook"></ion-icon>
-        Sign-In With Facebook
-      </button>
-      <button class="button button-block button-positive" ng-click="$ctrl.signInInstagram()">
-        <ion-icon class="icon-left ion-social-instagram"></ion-icon>
-        Sign-In With Instagram
-      </button>
-      <button class="button button-block button-positive" ng-click="$ctrl.signInLinkedIn()">
-        <ion-icon class="icon-left ion-social-linkedin"></ion-icon>
-
-        Sign-In With LinkedIn
-      </button>
-      <button class="button button-block button-positive" ng-click="$ctrl.signInGitHub()">
-        <ion-icon class="icon-left ion-social-github"></ion-icon>
-        Sign-In With github
-      </button>
+      <i id="iconCombo" class="padding ion-lock-combination">
+      </i>
+      <div class="padding">
+        <button id="faceBookLogin"class="padding button button-block button-positive" ng-click="$ctrl.signInFacebook()">
+          <ion-icon class="padding-right icon-left ion-social-facebook"></ion-icon>
+          Sign-In With Facebook
+        </button>
+      </div>
     </div>
   </ion-content>
 </ion-view>
