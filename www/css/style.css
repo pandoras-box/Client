@@ -83,3 +83,7 @@ ion-item a.item-content {
 .logOut {
   margin-top: 100%;
 }
+
+.error {
+    color: red !important;
+}
