@@ -3,7 +3,9 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
-    var myIoSocket = io.connect('http://192.168.0.5:5000');
+    var myIoSocket = io.connect('http://10.6.65.123:5000');
+//     var myIoSocket = io.connect('http://192.168.0.5:5000');
+
 
     mySocket = socketFactory({
         ioSocket: myIoSocket
@@ -24,6 +26,19 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     vm.$onInit = function() {
         const myToken = LocalStorage.getToken();
+        Tasks.validate(myToken)
+            .then((response) => {
+                const user = response.data;
+                if (user.authorized) {
+                    if (user.is_paired) {
+                        $state.go('tab.dash');
+                    } else {
+                        $state.go('tab.account');
+                    }
+                }
+            })
+
+
         console.log("My token", myToken);
         mySocket.emit('testConnection', {
             hello: "I'm connected!"
@@ -63,7 +78,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             .then((result) => {
                 const jwt = result.data.token;
                 LocalStorage.setToken(jwt);
+                return Tasks.getUser(jwt);
+            })
+            .then((result) => {
+              const user = result.data;
+              if(user.is_paired){
+                $state.go('tab.dash');
+              } else{
                 $state.go('tab.account');
+              }
+
             })
             .catch((error) => {
                 console.log(error);
@@ -142,9 +166,13 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 })
 
 // addtask tab
-.controller('AddTasksCtrl', function(Tasks, $state) {
+.controller('AddTasksCtrl', function(Tasks, $state, LocalStorage) {
     const vm = this;
+    const myToken = LocalStorage.getToken();
     vm.tasks = Tasks.all();
+    vm.tempTasks = [];
+    vm.submitButton = false;
+
 
 
     vm.$onInit = function() {
@@ -153,6 +181,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.tasks = tasks.data;
                 vm.selected = vm.tasks[0];
             })
+        Tasks.getEvents(myToken)
+            .then((result)=>{
+                console.log(result);
+                vm.events = result.data.events;
+            })
+
     }
 
     // vm.remove = function(task) {
@@ -168,10 +202,24 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 
     vm.submitEventDetails = function() {
-        // TODO: use service to post batch_event description and task category
-        $state.go('tab.dash')
-        console.log(vm.selected);
-        return vm.selected;
+        let eventName = vm.events[vm.selected - 1].category;
+        vm.tempTasks.push({
+          eventID: vm.selected,
+          description: vm.eventDetails,
+          eventName: eventName
+        });
+        vm.selected = '';
+        vm.eventDetails = '';
+        vm.submitButton = true;
+    }
+
+    vm.submitBatch = function(){
+        Tasks.postBatch(myToken, vm.tempTasks)
+          .then((result)=>{
+            console.log(result);
+            $state.go('tab.dash')
+          })
+
     }
 })
 
@@ -208,12 +256,22 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     const myToken = LocalStorage.getToken();
     vm.$onInit = function() {
+        console.log("in the account page")
+
         vm.child = {};
         Tasks.getAccountPageInfo(myToken)
             .then((result) => {
                 const user = result.data;
+                console.log(user);
                 if (user.authorized) {
                     if (user.is_paired) {
+                        if (user.type === "parent") {
+                            vm.parent = user;
+                            vm.child.email = user.childEmail;
+                            vm.parentView = false;
+                            vm.childEmail = true;
+                        }
+
 
                     } else {
                         if (user.type === "parent") {
@@ -241,6 +299,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
         Tasks.pairParentChild(myToken, childEmail)
             .then((parentWithAllInfo) => {
+
               const parentChildID = parentWithAllInfo.parentChildID;
               mySocket.emit('create', parentChildID);
 
