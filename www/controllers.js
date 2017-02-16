@@ -2,9 +2,9 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
-    // var myIoSocket = io.connect('http://10.6.65.123:5000');
+    var myIoSocket = io.connect('http://10.6.65.123:5000');
     // var myIoSocket = io.connect('http://10.6.66.4:5000');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -121,6 +121,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDashCtrl', function(Tasks, $state, LocalStorage) {
 
     const vm = this;
+    let user;
 
     vm.$onInit = function() {
         vm.createTaskPrompt = true;
@@ -128,7 +129,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
         Tasks.getActiveTasks(myToken)
             .then((result) => {
-                const user = result.data;
+                user = result.data;
                 console.log(user);
                 const authorized = user.authorized;
 
@@ -153,6 +154,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
             })
 
+    }
+
+    vm.goToDetail = function(task){
+      Tasks.specificTask.task = task;
+      Tasks.specificTask.user = user;
+      $state.go('tab.task-detail');
     }
 
     vm.seeDetail = function(task) {
@@ -237,6 +244,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
+            console.log(Tasks.specificTask);
             //TODO:  --> use token
             vm.parentView = true;
             // vm.childView = false;
