@@ -31,11 +31,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                         Tasks.getParentChildID(myToken)
                             .then((result) => {
                                 const parentChildID = result.data.id.id;
-                                    const connectionObject = {
-                                        user: user,
-                                        roomID: parentChildID
-                                    }
-                                    mySocket.emit('room', connectionObject);
+                                const connectionObject = {
+                                    user: user,
+                                    roomID: parentChildID
+                                }
+                                mySocket.emit('room', connectionObject);
                                 $state.go('tab.dash');
                             })
                     } else {
@@ -64,12 +64,9 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     vm.$onInit = function() {}
 
-    vm.signInGitHub = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to github!")
-    }
 
     vm.signInFacebook = function() {
+        let myToken = null;
         $cordovaOauth.facebook("1792310427755562", ["email", "public_profile"], {
                 redirect_uri: "http://localhost/callback"
             })
@@ -77,16 +74,33 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 return Tasks.postAuth(result.access_token);
             })
             .then((result) => {
-                const jwt = result.data.token;
-                LocalStorage.setToken(jwt);
-                return Tasks.getUser(jwt);
+                myToken = result.data.token;
+                LocalStorage.setToken(myToken);
+                return Tasks.getUser(myToken);
             })
             .then((result) => {
                 const user = result.data;
-                if (user.is_paired) {
-                    $state.go('tab.dash');
+                if (user.authorized) {
+                    if (user.is_paired) {
+                        Tasks.getParentChildID(myToken)
+                            .then((result) => {
+                                const parentChildID = result.data.id.id;
+                                const connectionObject = {
+                                    user: user,
+                                    roomID: parentChildID
+                                }
+                                mySocket.emit('room', connectionObject);
+                                $state.go('tab.dash');
+                            })
+                    } else {
+                        if (user.type === 'parent') {
+                            $state.go('tab.account');
+                        } else if (user.type === 'child') {
+                            $state.go('landing');
+                        }
+                    }
                 } else {
-                    $state.go('tab.account');
+                    $state.go('landing');
                 }
             })
             .catch((error) => {
@@ -95,15 +109,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 
     }
-    vm.signInInstagram = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to Instagram!")
-    }
 
-    vm.signInLinkedIn = function() {
-        $state.go('tab.dash')
-        console.log("Signing in to LinkedIn!")
-    }
 })
 
 // dash tab
@@ -232,12 +238,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     const myToken = LocalStorage.getToken();
     vm.$onInit = function() {
-        console.log("in the account page")
         vm.child = {};
         Tasks.getChildInfo(myToken)
             .then((result) => {
                 const user = result.data;
-                console.log(user);
                 if (user.authorized) {
                     if (user.is_paired) {
                         if (user.type === "parent") {
@@ -272,10 +276,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         const childEmail = vm.child.email;
 
         Tasks.pairParentChild(myToken, childEmail)
-            .then((parentWithAllInfo) => {
+            .then((result) => {
+                const parentWithAllInfo = result.data;
                 const parentChildID = parentWithAllInfo.parentChildID;
-                mySocket.emit('createRoom', parentChildID);
-
+                const connectionObject = {
+                    user: parentWithAllInfo,
+                    roomID: parentChildID
+                }
+                mySocket.emit('room', connectionObject);
                 $state.go('tab.dash');
             })
     }
