@@ -4,6 +4,7 @@
 
 
     const SERVER_URL = `http://10.6.65.123:5000`;
+//     const SERVER_URL = `http://192.168.0.5:5000`;
     //     const SERVER_URL = `http://10.6.66.4:5000`;
 
 
@@ -93,6 +94,7 @@
 
         this.postBatch = function(userToken, tempTasks) {
           return $http.post(`${SERVER_URL}/secure/batch`, {userToken, tempTasks});
+
         }
 
         // this.getSingleTask = function(batchEventId) {

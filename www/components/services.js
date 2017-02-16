@@ -5,6 +5,9 @@
 
     const SERVER_URL = `http://10.6.65.123:5000`;
     //     const SERVER_URL = `http://10.6.66.4:5000`;
+    // const SERVER_URL = `http://192.168.0.5:5000`;
+//         const SERVER_URL = `http://10.6.66.4:5000`;
+
 
 
 
@@ -82,6 +85,10 @@
         this.getAccountPageInfo = function(userToken){
           return $http.post(`${SERVER_URL}/secure/account-page-info`, {userToken});
         }
+        
+        this.getChildInfo = function(userToken){
+          return $http.post(`${SERVER_URL}/secure/get-child-info`, {userToken});
+        }
 
         this.pairParentChild = function(userToken, childEmail){
           return $http.post(`${SERVER_URL}/secure/pair-parent-child`, {userToken, childEmail});
@@ -99,6 +106,10 @@
         //   console.log(batchEventId);
         //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
         // }
+        this.getParentChildID = function(userToken){
+          return $http.post(`${SERVER_URL}/secure/get-parent-child-id`, {userToken});
+        }
+
 
     }
 
@@ -118,5 +129,7 @@
         }
 
     }
+
+
 
 }());
