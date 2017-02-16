@@ -7,8 +7,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
-
-
     mySocket = socketFactory({
         ioSocket: myIoSocket
     });
@@ -26,6 +24,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
+
+
     vm.$onInit = function() {
         const myToken = LocalStorage.getToken();
         Tasks.validate(myToken)
@@ -40,7 +40,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                                     user: user,
                                     roomID: parentChildID
                                 }
-                                mySocket.emit('room', connectionObject);
+                                // mySocket.emit('room', connectionObject);
                                 $state.go('tab.dash');
                             })
                     } else {
@@ -93,7 +93,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                                     user: user,
                                     roomID: parentChildID
                                 }
-                                mySocket.emit('room', connectionObject);
+                                // mySocket.emit('room', connectionObject);
                                 $state.go('tab.dash');
                             })
                     } else {
@@ -118,10 +118,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 // dash tab
 
-.controller('TaskDashCtrl', function(Tasks, $state, LocalStorage) {
+.controller('TaskDashCtrl', function(Tasks, $state, LocalStorage, mySocket) {
 
     const vm = this;
     let user;
+
+    // mySocket.on('taskUpdate', function(data) {
+    //     console.log('Incoming message:', data);
+    // });
 
     vm.$onInit = function() {
         vm.createTaskPrompt = true;
@@ -181,6 +185,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     vm.addTask = function() {
         console.log('add task');
+    }
+
+    vm.unlockBox = function() {
+      console.log("Unlocking");
+      mySocket.emit('unlockBox');
     }
 })
 
@@ -243,6 +252,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
     const vm = this;
 
+    // mySocket.on('taskUpdate', function(data) {
+    //     console.log('Incoming message:', data);
+    // });
+
     vm.$onInit = function() {
             console.log(Tasks.specificTask);
             //TODO:  --> use token
@@ -254,13 +267,13 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // console.log(vm.task);
 
     vm.taskAccepted = function(answer) {
-        const myToken = LocalStorage.getToken();
         const updateObject = {
-            token: myToken,
             task: (vm.task || "Placeholder"),
             accepted: answer
         }
         mySocket.emit('updateTaskApproval', updateObject);
+        console.log("Unlocking");
+        mySocket.emit('unlockBox', null);
     }
 
 })
@@ -317,7 +330,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                     user: parentWithAllInfo,
                     roomID: parentChildID
                 }
-                mySocket.emit('room', connectionObject);
+                // mySocket.emit('room', connectionObject);
                 $state.go('tab.dash');
             })
     }

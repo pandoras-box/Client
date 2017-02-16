@@ -35,7 +35,7 @@
 
         <div class="row text-center" ng-if="$ctrl.childView === true">
           <div class="col col-40 col-offset-10">
-            <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a>
+            <a ng-click="$ctrl.markTaskComplete()" ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a>
           </div>
           <div class="padding col col-40">
               <i class="padding icon ion-alert unstarted-icon"
