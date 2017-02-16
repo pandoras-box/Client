@@ -5,19 +5,21 @@
       </ion-nav-back-button>
   </ion-nav-bar>
 
-  <ion-content>
-    <div class="big-padding padding text-center" ng-if="$ctrl.createTaskPrompt === true">
-      <h2 class="stable">You have no active tasks</h2>
-      <h4 class="stable">Click to create a task list</h4>
-      <a class="padding button-positive"
-         ng-click="$ctrl.createTask()"
-         href="#/tab/addTasks">
-        <ion-icon
-          id="iconPlus"
-          class="icon-left ion-plus-circled"
-          ng-click="$ctrl.addTask()">
-        </ion-icon>
-      </a>
+  <ion-content overflow-scroll=”true”>
+    <div
+      class="big-padding padding text-center"
+      ng-if="$ctrl.createTaskPrompt === true">
+        <h2 class="stable">You have no active tasks</h2>
+        <h4 class="stable">Click to create a task list</h4>
+        <a class="padding button-positive"
+           ng-click="$ctrl.createTask()"
+           href="#/tab/addTasks">
+          <ion-icon
+            id="iconPlus"
+            class="icon-left ion-plus-circled"
+            ng-click="$ctrl.addTask()">
+          </ion-icon>
+        </a>
     </div>
 
     <ion-list ng-if="$ctrl.createTaskPrompt === false">
@@ -37,7 +39,7 @@
 
             <div class="col col-70">
               <h2>{{task.category}}</h2>
-              <!-- <p>{{task.details}}</p> -->
+              <!-- <p>{{task.description}}</p> -->
               <p>We are in the midst of a powerful deepening of growth that will give us access to the totality itself. Humankind has nothing to lose. Reality has always been bursting with spiritual brothers and sisters whose essences are enveloped in freedom.</p>
             </div>
 
@@ -54,18 +56,25 @@
 
       </ion-item>
     </ion-list>
-                        <!-- TODO: update parentView with user token info -->
-    <div class="row" ng-if="$ctrl.createTaskPrompt === false && parentView === true">
-      <div class="col col-30 text-center">
-        <a class="padding button-positive"
+
+    <div class="row"
+         ng-if="$ctrl.createTaskPrompt === false && $ctrl.parentView === true"
+         >
+      <div class="col col-50 text-center" >
+        <!-- <a class="button-positive"
            ng-click="$ctrl.addTask()"
            href="#/tab/addTasks">
 
+        </a> -->
+        <button class="padding button button-balanced"
+            ui-sref="tab.addTasks"
+            ng-click="$ctrl.addTask()">
           <ion-icon id="addTask" class="icon-left ion-plus-circled"></ion-icon>
-        </a>
+        </button>
       </div>
-      <div class="col col-30">
-        <button class="padding button button-balanced" ng-click="$ctrl.completeTaskList()">
+      <div class="col col-50">
+        <button class="padding button button-balanced"
+                ng-click="$ctrl.completeTaskList()">
           Tasks Complete
         </button>
       </div>

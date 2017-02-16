@@ -70,9 +70,8 @@
         }
 
         this.getActiveTasks = function(userToken) {
-            return $http.post(`${SERVER_URL}/secure/active-batch/1`, {
-                userToken
-            });
+            return $http.post(`${SERVER_URL}/secure/active-batch`, {userToken});
+
         }
 
         this.postAuth = function(token) {
@@ -94,10 +93,9 @@
             });
         }
 
-        this.getChildInfo = function(userToken) {
-            return $http.post(`${SERVER_URL}/secure/get-child-info`, {
-                userToken
-            });
+        this.getChildInfo = function(userToken){
+          return $http.post(`${SERVER_URL}/secure/get-child-info`, {userToken});
+
         }
 
         this.pairParentChild = function(userToken, childEmail) {
