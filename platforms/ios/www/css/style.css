@@ -33,7 +33,7 @@
 }
 
 #addTask {
-  font-size: 10vh;
+  font-size: 15vh;
   color: #d70087;
 }
 
@@ -86,4 +86,18 @@ ion-item a.item-content {
 
 .error {
     color: red !important;
+}
+
+#iconCombo {
+  margin-left: 33vw;
+  font-size: 33vw;
+  color: #d70087;
+}
+
+#faceBookLogin {
+  margin-top: 15vh;
+}
+
+.ion-content {
+  height: 100%;
 }
