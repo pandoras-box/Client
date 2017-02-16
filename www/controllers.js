@@ -1,6 +1,5 @@
 angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io', 'LocalStorageModule'])
 
-
 .factory('mySocket', function(socketFactory) {
     const location = null;
     var myIoSocket = io.connect('http://10.6.65.77:5000');
@@ -29,7 +28,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 const user = response.data;
                 if (user.authorized) {
                     if (user.is_paired) {
-                        $state.go('tab.dash');
+                        Tasks.getParentChildID(myToken)
+                            .then((result) => {
+                                const parentChildID = result.data.id.id;
+                                    const connectionObject = {
+                                        user: user,
+                                        roomID: parentChildID
+                                    }
+                                    mySocket.emit('room', connectionObject);
+                                $state.go('tab.dash');
+                            })
                     } else {
                         $state.go('tab.account');
                     }
@@ -37,10 +45,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             })
 
         console.log("My token", myToken);
-        mySocket.emit('testConnection', {
-            hello: "I'm connected!"
-        });
-
     }
     vm.parentContinue = function() {
         Tasks.parentOrChild = 'parent';
@@ -78,12 +82,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 return Tasks.getUser(jwt);
             })
             .then((result) => {
-              const user = result.data;
-              if(user.is_paired){
-                $state.go('tab.dash');
-              } else{
-                $state.go('tab.account');
-              }
+                const user = result.data;
+                if (user.is_paired) {
+                    $state.go('tab.dash');
+                } else {
+                    $state.go('tab.account');
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -230,7 +234,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.$onInit = function() {
         console.log("in the account page")
         vm.child = {};
-        Tasks.getAccountPageInfo(myToken)
+        Tasks.getChildInfo(myToken)
             .then((result) => {
                 const user = result.data;
                 console.log(user);
@@ -270,7 +274,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         Tasks.pairParentChild(myToken, childEmail)
             .then((parentWithAllInfo) => {
                 const parentChildID = parentWithAllInfo.parentChildID;
-                mySocket.emit('create', parentChildID);
+                mySocket.emit('createRoom', parentChildID);
 
                 $state.go('tab.dash');
             })
