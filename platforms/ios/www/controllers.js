@@ -200,7 +200,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.$onInit = function() {
             console.log(Tasks.specificTask);
             if (Tasks.specificTask.user.type === 'parent') {
-                vm.parentView = false;
+                vm.parentView = true;
                 vm.childView = true;
                 vm.task = Tasks.specificTask.task;
                 console.log(vm.task);
@@ -216,20 +216,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         // vm.task = Tasks.get($stateParams.taskId);
         // console.log(vm.task);
 
-    vm.taskAccepted = function(answer) {
-        const myToken = LocalStorage.getToken();
-        const updateObject = {
-            token: myToken,
-            task: vm.task,
-            accepted: answer
-        }
-        mySocket.emit('updateTaskApproval', updateObject);
-    }
 
-    vm.markTaskComplete = function() {
+    vm.updateTaskStatus = function(newStatus) {
         const myToken = LocalStorage.getToken();
         let packageTask = vm.task;
-        packageTask.status = "pending";
+        packageTask.status = newStatus;
         Tasks.updateTaskStatus(myToken, packageTask)
             .then((result) => {
                 vm.task = result.data;
