@@ -303,12 +303,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                     if (user.is_paired) {
                         if (user.type === "parent") {
                             vm.parent = user;
-                            vm.child.email = user.childEmail;
+                            vm.child.email = user.linkEmail;
                             vm.parentView = false;
                             vm.childEmail = true;
                         } else {
                             vm.child = user;
-                            vm.parent.email = user.childEmail; //herehere
+                            vm.parent.email = user.linkEmail; //herehere
                             vm.parentView = false;
                             vm.childEmail = true;
                         }
