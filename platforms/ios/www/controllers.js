@@ -199,9 +199,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.tasks = [];
                 vm.readyForLock = false;
                 vm.createTaskPrompt = true;
-                console.log(closedTasks);
             })
-
     }
 
 })
