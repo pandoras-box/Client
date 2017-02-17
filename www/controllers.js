@@ -3,8 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
 
-    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    // var myIoSocket = io.connect('http://10.6.65.77:5000');
+    // var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -18,6 +18,23 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('IndexCtrl', function(Tasks) {
     const vm = this;
     vm.$onInit = function() {
+
+    }
+})
+
+.controller('TabsCtrl', function(Tasks, LocalStorage) {
+    const vm = this;
+    vm.$onInit = function() {
+        vm.parent = false;
+        const myToken = LocalStorage.getToken();
+        Tasks.getUser(myToken)
+            .then((result) => {
+                const user = result.data;
+                vm.authorized = user.authorized;
+                vm.type = user.type;
+
+            })
+
 
     }
 })
@@ -183,7 +200,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         const tasksToClose = vm.tasks;
         Tasks.closeBatch(myToken, tasksToClose)
             .then(() => {
-              vm.tasks = [];
+                vm.tasks = [];
             })
 
     }

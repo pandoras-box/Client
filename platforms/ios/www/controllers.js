@@ -22,6 +22,23 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
+.controller('TabsCtrl', function(Tasks, LocalStorage) {
+    const vm = this;
+    vm.$onInit = function() {
+        vm.parent = false;
+        const myToken = LocalStorage.getToken();
+        Tasks.getUser(myToken)
+            .then((result) => {
+                const user = result.data;
+                vm.authorized = user.authorized;
+                vm.type = user.type;
+
+            })
+
+
+    }
+})
+
 
 .controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
@@ -183,7 +200,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         const tasksToClose = vm.tasks;
         Tasks.closeBatch(myToken, tasksToClose)
             .then(() => {
-              vm.tasks = [];
+                vm.tasks = [];
             })
 
     }
