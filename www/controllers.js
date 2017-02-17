@@ -210,12 +210,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.parentView = false;
                 vm.childView = true;
             }
-            //TODO:  --> use token
-            //TODO: query db for this task in a service
         }
-        // vm.task = Tasks.get($stateParams.taskId);
-        // console.log(vm.task);
-
 
     vm.updateTaskStatus = function(newStatus) {
         const myToken = LocalStorage.getToken();
@@ -223,7 +218,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         packageTask.status = newStatus;
         Tasks.updateTaskStatus(myToken, packageTask)
             .then((result) => {
-                vm.task = result.data;
+                vm.task.status = result.data.status;
             })
     }
 })

@@ -3,8 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
 
-    // var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -201,7 +201,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             console.log(Tasks.specificTask);
             if (Tasks.specificTask.user.type === 'parent') {
                 vm.parentView = true;
-                vm.childView = true;
+                vm.childView = false;
                 vm.task = Tasks.specificTask.task;
                 console.log(vm.task);
                 console.log(vm.task.status);
@@ -210,12 +210,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.parentView = false;
                 vm.childView = true;
             }
-            //TODO:  --> use token
-            //TODO: query db for this task in a service
         }
-        // vm.task = Tasks.get($stateParams.taskId);
-        // console.log(vm.task);
-
 
     vm.updateTaskStatus = function(newStatus) {
         const myToken = LocalStorage.getToken();
@@ -223,7 +218,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         packageTask.status = newStatus;
         Tasks.updateTaskStatus(myToken, packageTask)
             .then((result) => {
-                vm.task = result.data;
+                vm.task.status = result.data.status;
             })
     }
 })
