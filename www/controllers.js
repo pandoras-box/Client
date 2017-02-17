@@ -266,6 +266,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         vm.selected = '';
         vm.eventDetails = '';
         vm.submitButton = true;
+        vm.detailsForm.$setPristine();
     }
 
     vm.submitBatch = function() {

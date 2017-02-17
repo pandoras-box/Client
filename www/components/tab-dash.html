@@ -29,15 +29,25 @@
             </a>
         </div>
 
-        <ion-list ng-if="$ctrl.createTaskPrompt === false && $ctrl.readyForLock === false">
-            <ion-item class="customPadding item-remove-animate item-avatar item-icon-right" ng-repeat="task in $ctrl.tasks" type="item-text-wrap" ng-click="$ctrl.goToDetail(task)">
-                <div class="row" ng-switch="task.category">
-                    <div class="col col-20 item item-icon-left categoryIcon">
-                        <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
-                        <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
-                        <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i></div>
-                        <div ng-switch-default><i class="icon ion-ios-home"></i></div>
-                    </div>
+        <ion-list ng-if="$ctrl.createTaskPrompt === false">
+      <ion-item
+        class="customPadding item-remove-animate item-avatar item-icon-right"
+        ng-repeat="task in $ctrl.tasks"
+        type="item-text-wrap"
+        ng-click="$ctrl.goToDetail(task)"
+        >
+          <div class="row" ng-switch="task.category">
+            <div class="col col-20 item item-icon-left categoryIcon">
+              <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
+              <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
+              <div ng-switch-when="Clean Bathroom"><i class="icon ion-nuclear"></i></div>
+              <div ng-switch-when="Mow The Lawn"><i class="icon ion-leaf"></i></div>
+              <div ng-switch-when="Do Laundry"><i class="icon ion-tshirt"></i></div>
+              <div ng-switch-when="Do Homework"><i class="icon ion-ios-book"></i></div>
+              <div ng-switch-when="Walk The Dog"><i class="icon ion-ios-paw"></i></div>
+              <div ng-switch-default><i class="icon ion-ios-home"></i></div>
+            </div>
+
 
                     <div class="col col-70">
                         <h2>{{task.category}}</h2>
