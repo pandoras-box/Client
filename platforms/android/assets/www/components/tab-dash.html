@@ -5,6 +5,10 @@
     </ion-nav-bar>
 
     <ion-content overflow-scroll=”true”>
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="$ctrl.doRefreshDash()">
+      </ion-refresher>
 
 
         <div class="big-padding padding text-center" ng-if="$ctrl.createTaskPrompt === true">

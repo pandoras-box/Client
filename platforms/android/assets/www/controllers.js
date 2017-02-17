@@ -192,6 +192,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
       console.log("Unlocking");
       mySocket.emit('unlockBox');
     }
+
+    vm.doRefreshDash = function(){
+      console.log('works');
+      $state.go('tab.dash');
+    }
 })
 
 .controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
@@ -282,7 +287,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
             .then((result) => {
-                console.log(result);
                 $state.go('tab.dash')
             })
     }
