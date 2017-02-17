@@ -33,25 +33,33 @@
 
 
         <div class="text-center" ng-if="$ctrl.parentView === true">
-          <a ng-click="$ctrl.taskAccepted(true)"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
-          <a ng-click="$ctrl.taskAccepted(false)" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
+          <a ng-click="$ctrl.updateTaskStatus('complete')"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
+          <a ng-click="$ctrl.updateTaskStatus('unstarted')" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
         </div>
 
         <div class="row text-center" ng-if="$ctrl.childView === true">
-          <div class="col col-50">
+          <div class="padding">
             <!-- <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a> -->
-            <i class="padding icon ion-alert unstarted-icon"
-               ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
-            <i class="padding icon ion-loop pending-icon calm"
-               ng-if="$ctrl.task.status === 'pending'&& $ctrl.childView === true"></i>
-            <i class="padding icon ion-checkmark check-icon balanced"
-               ng-if="$ctrl.task.status === 'complete'"></i>
+
+              <i class=" icon ion-alert statusIcons"
+                 ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
+            </div>
+
+              <i class=" icon ion-loop calm statusIcons"
+                 ng-if="$ctrl.task.status === 'pending' && $ctrl.childView === true"></i>
+
+
+              <i class="icon ion-checkmark balanced statusIcons"
+                 ng-if="$ctrl.task.status === 'complete'"></i>
+
+
 
           </div>
+
           <div class="padding col col-50">
               <button class="padding button button-balanced"
-                      ng-if="$ctrl.childView === true"
-                      ng-click="$ctrl.markTaskComplete()">
+                      ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
+                      ng-click="$ctrl.updateTaskStatus('pending')">
                 Mark Task Complete
               </button>
           </div>
