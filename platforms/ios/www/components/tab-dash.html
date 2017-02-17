@@ -6,6 +6,22 @@
 
     <ion-content overflow-scroll=”true”>
 
+<!-- contested code below -->
+    <!-- <ion-list ng-if="$ctrl.createTaskPrompt === false">
+      <ion-item
+        class="customPadding item-remove-animate item-avatar item-icon-right"
+        ng-repeat="task in $ctrl.tasks"
+        type="item-text-wrap"
+        ng-click="$ctrl.goToDetail(task)"
+        >
+          <div class="row" ng-switch="task.category">
+            <div class="col col-20 item item-icon-left categoryIcon">
+              <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
+              <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
+              <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i></div>
+              <div ng-switch-default><i class="icon ion-ios-home"></i></div>
+            </div> -->
+            <!-- Contested code above -->
 
         <div class="big-padding padding text-center" ng-if="$ctrl.createTaskPrompt === true">
             <h2 class="stable">You have no active tasks</h2>

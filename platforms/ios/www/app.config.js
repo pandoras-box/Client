@@ -37,6 +37,7 @@ if(!localStorage["ls.token"]){
       })
 
       .state('tab.dash', {
+          cache: false,
           url: '/dash',
           views: {
               'tab-dash': {
@@ -57,7 +58,7 @@ if(!localStorage["ls.token"]){
       })
 
       .state('tab.task-detail', {
-        url: '/dash/:taskId',
+        url: '/dash/taskId',
         views: {
           'tab-dash': {
             templateUrl: 'components/task-detail.html',
