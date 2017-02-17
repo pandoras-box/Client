@@ -208,7 +208,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 
     vm.refreshPage = function() {
-        vm.tasks = null;
         vm.$onInit("manual");
     }
 
@@ -289,6 +288,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
             .then((result) => {
+                vm.tempTasks = [];
                 $state.go('tab.dash')
             })
     }
