@@ -2,6 +2,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
+
     var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
     // var myIoSocket = io.connect('http://10.6.66.4:5000');
     // var myIoSocket = io.connect('http://10.6.65.77:5000');
@@ -149,7 +150,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                         vm.createTaskPrompt = false;
                         console.log(vm.createTaskPrompt);
                         vm.tasks = tasks;
-                        console.log('user has tasks', tasks.data);
+                        console.log('user has tasks', tasks.data);//undefined
                         console.log(vm.tasks);
                     }
                 } else {
@@ -190,6 +191,45 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.unlockBox = function() {
       console.log("Unlocking");
       mySocket.emit('unlockBox');
+    }
+})
+
+.controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
+    const vm = this;
+
+    vm.$onInit = function() {
+        console.log(Tasks.specificTask);
+        if(Tasks.specificTask.user.type === 'parent') {
+            vm.parentView = false;
+            vm.childView = true;
+            vm.task = Tasks.specificTask.task;
+            console.log(vm.task);
+            console.log(vm.task.status);
+        } else {
+          console.log('child');
+            vm.parentView = false;
+            vm.childView = true;
+        }
+        //TODO:  --> use token
+        //TODO: query db for this task in a service
+    }
+        // vm.task = Tasks.get($stateParams.taskId);
+        // console.log(vm.task);
+
+    vm.taskAccepted = function(answer) {
+        const myToken = LocalStorage.getToken();
+        const updateObject = {
+            token: myToken,
+            task: (vm.task || "Placeholder"),
+            accepted: answer
+        }
+        mySocket.emit('updateTaskApproval', updateObject);
+    }
+
+    vm.markTaskComplete = function() {
+      console.log('Child marked complete');
+      Tasks.specificTask.task.status = 'pending';
+      console.log(Tasks.specificTask.task.status);
     }
 })
 
@@ -246,38 +286,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             })
     }
 })
-
-
-
-.controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
-    const vm = this;
-
-    // mySocket.on('taskUpdate', function(data) {
-    //     console.log('Incoming message:', data);
-    // });
-
-    vm.$onInit = function() {
-            console.log(Tasks.specificTask);
-            //TODO:  --> use token
-            vm.parentView = true;
-            // vm.childView = false;
-            //TODO: query db for this task in a service
-        }
-        // vm.task = Tasks.get($stateParams.taskId);
-        // console.log(vm.task);
-
-    vm.taskAccepted = function(answer) {
-        const updateObject = {
-            task: (vm.task || "Placeholder"),
-            accepted: answer
-        }
-        mySocket.emit('updateTaskApproval', updateObject);
-        console.log("Unlocking");
-        mySocket.emit('unlockBox', null);
-    }
-
-})
-
 
 
 // account tab
