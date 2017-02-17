@@ -3,8 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
 
-    // var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
