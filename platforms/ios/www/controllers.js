@@ -2,12 +2,9 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 .factory('mySocket', function(socketFactory) {
     const location = null;
-    // var myIoSocket = io.connect('http://10.6.65.123:5000');
-
-//     var myIoSocket = io.connect('http://10.6.66.4:5000');
-
-    //     var myIoSocket = io.connect('http://10.6.66.4:5000');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    // var myIoSocket = io.connect('http://10.6.66.4:5000');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
     mySocket = socketFactory({
@@ -124,6 +121,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .controller('TaskDashCtrl', function(Tasks, $state, LocalStorage, mySocket) {
 
     const vm = this;
+    let user;
 
     // mySocket.on('taskUpdate', function(data) {
     //     console.log('Incoming message:', data);
@@ -135,7 +133,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
         Tasks.getActiveTasks(myToken)
             .then((result) => {
-                const user = result.data;
+                user = result.data;
                 console.log(user);
                 const authorized = user.authorized;
 
@@ -160,6 +158,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
             })
 
+    }
+
+    vm.goToDetail = function(task){
+      Tasks.specificTask.task = task;
+      Tasks.specificTask.user = user;
+      $state.go('tab.task-detail');
     }
 
     vm.seeDetail = function(task) {
@@ -204,9 +208,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.selected = vm.tasks[0];
             })
         Tasks.getEvents(myToken)
-
             .then((result) => {
-
                 console.log(result);
                 vm.events = result.data.events;
             })
@@ -227,25 +229,21 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitEventDetails = function() {
         let eventName = vm.events[vm.selected - 1].category;
         vm.tempTasks.push({
-
-          eventID: vm.selected,
-          description: vm.eventDetails,
-          eventName: eventName
-
+            eventID: vm.selected,
+            description: vm.eventDetails,
+            eventName: eventName
         });
         vm.selected = '';
         vm.eventDetails = '';
         vm.submitButton = true;
     }
 
-
-    vm.submitBatch = function(){
+    vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
-          .then((result)=>{
-            console.log(result);
-            $state.go('tab.dash')
-          })
-
+            .then((result) => {
+                console.log(result);
+                $state.go('tab.dash')
+            })
     }
 })
 
@@ -259,6 +257,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     // });
 
     vm.$onInit = function() {
+            console.log(Tasks.specificTask);
             //TODO:  --> use token
             vm.parentView = true;
             // vm.childView = false;
