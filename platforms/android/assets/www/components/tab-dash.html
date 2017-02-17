@@ -5,11 +5,20 @@
     </ion-nav-bar>
 
     <ion-content overflow-scroll=”true”>
-      <ion-refresher
-        pulling-text="Pull to refresh..."
-        on-refresh="$ctrl.doRefreshDash()">
-      </ion-refresher>
 
+        <div class="text-center padding-top" ng-if="$ctrl.readyForLock === true">
+            <div class="text-center" ng-if="$ctrl.parentView === true">
+                <h2 class="stable">All tasks have been completed.</h2>
+                <h4 class="stable">Waiting on child to unlock Pandora's Box!</h4>
+                <ion-icon id="big-check" class="icon ion-checkmark check-icon balanced"></ion-icon>
+            </div>
+
+            <div class="text-center" ng-if="$ctrl.childView === true">
+                <h2 class="stable">All tasks complete!</h2>
+                <h4 class="stable">Click below to unlock Pandora's Box</h4>
+                <ion-icon ng-click="$ctrl.unlockBox()" id="unlock" class="ion-unlocked"></ion-icon>
+            </div>
+        </div>
 
         <div class="big-padding padding text-center" ng-if="$ctrl.createTaskPrompt === true">
             <h2 class="stable">You have no active tasks</h2>
@@ -39,10 +48,11 @@
               <div ng-switch-default><i class="icon ion-ios-home"></i></div>
             </div>
 
-                     <div class="col col-70">
-              <h2>{{task.category}}</h2>
-              <p>{{task.description}}</p>
-            </div>
+
+                    <div class="col col-70">
+                        <h2>{{task.category}}</h2>
+                        <p>{{task.description}}</p>
+                    </div>
 
                     <div class="col col-5">
                         <i class="padding-right icon ion-alert unstarted-icon" ng-if="task.status === 'unstarted'"></i>
@@ -58,26 +68,9 @@
             </ion-item>
         </ion-list>
 
-        <div class="row" ng-if="$ctrl.createTaskPrompt === false && $ctrl.parentView === true">
-            <div class="col col-50 text-center">
-                <!-- <a class="button-positive"
-           ng-click="$ctrl.addTask()"
-           href="#/tab/addTasks">
 
-        </a> -->
-                <button class="padding button button-balanced" ui-sref="tab.addTasks" ng-click="$ctrl.addTask()">
-          <ion-icon id="addTask" class="icon-left ion-plus-circled"></ion-icon>
-        </button>
-            </div>
-            <div class="col col-50">
-                <button class="padding button button-balanced" ng-click="$ctrl.completeTaskList()">
-          Tasks Complete
-        </button>
-            </div>
-        </div>
-        <div class="text-center">
-              <ion-icon ng-click="$ctrl.unlockBox()" id="unlock" class="ion-unlocked"></ion-icon>
-        </div>
+
+
 
 
 

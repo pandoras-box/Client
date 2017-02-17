@@ -4,8 +4,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const location = null;
 
     var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    // var myIoSocket = io.connect('http://10.6.66.4:5000');
     // var myIoSocket = io.connect('http://10.6.65.77:5000');
+
 
 
     mySocket = socketFactory({
@@ -22,6 +22,22 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
+.controller('TabsCtrl', function(Tasks, LocalStorage) {
+    const vm = this;
+    vm.$onInit = function() {
+        vm.parent = false;
+        const myToken = LocalStorage.getToken();
+        Tasks.getUser(myToken)
+            .then((result) => {
+                const user = result.data;
+                vm.authorized = user.authorized;
+                vm.type = user.type;
+            })
+
+
+    }
+})
+
 
 .controller('LandingCtrl', function($state, Tasks, LocalStorage, mySocket) {
     const vm = this;
@@ -34,23 +50,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 const user = response.data;
                 if (user.authorized) {
                     if (user.is_paired) {
-                        Tasks.getParentChildID(myToken)
-                            .then((result) => {
-                                const parentChildID = result.data.id.id;
-                                const connectionObject = {
-                                    user: user,
-                                    roomID: parentChildID
-                                }
-                                // mySocket.emit('room', connectionObject);
-                                $state.go('tab.dash');
-                            })
+                        $state.go('tab.dash');
                     } else {
                         $state.go('tab.account');
                     }
                 }
             })
-
-        console.log("My token", myToken);
     }
     vm.parentContinue = function() {
         Tasks.parentOrChild = 'parent';
@@ -91,10 +96,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                             .then((result) => {
                                 const parentChildID = result.data.id.id;
                                 const connectionObject = {
-                                    user: user,
-                                    roomID: parentChildID
-                                }
-                                // mySocket.emit('room', connectionObject);
+                                        user: user,
+                                        roomID: parentChildID
+                                    }
+                                    // mySocket.emit('room', connectionObject);
                                 $state.go('tab.dash');
                             })
                     } else {
@@ -124,34 +129,34 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     let user;
 
-    // mySocket.on('taskUpdate', function(data) {
-    //     console.log('Incoming message:', data);
-    // });
-
     vm.$onInit = function() {
-        vm.createTaskPrompt = true;
         const myToken = LocalStorage.getToken();
 
         Tasks.getActiveTasks(myToken)
             .then((result) => {
                 user = result.data;
-                console.log(user);
                 const authorized = user.authorized;
 
                 if (authorized) {
                     const tasks = user.tasks;
+                    if (user.type === "parent") {
+                        vm.parentView = true;
+                        vm.childView = false;
+                    } else if (user.type === "child") {
+                        vm.childView = true;
+                        vm.parentView = false;
+                    }
                     if (tasks.length === 0) {
                         vm.createTaskPrompt = true;
-                        console.log('no tasks');
-                        if (user.type = "parent") {
-                            vm.parentView = true;
-                        }
                     } else {
                         vm.createTaskPrompt = false;
-                        console.log(vm.createTaskPrompt);
                         vm.tasks = tasks;
-                        console.log('user has tasks', tasks.data);//undefined
-                        console.log(vm.tasks);
+                        const readyForLock = tasks.every((task) => {
+                            return task.status === 'complete';
+                        });
+                        if (readyForLock) {
+                            vm.readyForLock = readyForLock;
+                        }
                     }
                 } else {
                     $state.go('landing');
@@ -161,10 +166,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     }
 
-    vm.goToDetail = function(task){
-      Tasks.specificTask.task = task;
-      Tasks.specificTask.user = user;
-      $state.go('tab.task-detail');
+    vm.goToDetail = function(task) {
+        Tasks.specificTask.task = task;
+        Tasks.specificTask.user = user;
+        $state.go('tab.task-detail');
     }
 
     vm.seeDetail = function(task) {
@@ -189,52 +194,44 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 
     vm.unlockBox = function() {
-      console.log("Unlocking");
-      mySocket.emit('unlockBox');
+        const myToken = LocalStorage.getToken();
+        mySocket.emit('unlockBox');
+        const tasksToClose = vm.tasks;
+        Tasks.closeBatch(myToken, tasksToClose)
+            .then(() => {
+                vm.tasks = [];
+            })
+
     }
 
-    vm.doRefreshDash = function(){
-      console.log('works');
-      $state.go('tab.dash');
-    }
 })
 
 .controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
     const vm = this;
 
     vm.$onInit = function() {
-        console.log(Tasks.specificTask);
-        if(Tasks.specificTask.user.type === 'parent') {
-            vm.parentView = false;
-            vm.childView = true;
-            vm.task = Tasks.specificTask.task;
-            console.log(vm.task);
-            console.log(vm.task.status);
-        } else {
-          console.log('child');
-            vm.parentView = false;
-            vm.childView = true;
+            console.log(Tasks.specificTask);
+            if (Tasks.specificTask.user.type === 'parent') {
+                vm.parentView = true;
+                vm.childView = false;
+                vm.task = Tasks.specificTask.task;
+                console.log(vm.task);
+                console.log(vm.task.status);
+            } else {
+                console.log('child');
+                vm.parentView = false;
+                vm.childView = true;
+            }
         }
-        //TODO:  --> use token
-        //TODO: query db for this task in a service
-    }
-        // vm.task = Tasks.get($stateParams.taskId);
-        // console.log(vm.task);
 
-    vm.taskAccepted = function(answer) {
+    vm.updateTaskStatus = function(newStatus) {
         const myToken = LocalStorage.getToken();
-        const updateObject = {
-            token: myToken,
-            task: (vm.task || "Placeholder"),
-            accepted: answer
-        }
-        mySocket.emit('updateTaskApproval', updateObject);
-    }
-
-    vm.markTaskComplete = function() {
-      console.log('Child marked complete');
-      Tasks.specificTask.task.status = 'pending';
-      console.log(Tasks.specificTask.task.status);
+        let packageTask = vm.task;
+        packageTask.status = newStatus;
+        Tasks.updateTaskStatus(myToken, packageTask)
+            .then((result) => {
+                vm.task.status = result.data.status;
+            });
     }
 })
 
@@ -309,8 +306,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                             vm.child.email = user.childEmail;
                             vm.parentView = false;
                             vm.childEmail = true;
+                        } else {
+                            vm.child = user;
+                            vm.parent.email = user.childEmail; //herehere
+                            vm.parentView = false;
+                            vm.childEmail = true;
                         }
-
                     } else {
                         if (user.type === "parent") {
                             vm.parent = user;
@@ -340,10 +341,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 const parentWithAllInfo = result.data;
                 const parentChildID = parentWithAllInfo.parentChildID;
                 const connectionObject = {
-                    user: parentWithAllInfo,
-                    roomID: parentChildID
-                }
-                // mySocket.emit('room', connectionObject);
+                        user: parentWithAllInfo,
+                        roomID: parentChildID
+                    }
+                    // mySocket.emit('room', connectionObject);
                 $state.go('tab.dash');
             })
     }

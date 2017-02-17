@@ -98,16 +98,22 @@ ion-item a.item-content {
   margin-top: 15vh;
 }
 
-#unlock {
+#unlock, #big-check {
   font-size: 33vw;
 }
+
 
 .ion-content {
   height: 100%;
 }
 
+
 .center{
   margin-left: auto;
   margin-right: auto;
   display: block;
+
+.statusIcons {
+  margin-left: 28vw;
+  font-size: 20vw;
 }
