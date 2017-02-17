@@ -244,15 +244,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-        console.log(Tasks.specificTask.user.type);
+        console.log(Tasks.specificTask);
         if(Tasks.specificTask.user.type === 'parent') {
             vm.parentView = true;
-            console.log('parent');
-        //     vm.childView = false;
+            vm.childView = false;
+            vm.task = Tasks.specificTask.task;
+            console.log(vm.task);
         } else {
           console.log('child');
-        //     vm.parentView = false;
-        //     vm.childView = true;
+            vm.parentView = false;
+            vm.childView = true;
         }
         //TODO:  --> use token
         //TODO: query db for this task in a service

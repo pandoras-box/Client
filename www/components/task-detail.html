@@ -13,13 +13,15 @@
 
   <ion-content class="padding">
     <div class="list card">
-      <div class="item item-avatar item-icon-left" ng-switch="$ctrl.task.description">
+      <div
+        class="item item-avatar item-icon-left"
+        ng-switch="$ctrl.task.description">
         <!-- TODO: add to h2 tag {{$ctrl.task.description}}  -->
-        <div class="padding"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
-        <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
-        <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
-        <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2>{{$ctrl.task.category}}</h2></div>
-        <div ng-switch-default><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
+        <!-- <div class="padding"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div> -->
+          <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2>{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-default><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
       </div>
       <div class="item item-body">
         <!-- <p>We are in the midst of a powerful deepening of growth that will give us
