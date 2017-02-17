@@ -184,6 +184,45 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 })
 
+.controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
+    const vm = this;
+
+    vm.$onInit = function() {
+        console.log(Tasks.specificTask);
+        if(Tasks.specificTask.user.type === 'parent') {
+            vm.parentView = false;
+            vm.childView = true;
+            vm.task = Tasks.specificTask.task;
+            console.log(vm.task);
+            console.log(vm.task.status);
+        } else {
+          console.log('child');
+            vm.parentView = false;
+            vm.childView = true;
+        }
+        //TODO:  --> use token
+        //TODO: query db for this task in a service
+    }
+        // vm.task = Tasks.get($stateParams.taskId);
+        // console.log(vm.task);
+
+    vm.taskAccepted = function(answer) {
+        const myToken = LocalStorage.getToken();
+        const updateObject = {
+            token: myToken,
+            task: (vm.task || "Placeholder"),
+            accepted: answer
+        }
+        mySocket.emit('updateTaskApproval', updateObject);
+    }
+
+    vm.markTaskComplete = function() {
+      console.log('Child marked complete');
+      Tasks.specificTask.task.status = 'pending';
+      console.log(Tasks.specificTask.task.status);
+    }
+})
+
 // addtask tab
 .controller('AddTasksCtrl', function(Tasks, $state, LocalStorage) {
     const vm = this;
@@ -237,43 +276,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             })
     }
 })
-
-
-
-.controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
-    const vm = this;
-
-    vm.$onInit = function() {
-        console.log(Tasks.specificTask);
-        if(Tasks.specificTask.user.type === 'parent') {
-            vm.parentView = true;
-            vm.childView = false;
-            vm.task = Tasks.specificTask.task;
-            console.log(vm.task);
-        } else {
-          console.log('child');
-            vm.parentView = false;
-            vm.childView = true;
-        }
-        //TODO:  --> use token
-        //TODO: query db for this task in a service
-    }
-        // vm.task = Tasks.get($stateParams.taskId);
-        // console.log(vm.task);
-
-    vm.taskAccepted = function(answer) {
-        const myToken = LocalStorage.getToken();
-        const updateObject = {
-            token: myToken,
-            task: (vm.task || "Placeholder"),
-            accepted: answer
-        }
-        mySocket.emit('updateTaskApproval', updateObject);
-    }
-
-})
-
-
 
 // account tab
 .controller('AccountCtrl', function(Tasks, mySocket, LocalStorage, $state) {
