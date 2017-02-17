@@ -105,3 +105,9 @@ ion-item a.item-content {
 .ion-content {
   height: 100%;
 }
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
