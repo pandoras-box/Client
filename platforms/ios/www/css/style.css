@@ -105,3 +105,7 @@ ion-item a.item-content {
 .ion-content {
   height: 100%;
 }
+
+.statusIcons {
+  font-size: 20vw;
+}

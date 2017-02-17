@@ -38,19 +38,24 @@
         </div>
 
         <div class="row text-center" ng-if="$ctrl.childView === true">
-          <div class="col col-50">
+          <div class="padding">
             <!-- <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a> -->
-            <i class="padding icon ion-alert unstarted-icon"
-               ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
-            <i class="padding icon ion-loop pending-icon calm"
-               ng-if="$ctrl.task.status === 'pending'&& $ctrl.childView === true"></i>
-            <i class="padding icon ion-checkmark check-icon balanced"
-               ng-if="$ctrl.task.status === 'complete'"></i>
-
+            <div>
+              <i class="statusIcons padding icon ion-alert text-center"
+                 ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
+            </div>
+            <div>
+              <i class="statusIcons padding icon ion-loop text-center calm"
+                 ng-if="$ctrl.task.status === 'pending'&& $ctrl.childView === true"></i>
+            </div>
+            <div>
+              <i class="statusIcons padding icon ion-checkmark text-center balanced"
+                 ng-if="$ctrl.task.status === 'complete'"></i>
+            </div>
           </div>
-          <div class="padding col col-50">
+          <div class="padding">
               <button class="padding button button-balanced"
-                      ng-if="$ctrl.childView === true"
+                      ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
                       ng-click="$ctrl.markTaskComplete()">
                 Mark Task Complete
               </button>
