@@ -34,23 +34,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 const user = response.data;
                 if (user.authorized) {
                     if (user.is_paired) {
-                        Tasks.getParentChildID(myToken)
-                            .then((result) => {
-                                const parentChildID = result.data.id.id;
-                                const connectionObject = {
-                                        user: user,
-                                        roomID: parentChildID
-                                    }
-                                    // mySocket.emit('room', connectionObject);
-                                $state.go('tab.dash');
-                            })
+                        $state.go('tab.dash');
                     } else {
                         $state.go('tab.account');
                     }
                 }
             })
-
-        console.log("My token", myToken);
     }
     vm.parentContinue = function() {
         Tasks.parentOrChild = 'parent';
@@ -124,34 +113,34 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
     let user;
 
-    // mySocket.on('taskUpdate', function(data) {
-    //     console.log('Incoming message:', data);
-    // });
-
     vm.$onInit = function() {
-        vm.createTaskPrompt = true;
         const myToken = LocalStorage.getToken();
 
         Tasks.getActiveTasks(myToken)
             .then((result) => {
                 user = result.data;
-                console.log(user);
                 const authorized = user.authorized;
 
                 if (authorized) {
                     const tasks = user.tasks;
+                    if (user.type === "parent") {
+                        vm.parentView = true;
+                        vm.childView = false;
+                    } else if (user.type === "child") {
+                        vm.childView = true;
+                        vm.parentView = false;
+                    }
                     if (tasks.length === 0) {
                         vm.createTaskPrompt = true;
-                        console.log('no tasks');
-                        if (user.type = "parent") {
-                            vm.parentView = true;
-                        }
                     } else {
                         vm.createTaskPrompt = false;
-                        console.log(vm.createTaskPrompt);
                         vm.tasks = tasks;
-                        console.log('user has tasks', tasks.data); //undefined
-                        console.log(vm.tasks);
+                        const readyForLock = tasks.every((task) => {
+                            return task.status === 'complete';
+                        });
+                        if (readyForLock) {
+                            vm.readyForLock = readyForLock;
+                        }
                     }
                 } else {
                     $state.go('landing');
@@ -189,8 +178,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 
     vm.unlockBox = function() {
-        console.log("Unlocking");
+        const myToken = LocalStorage.getToken();
         mySocket.emit('unlockBox');
+        const tasksToClose = vm.tasks;
+        Tasks.closeBatch(myToken, tasksToClose)
+            .then(() => {
+              vm.tasks = [];
+            })
+
     }
 })
 
@@ -201,7 +196,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
             console.log(Tasks.specificTask);
             if (Tasks.specificTask.user.type === 'parent') {
                 vm.parentView = true;
-                vm.childView = true;
+                vm.childView = false;
                 vm.task = Tasks.specificTask.task;
                 console.log(vm.task);
                 console.log(vm.task.status);
