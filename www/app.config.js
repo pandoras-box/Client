@@ -20,8 +20,10 @@
       // setup an abstract state for the tabs directive
           .state('tab', {
           url: '/tab',
+          cache: false,
           abstract: true,
-          templateUrl: 'components/tabs.html'
+          templateUrl: 'components/tabs.html',
+          controller: 'TabsCtrl'
       })
 
       .state('landing', {
