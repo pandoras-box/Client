@@ -296,8 +296,10 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const myToken = LocalStorage.getToken();
     vm.$onInit = function() {
         vm.child = {};
+        vm.parent = {};
         Tasks.getChildInfo(myToken)
             .then((result) => {
+                console.log(result);
                 const user = result.data;
                 if (user.authorized) {
                     if (user.is_paired) {
