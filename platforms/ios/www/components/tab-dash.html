@@ -5,6 +5,10 @@
     </ion-nav-bar>
 
     <ion-content overflow-scroll=”true”>
+      <ion-refresher
+         pulling-text="Pull to refresh..."
+         on-refresh="$ctrl.refreshPage()">
+       </ion-refresher>
 
         <div class="text-center big-padding padding" ng-if="$ctrl.readyForLock === true">
             <div class="text-center" ng-if="$ctrl.parentView === true">
