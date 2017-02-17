@@ -298,6 +298,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         vm.child = {};
         Tasks.getChildInfo(myToken)
             .then((result) => {
+                console.log(result);
                 const user = result.data;
                 if (user.authorized) {
                     if (user.is_paired) {
