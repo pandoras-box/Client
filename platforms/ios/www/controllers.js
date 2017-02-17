@@ -124,12 +124,12 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
 // dash tab
 
-.controller('TaskDashCtrl', function(Tasks, $state, LocalStorage, mySocket) {
+.controller('TaskDashCtrl', function(Tasks, $state, LocalStorage, mySocket, $scope) {
 
     const vm = this;
     let user;
 
-    vm.$onInit = function() {
+    vm.$onInit = function(reason) {
         const myToken = LocalStorage.getToken();
         vm.readyForLock = false;
         Tasks.getActiveTasks(myToken)
@@ -160,6 +160,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 } else {
                     $state.go('landing');
                 }
+            })
+            .then(() => {
+              if(reason === "manual"){
+                $scope.$broadcast('scroll.refreshComplete');
+              }
             })
     }
 
@@ -200,6 +205,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 vm.readyForLock = false;
                 vm.createTaskPrompt = true;
             })
+    }
+
+    vm.refreshPage = function() {
+        // $state.reload();
+        vm.$onInit("manual");
     }
 
 })
