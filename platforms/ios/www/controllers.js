@@ -3,8 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
 
-    // var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    var myIoSocket = io.connect('http://10.6.65.77:5000');
+    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    // var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -194,14 +194,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         const myToken = LocalStorage.getToken();
         const tasksToClose = vm.tasks;
         Tasks.closeBatch(myToken, tasksToClose)
-            .then(() => {
+            .then((closedTasks) => {
                 mySocket.emit('unlockBox');
                 vm.tasks = [];
                 vm.readyForLock = false;
                 vm.createTaskPrompt = true;
+                console.log(closedTasks);
             })
 
     }
+
 })
 
 .controller('TaskDetailCtrl', function(Tasks, LocalStorage, mySocket) {
@@ -279,7 +281,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     vm.submitBatch = function() {
         Tasks.postBatch(myToken, vm.tempTasks)
             .then((result) => {
-                console.log(result);
                 $state.go('tab.dash')
             })
     }
@@ -292,14 +293,21 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const myToken = LocalStorage.getToken();
     vm.$onInit = function() {
         vm.child = {};
+        vm.parent = {};
         Tasks.getChildInfo(myToken)
             .then((result) => {
+                console.log(result);
                 const user = result.data;
                 if (user.authorized) {
                     if (user.is_paired) {
                         if (user.type === "parent") {
                             vm.parent = user;
-                            vm.child.email = user.childEmail;
+                            vm.child.email = user.linkEmail;
+                            vm.parentView = false;
+                            vm.childEmail = true;
+                        } else {
+                            vm.child = user;
+                            vm.parent.email = user.linkEmail; //herehere
                             vm.parentView = false;
                             vm.childEmail = true;
                         }
