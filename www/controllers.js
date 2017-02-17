@@ -3,8 +3,8 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 .factory('mySocket', function(socketFactory) {
     const location = null;
 
-    var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
-    // var myIoSocket = io.connect('http://10.6.65.77:5000');
+    // var myIoSocket = io.connect('https://pandoras-box-team.herokuapp.com');
+    var myIoSocket = io.connect('http://10.6.65.77:5000');
 
 
 
@@ -131,12 +131,11 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     vm.$onInit = function() {
         const myToken = LocalStorage.getToken();
-
+        vm.readyForLock = false;
         Tasks.getActiveTasks(myToken)
             .then((result) => {
                 user = result.data;
                 const authorized = user.authorized;
-
                 if (authorized) {
                     const tasks = user.tasks;
                     if (user.type === "parent") {
@@ -161,9 +160,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                 } else {
                     $state.go('landing');
                 }
-
             })
-
     }
 
     vm.goToDetail = function(task) {
@@ -195,11 +192,14 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
 
     vm.unlockBox = function() {
         const myToken = LocalStorage.getToken();
-        mySocket.emit('unlockBox');
         const tasksToClose = vm.tasks;
         Tasks.closeBatch(myToken, tasksToClose)
-            .then(() => {
+            .then((closedTasks) => {
+                mySocket.emit('unlockBox');
                 vm.tasks = [];
+                vm.readyForLock = false;
+                vm.createTaskPrompt = true;
+                console.log(closedTasks);
             })
 
     }
@@ -210,19 +210,16 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     const vm = this;
 
     vm.$onInit = function() {
-            console.log(Tasks.specificTask);
-            if (Tasks.specificTask.user.type === 'parent') {
-                vm.parentView = true;
-                vm.childView = false;
-                vm.task = Tasks.specificTask.task;
-                console.log(vm.task);
-                console.log(vm.task.status);
-            } else {
-                console.log('child');
-                vm.parentView = false;
-                vm.childView = true;
-            }
+        if (Tasks.specificTask.user.type === 'parent') {
+            vm.task = Tasks.specificTask.task;
+            vm.parentView = true;
+            vm.childView = false;
+        } else {
+            vm.task = Tasks.specificTask.task;
+            vm.parentView = false;
+            vm.childView = true;
         }
+    }
 
     vm.updateTaskStatus = function(newStatus) {
         const myToken = LocalStorage.getToken();

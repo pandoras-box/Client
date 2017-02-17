@@ -6,61 +6,54 @@
 -->
 
 <ion-view class="gradient-background2" view-title="Task Details" ng-controller="TaskDetailCtrl as $ctrl">
-  <ion-nav-bar class="bar-dark background">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-  </ion-nav-bar>
+    <ion-nav-bar class="bar-dark background">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
 
-  <ion-content class="padding">
-    <div class="list card">
-      <div
-        class="item item-remove-animate item-avatar item-icon-left"
-        ng-switch="$ctrl.task.description">
-        <!-- TODO: add to h2 tag {{$ctrl.task.description}}  -->
-        <!-- <div class="padding"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div> -->
-          <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-default><i class="icon ion-ios-home"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
-      </div>
-      <div class="item item-body">
-        <p>{{$ctrl.task.description}}</p>
-        <div class="text-center" ng-if="$ctrl.parentView === true && $ctrl.task.status !== 'complete'">
-          <a ng-click="$ctrl.updateTaskStatus('complete')"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
-          <a ng-click="$ctrl.updateTaskStatus('unstarted')" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
-        </div>
-<!-- child view status -->
-        <div class="row text-center" ng-if="$ctrl.childView === true">
-          <div class="padding">
-            <div class="padding col-col-10">
-              <i class=" icon ion-loop calm statusIcons"
-                 ng-if="$ctrl.task.status === 'pending' && $ctrl.childView === true"></i>
-              <i class="icon ion-checkmark balanced statusIcons"
-                 ng-if="$ctrl.task.status === 'complete'"></i>
+    <ion-content class="padding">
+        <div class="list card">
+            <div class="item item-remove-animate item-avatar item-icon-left" ng-switch="$ctrl.task.category">
+                <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i></div>
+                <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i></div>
+                <div ng-switch-when="Clean Bathroom"><i class="icon ion-nuclear"></i></div>
+                <div ng-switch-when="Mow The Lawn"><i class="icon ion-leaf"></i></div>
+                <div ng-switch-when="Do Laundry"><i class="icon ion-tshirt"></i></div>
+                <div ng-switch-when="Do Homework"><i class="icon ion-ios-book"></i></div>
+                <div ng-switch-when="Walk The Dog"><i class="icon ion-ios-paw"></i></div>
+                <div ng-switch-default><i class="icon ion-ios-home"></i></div>
+                <h2 class="padding">{{$ctrl.task.category}}</h2>
             </div>
-          </div>
-<!-- parent view status  -->
-          <div class="row text-center" >
-            <!-- <div class="padding" > -->
-              <!-- <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a> -->
-              <div class="padding col-col-10" ng-if="$ctrl.parentView === true">
-                <i class=" icon ion-alert"
-                   ng-if="$ctrl.task.status === 'unstarted'"></i>
-                <i class="icon ion-checkmark balanced "
-                   ng-if="$ctrl.task.status === 'complete'"></i>
-              </div>
-            <!-- </div> -->
-<!-- child view status -->
-          <div class="padding col col-50">
-              <button class="padding button button-block button-balanced"
-                      ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
-                      ng-click="$ctrl.updateTaskStatus('pending')">
-                Mark Task Complete
-              </button>
-          </div>
+            <div class="item item-body">
+                <h2>{{$ctrl.task.description}}</h2>
+                <div class="text-center" ng-if="$ctrl.parentView === true">
+                    <i class="sized icon ion-alert assertive" ng-if="$ctrl.task.status === 'unstarted'"></i>
+                    <div class="text-center" ng-if="$ctrl.task.status === 'pending'">
+                        <a ng-click="$ctrl.updateTaskStatus('complete')" id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
+                        <a ng-click="$ctrl.updateTaskStatus('unstarted')" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
+                    </div>
+                    <i class="sized icon ion-checkmark balanced " ng-if="$ctrl.task.status === 'complete'"></i>
+                </div>
+
+                <div class="text-center" ng-if="$ctrl.childView === true">
+                    <div class="row text-center" ng-if="$ctrl.task.status === 'unstarted'">
+                        <div class="padding col col-80 col-offset-10">
+                            <h2 class="padding button button-block button-balanced" ng-click="$ctrl.updateTaskStatus('pending')">
+                              Mark Task Complete
+                          </h2>
+                        </div>
+                    </div>
+
+                    <div class="padding">
+                        <div class="padding col-col-10">
+                            <i class="sized icon ion-loop calm statusIcons" ng-if="$ctrl.task.status === 'pending'"></i>
+                            <i class="sized icon ion-checkmark balanced statusIcons" ng-if="$ctrl.task.status === 'complete'"></i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
-      </div>
-    </div>
-   </div>
-  </ion-content>
+    </ion-content>
 </ion-view>
