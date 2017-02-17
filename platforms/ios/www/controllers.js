@@ -208,7 +208,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
     }
 
     vm.refreshPage = function() {
-        // $state.reload();
+        vm.tasks = null;
         vm.$onInit("manual");
     }
 
