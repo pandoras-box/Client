@@ -1,28 +1,22 @@
-
 <ion-view class="gradient-background2" view-title="Task Dashboard" ng-controller="TaskDashCtrl as $ctrl">
-  <ion-nav-bar class="bar-dark background">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-  </ion-nav-bar>
+    <ion-nav-bar class="bar-dark background">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
 
-  <ion-content overflow-scroll=”true”>
-    <div
-      class="big-padding padding text-center"
-      ng-if="$ctrl.createTaskPrompt === true">
-        <h2 class="stable">You have no active tasks</h2>
-        <h4 class="stable">Click to create a task list</h4>
-        <a class="padding button-positive"
-           ng-click="$ctrl.createTask()"
-           href="#/tab/addTasks">
-          <ion-icon
-            id="iconPlus"
-            class="icon-left ion-plus-circled"
-            ng-click="$ctrl.addTask()">
-          </ion-icon>
-        </a>
-    </div>
+    <ion-content overflow-scroll=”true”>
 
-    <ion-list ng-if="$ctrl.createTaskPrompt === false">
+
+        <div class="big-padding padding text-center" ng-if="$ctrl.createTaskPrompt === true">
+            <h2 class="stable">You have no active tasks</h2>
+            <h4 class="stable">Click to create a task list</h4>
+            <a class="padding button-positive" ng-click="$ctrl.createTask()" href="#/tab/addTasks">
+                <ion-icon id="iconPlus" class="icon-left ion-plus-circled" ng-click="$ctrl.addTask()">
+                </ion-icon>
+            </a>
+        </div>
+
+        <ion-list ng-if="$ctrl.createTaskPrompt === false">
       <ion-item
         class="customPadding item-remove-animate item-avatar item-icon-right"
         ng-repeat="task in $ctrl.tasks"
@@ -37,47 +31,47 @@
               <div ng-switch-default><i class="icon ion-ios-home"></i></div>
             </div>
 
-            <div class="col col-70">
+                     <div class="col col-70">
               <h2>{{task.category}}</h2>
               <p>{{task.description}}</p>
             </div>
 
-            <div class="col col-5">
-              <i class="padding-right icon ion-alert unstarted-icon" ng-if="task.status === 'unstarted'"></i>
-              <i class="padding-right icon ion-loop pending-icon calm" ng-if="task.status === 'pending'"></i>
-              <i class="padding-right icon ion-checkmark check-icon balanced" ng-if="task.status === 'complete'"></i>
-            </div>
+                    <div class="col col-5">
+                        <i class="padding-right icon ion-alert unstarted-icon" ng-if="task.status === 'unstarted'"></i>
+                        <i class="padding-right icon ion-loop pending-icon calm" ng-if="task.status === 'pending'"></i>
+                        <i class="padding-right icon ion-checkmark check-icon balanced" ng-if="task.status === 'complete'"></i>
+                    </div>
 
-            <div class="col col-5">
-              <i class="icon ion-chevron-right icon-accessory"></i>
-            </div>
-          </div>
+                    <div class="col col-5">
+                        <i class="icon ion-chevron-right icon-accessory"></i>
+                    </div>
+                </div>
 
-      </ion-item>
-    </ion-list>
+            </ion-item>
+        </ion-list>
 
-    <div class="row"
-         ng-if="$ctrl.createTaskPrompt === false && $ctrl.parentView === true"
-         >
-      <div class="col col-50 text-center" >
-        <!-- <a class="button-positive"
+        <div class="row" ng-if="$ctrl.createTaskPrompt === false && $ctrl.parentView === true">
+            <div class="col col-50 text-center">
+                <!-- <a class="button-positive"
            ng-click="$ctrl.addTask()"
            href="#/tab/addTasks">
 
         </a> -->
-        <button class="padding button button-balanced"
-            ui-sref="tab.addTasks"
-            ng-click="$ctrl.addTask()">
+                <button class="padding button button-balanced" ui-sref="tab.addTasks" ng-click="$ctrl.addTask()">
           <ion-icon id="addTask" class="icon-left ion-plus-circled"></ion-icon>
         </button>
-      </div>
-      <div class="col col-50">
-        <button class="padding button button-balanced"
-                ng-click="$ctrl.completeTaskList()">
+            </div>
+            <div class="col col-50">
+                <button class="padding button button-balanced" ng-click="$ctrl.completeTaskList()">
           Tasks Complete
         </button>
-      </div>
-    </div>
+            </div>
+        </div>
+        <div class="text-center">
+              <ion-icon ng-click="$ctrl.unlockBox()" id="unlock" class="ion-unlocked"></ion-icon>
+        </div>
 
-  </ion-content>
+
+
+    </ion-content>
 </ion-view>

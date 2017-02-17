@@ -98,6 +98,10 @@ ion-item a.item-content {
   margin-top: 15vh;
 }
 
+#unlock {
+  font-size: 33vw;
+}
+
 .ion-content {
   height: 100%;
 }
