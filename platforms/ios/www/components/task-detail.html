@@ -33,8 +33,8 @@
 
 
         <div class="text-center" ng-if="$ctrl.parentView === true">
-          <a ng-click="$ctrl.taskAccepted(true)"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
-          <a ng-click="$ctrl.taskAccepted(false)" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
+          <a ng-click="$ctrl.updateTaskStatus('complete')"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
+          <a ng-click="$ctrl.updateTaskStatus('unstarted')" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
         </div>
 
         <div class="row text-center" ng-if="$ctrl.childView === true">
@@ -55,10 +55,11 @@
 
 
           </div>
-          <div class="padding">
-              <button class="padding button button-block button-balanced"
+
+          <div class="padding col col-50">
+              <button class="padding button button-balanced"
                       ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
-                      ng-click="$ctrl.markTaskComplete()">
+                      ng-click="$ctrl.updateTaskStatus('pending')">
                 Mark Task Complete
               </button>
           </div>

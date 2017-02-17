@@ -5,8 +5,8 @@
 
 
 
-    const SERVER_URL = `https://pandoras-box-team.herokuapp.com`;
-    //     const SERVER_URL = `http://10.6.66.4:5000`;
+    // const SERVER_URL = `https://pandoras-box-team.herokuapp.com`;
+        const SERVER_URL = 'http://10.6.65.77:5000';
     // const SERVER_URL = `http://192.168.0.5:5000`;
     // const SERVER_URL = `http://10.6.65.77:5000`;
 
@@ -97,6 +97,13 @@
             });
         }
 
+        this.updateTaskStatus = function(userToken, currentTask) {
+          return $http.post(`${SERVER_URL}/secure/update-task-status`, {
+              userToken,
+              currentTask
+          });
+        }
+
         // this.getSingleTask = function(batchEventId) {
         //   console.log(batchEventId);
         //   return $http.get(`${SERVER_URL}/active-batch/${batchEventId}`)
@@ -106,6 +113,7 @@
                 userToken
             });
         }
+
 
 
     }
