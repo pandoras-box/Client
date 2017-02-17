@@ -307,7 +307,6 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
                             vm.parentView = false;
                             vm.childEmail = true;
                         }
-
                     } else {
                         if (user.type === "parent") {
                             vm.parent = user;
