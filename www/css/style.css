@@ -98,10 +98,13 @@ ion-item a.item-content {
   margin-top: 15vh;
 }
 
-#unlock, #big-check {
+#unlock, .big-check {
   font-size: 33vw;
 }
 
+.sized {
+  font-size: 15vh;
+}
 
 .ion-content {
   height: 100%;
@@ -117,3 +120,7 @@ ion-item a.item-content {
   margin-left: 28vw;
   font-size: 20vw;
 }
+
+/*#alert-tone {
+  color: #d70087;
+}*/
