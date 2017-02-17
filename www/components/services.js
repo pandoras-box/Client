@@ -6,7 +6,7 @@
 
 
     const SERVER_URL = `https://pandoras-box-team.herokuapp.com`;
-        // const SERVER_URL = 'http://10.6.65.77:5000';
+    // const SERVER_URL = 'http://10.6.65.77:5000';
     // const SERVER_URL = `http://192.168.0.5:5000`;
     // const SERVER_URL = `http://10.6.65.77:5000`;
 
@@ -49,7 +49,9 @@
         }
 
         this.getActiveTasks = function(userToken) {
-            return $http.post(`${SERVER_URL}/secure/active-batch`, {userToken});
+            return $http.post(`${SERVER_URL}/secure/active-batch`, {
+                userToken
+            });
 
         }
 
@@ -72,8 +74,10 @@
             });
         }
 
-        this.getChildInfo = function(userToken){
-          return $http.post(`${SERVER_URL}/secure/get-child-info`, {userToken});
+        this.getChildInfo = function(userToken) {
+            return $http.post(`${SERVER_URL}/secure/get-child-info`, {
+                userToken
+            });
 
         }
 
@@ -98,10 +102,10 @@
         }
 
         this.updateTaskStatus = function(userToken, currentTask) {
-          return $http.post(`${SERVER_URL}/secure/update-task-status`, {
-              userToken,
-              currentTask
-          });
+            return $http.post(`${SERVER_URL}/secure/update-task-status`, {
+                userToken,
+                currentTask
+            });
         }
 
         // this.getSingleTask = function(batchEventId) {
@@ -114,6 +118,19 @@
             });
         }
 
+        this.closeBatch = function(userToken, tasks) {
+            return $http.post(`${SERVER_URL}/secure/close-batch`, {
+                userToken,
+                tasks
+            });
+        }
+
+        this.sendForLogs = function(userToken, delivery) {
+            return $http.post(`${SERVER_URL}/secure/send-for-logs`, {
+                userToken,
+                delivery
+            });
+        }
 
 
     }
