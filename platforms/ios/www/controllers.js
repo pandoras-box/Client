@@ -219,7 +219,7 @@ angular.module('pandoras-box.controllers', ['ngCordovaOauth', 'btford.socket-io'
         Tasks.updateTaskStatus(myToken, packageTask)
             .then((result) => {
                 vm.task.status = result.data.status;
-            })
+            });
     }
 })
 

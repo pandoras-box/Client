@@ -14,48 +14,43 @@
   <ion-content class="padding">
     <div class="list card">
       <div
-        class="item item-avatar"
+        class="item item-remove-animate item-avatar item-icon-left"
         ng-switch="$ctrl.task.description">
         <!-- TODO: add to h2 tag {{$ctrl.task.description}}  -->
         <!-- <div class="padding"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div> -->
-          <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2>{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2>{{$ctrl.task.category}}</h2></div>
-          <div ng-switch-default><i class="icon ion-ios-home"></i><h2>{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-when="Take Out Trash"><i class="icon ion-ios-trash"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-when="Clean Room"><i class="icon ion-ios-home"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-when="Clean Dishes"><i class="icon ion-fork"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
+          <div ng-switch-default><i class="icon ion-ios-home"></i><h2 class="padding">{{$ctrl.task.category}}</h2></div>
       </div>
       <div class="item item-body">
-        <!-- <p>We are in the midst of a powerful deepening of growth that will give us
-          access to the totality itself. Humankind has nothing to lose. Reality has
-          always been bursting with spiritual brothers and sisters whose essences
-          are enveloped in freedom. -->
-        <!-- </p> -->
         <p>{{$ctrl.task.description}}</p>
-
-
-        <div class="text-center" ng-if="$ctrl.parentView === true">
+        <div class="text-center" ng-if="$ctrl.parentView === true && $ctrl.task.status !== 'complete'">
           <a ng-click="$ctrl.updateTaskStatus('complete')"  id="accept" class="padding-right"><i class="ion-ios-checkmark balanced"></i></a>
           <a ng-click="$ctrl.updateTaskStatus('unstarted')" id="reject" class="padding-left"><i class="ion-ios-close"></i></a>
         </div>
-
+<!-- child view status -->
         <div class="row text-center" ng-if="$ctrl.childView === true">
           <div class="padding">
-            <!-- <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a> -->
-
-              <i class=" icon ion-alert statusIcons"
-                 ng-if="$ctrl.task.status === 'unstarted' && $ctrl.ParentView === true"></i>
-            </div>
-
+            <div class="padding col-col-10">
               <i class=" icon ion-loop calm statusIcons"
                  ng-if="$ctrl.task.status === 'pending' && $ctrl.childView === true"></i>
-
-
               <i class="icon ion-checkmark balanced statusIcons"
                  ng-if="$ctrl.task.status === 'complete'"></i>
-
-
-
+            </div>
           </div>
-
+<!-- parent view status  -->
+          <div class="row text-center" >
+            <!-- <div class="padding" > -->
+              <!-- <a ui-sref="tab.dash" id="mark-done" class="padding-right"><i class="ion-ios-checkmark calm"></i></a> -->
+              <div class="padding col-col-10" ng-if="$ctrl.parentView === true">
+                <i class=" icon ion-alert"
+                   ng-if="$ctrl.task.status === 'unstarted'"></i>
+                <i class="icon ion-checkmark balanced "
+                   ng-if="$ctrl.task.status === 'complete'"></i>
+              </div>
+            <!-- </div> -->
+<!-- child view status -->
           <div class="padding col col-50">
               <button class="padding button button-block button-balanced"
                       ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
@@ -65,6 +60,7 @@
           </div>
         </div>
       </div>
+    </div>
    </div>
   </ion-content>
 </ion-view>
