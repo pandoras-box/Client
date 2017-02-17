@@ -50,7 +50,7 @@
           </div>
           <div class="padding col col-50">
               <button class="padding button button-balanced"
-                      ng-if="$ctrl.childView === true"
+                      ng-if="$ctrl.childView === true && $ctrl.task.status === 'unstarted'"
                       ng-click="$ctrl.markTaskComplete()">
                 Mark Task Complete
               </button>
